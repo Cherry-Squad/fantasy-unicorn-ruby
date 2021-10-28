@@ -1,0 +1,56 @@
+name: Specs
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: "0 3 * * 1" # Every monday at 3 AM
+
+jobs:
+  rspec:
+    runs-on: ubuntu-latest
+
+    env:
+      BUNDLE_JOBS: 4
+      BUNDLE_RETRY: 3
+      CI: true
+      RAILS_ENV: test
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/fantasy_unicorn_ruby_test
+      APPLICATION_HOST: localhost:3000
+
+    services:
+      postgres:
+        image: postgres:14
+        ports: ["5432:5432"]
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+    - uses: actions/checkout@v2
+    - uses: borales/actions-yarn@v2.3.0
+      with:
+        cmd: install
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.0.2
+        bundler-cache: true
+
+    - name: Setup database
+      run: |
+        bundle exec rake db:create
+        bundle exec rake db:migrate:reset
+
+    - name: Run RSpec
+      env:
+        USE_FX: ${{ matrix.fx }}
+      run: |
+        bundle exec rspec -f d --force-color
+    - name: Simplecov Report
+      uses: aki77/simplecov-report-action@v1
+      with:
+        failedThreshold: 50
+        token: ${{ secrets.GITHUB_TOKEN }}
