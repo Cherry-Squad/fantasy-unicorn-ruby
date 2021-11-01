@@ -2,6 +2,8 @@
 
 # This class represents a User record
 class User < ApplicationRecord
+  has_many :achievements, dependent: :delete_all
+
   validates :username, presence: true, length: { in: 3..25 }
   validates :email, presence: true
   validates :password, presence: true, length: { in: 4..255 }
