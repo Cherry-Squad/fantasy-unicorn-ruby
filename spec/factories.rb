@@ -12,4 +12,9 @@ FactoryBot.define do
       fantasy_points { Faker::Number.within(range: 1..10**10) }
     end
   end
+
+  factory :stock do
+    name { Faker::Finance.ticker }
+    robinhood_id { Faker::Internet.uuid }
+  end
 end
