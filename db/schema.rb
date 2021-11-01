@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_31_114756) do
+ActiveRecord::Schema.define(version: 2021_11_01_154329) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,8 +22,8 @@ ActiveRecord::Schema.define(version: 2021_10_31_114756) do
     t.boolean "email_validated", null: false
     t.string "preferred_lang", limit: 10
     t.integer "avatar_id"
-    t.integer "coins", null: false
-    t.integer "fantasy_points", null: false
+    t.bigint "coins", null: false
+    t.bigint "fantasy_points", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["email"], name: "index_users_on_email", unique: true

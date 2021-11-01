@@ -10,8 +10,8 @@ class CreateUsers < ActiveRecord::Migration[6.1]
       t.boolean :email_validated, null: false
       t.string :preferred_lang, limit: 10
       t.integer :avatar_id
-      t.integer :coins, null: false
-      t.integer :fantasy_points, null: false
+      t.bigint :coins, null: false
+      t.bigint :fantasy_points, null: false
 
       t.timestamps
     end
