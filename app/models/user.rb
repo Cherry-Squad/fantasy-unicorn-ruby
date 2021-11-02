@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-# This class represents a User record
+# This class represents a User record.
+# The User model holds user info and credentials.
 class User < ApplicationRecord
   validates :username, presence: true, length: { in: 3..25 }
   validates :email, presence: true
