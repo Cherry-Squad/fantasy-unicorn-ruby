@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 2021_11_01_215409) do
   create_table "briefcases_stocks", id: false, force: :cascade do |t|
     t.bigint "briefcase_id"
     t.bigint "stock_id"
+    t.index ["briefcase_id", "stock_id"], name: "index_briefcases_stocks_on_briefcase_id_and_stock_id", unique: true
     t.index ["briefcase_id"], name: "index_briefcases_stocks_on_briefcase_id"
     t.index ["stock_id"], name: "index_briefcases_stocks_on_stock_id"
   end

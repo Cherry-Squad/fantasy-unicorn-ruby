@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe Briefcase, type: :model do
@@ -6,7 +8,7 @@ RSpec.describe Briefcase, type: :model do
   end
 
   it 'is valid with stocks' do
-    expect(create(:briefcase_with_stocks)).to be_valid
+    expect(create(:briefcase, :with_stocks)).to be_valid
   end
 
   it "isn't valid without user" do
@@ -23,13 +25,13 @@ RSpec.describe Briefcase, type: :model do
 
   it "isn't valid if stocks count exceeds maximum" do
     expect do
-      create :briefcase_with_stocks, stocks_count: Briefcase::BRIEFCASE_STOCKS_MAX_COUNT + 1
+      create :briefcase, :with_stocks, stocks_count: Briefcase::BRIEFCASE_STOCKS_MAX_COUNT + 1
     end.to raise_error(ActiveRecord::RecordInvalid)
   end
 
   context 'created with default parameters' do
     before do
-      @briefcase = create :briefcase_with_stocks
+      @briefcase = create :briefcase, :with_stocks
       @user = @briefcase.user
       @stocks = @briefcase.stocks
     end
@@ -59,6 +61,14 @@ RSpec.describe Briefcase, type: :model do
       stocks_length = @stocks.length
       @briefcase.destroy
       expect(Stock.count).to eq(stocks_length)
+    end
+
+    it "can't add the same stock twice" do
+      expect { @briefcase.stocks.append(@stocks[0]) }.to raise_error(ActiveRecord::RecordNotUnique)
+    end
+
+    it 'is visible from stock' do
+      expect(@stocks[0].briefcases).to eq([@briefcase])
     end
   end
 end
