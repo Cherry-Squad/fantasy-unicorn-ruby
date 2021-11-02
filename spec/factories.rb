@@ -24,7 +24,7 @@ FactoryBot.define do
   end
 
   factory :user do
-    username { Faker::Internet.username }
+    username { Faker::Internet.username(specifier: 3..25) }
     email { Faker::Internet.email }
     password { Faker::Internet.password }
     factory :user_with_points do
