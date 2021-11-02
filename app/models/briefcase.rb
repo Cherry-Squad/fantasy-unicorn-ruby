@@ -4,6 +4,7 @@
 # The Briefcase model holds a set of Stocks per User.
 #
 # User - Briefcase: one-to-one, unique
+# Stock >< Briefcase: many-to-many
 class Briefcase < ApplicationRecord
   belongs_to :user
   has_and_belongs_to_many :stocks
