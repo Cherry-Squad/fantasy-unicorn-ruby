@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# This class represents a Stock record.
+# The Stock model holds stock info and its id on stock exchanges like Robinhood.
 class Stock < ApplicationRecord
   has_and_belongs_to_many :briefcases
   before_destroy { briefcases.clear }
