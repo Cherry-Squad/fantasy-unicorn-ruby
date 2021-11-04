@@ -12,21 +12,16 @@ RSpec.describe Briefcase, type: :model do
   end
 
   it "isn't valid without user" do
-    expect do
-      create :briefcase, user_id: nil
-    end.to raise_error(ActiveRecord::RecordInvalid)
+    expect { create :briefcase, user_id: nil }.to raise_error(ActiveRecord::RecordInvalid)
   end
 
   it "isn't valid without expired" do
-    expect do
-      create :briefcase, expiring_at: nil
-    end.to raise_error(ActiveRecord::RecordInvalid)
+    expect { create :briefcase, expiring_at: nil }.to raise_error(ActiveRecord::RecordInvalid)
   end
 
   it "isn't valid if stocks count exceeds maximum" do
-    expect do
-      create :briefcase, :with_stocks, stocks_count: Briefcase::BRIEFCASE_STOCKS_MAX_COUNT + 1
-    end.to raise_error(ActiveRecord::RecordInvalid)
+    stocks_count = Briefcase::BRIEFCASE_STOCKS_MAX_COUNT + 1
+    expect { create :briefcase, :with_stocks, stock_count: stocks_count }.to raise_error(ActiveRecord::RecordInvalid)
   end
 
   context 'created with default parameters' do
@@ -37,38 +32,27 @@ RSpec.describe Briefcase, type: :model do
     end
 
     it 'must be unique per user' do
-      expect do
-        create :briefcase, user: @user
-      end.to raise_error(ActiveRecord::RecordNotUnique)
+      expect { create :briefcase, user: @user }.to raise_error(ActiveRecord::RecordNotUnique)
     end
 
     it 'is destroyed along with the user' do
-      @user.destroy
-      expect(Briefcase.where(id: @briefcase.id)).to_not be_present
+      expect { @user.destroy }.to change { Briefcase.exists?(id: @briefcase.id) }.from(true).to(false)
     end
 
     it "isn't destroy along with the stock" do
-      @stocks[0].destroy
-      expect(Briefcase.where(id: @briefcase.id)).to be_present
+      expect { @stocks.sample.destroy }.not_to change { Briefcase.exists?(id: @briefcase.id) }.from(true)
     end
 
     it "isn't destroy the owner when called destroy" do
-      @briefcase.destroy
-      expect(Briefcase.where(id: @briefcase.id)).to_not be_present
+      expect { @briefcase.destroy }.not_to change { User.exists?(id: @user.id) }.from(true)
     end
 
     it "isn't destroy the stocks when called destroy" do
-      stocks_length = @stocks.length
-      @briefcase.destroy
-      expect(Stock.count).to eq(stocks_length)
+      expect { @briefcase.destroy }.not_to change(Stock, :count)
     end
 
-    it "can't add the same stock twice" do
-      expect { @briefcase.stocks.append(@stocks[0]) }.to raise_error(ActiveRecord::RecordNotUnique)
-    end
-
-    it 'is visible from stock' do
-      expect(@stocks[0].briefcases).to eq([@briefcase])
+    it "can't have the same stock twice" do
+      expect { @briefcase.stocks.append(@stocks.sample) }.to raise_error(ActiveRecord::RecordNotUnique)
     end
   end
 end
