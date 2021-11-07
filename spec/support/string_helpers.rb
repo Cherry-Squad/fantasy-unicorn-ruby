@@ -3,7 +3,7 @@
 require 'singleton'
 
 module StringHelpers
-  class AddSuffixSingleton
+  class AddDiscriminatorSingleton
     include Singleton
 
     def initialize
@@ -17,7 +17,7 @@ module StringHelpers
   end
 
   def add_discriminator
-    "#{self}##{AddSuffixSingleton.instance.increment_and_get}"
+    "#{self}##{AddDiscriminatorSingleton.instance.increment_and_get}"
   end
 end
 
