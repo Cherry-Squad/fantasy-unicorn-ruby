@@ -3,6 +3,7 @@
 # This class represents a User record
 class User < ApplicationRecord
   has_many :achievements, dependent: :delete_all
+  has_many :contest_applications, dependent: :delete_all
   has_one :briefcase, dependent: :destroy
 
   validates :username, presence: true, length: { in: 3..25 }

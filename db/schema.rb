@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_01_215409) do
+ActiveRecord::Schema.define(version: 2021_11_02_111126) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,43 @@ ActiveRecord::Schema.define(version: 2021_11_01_215409) do
     t.bigint "stock_id"
     t.index ["briefcase_id"], name: "index_briefcases_stocks_on_briefcase_id"
     t.index ["stock_id"], name: "index_briefcases_stocks_on_stock_id"
+  end
+
+  create_table "contest_applications", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "contest_id", null: false
+    t.integer "final_position"
+    t.bigint "coins_delta"
+    t.bigint "fantasy_points_delta"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["contest_id", "final_position"], name: "index_contest_applications_on_contest_id_and_final_position", unique: true
+    t.index ["contest_id"], name: "index_contest_applications_on_contest_id"
+    t.index ["user_id", "contest_id"], name: "index_contest_applications_on_user_id_and_contest_id", unique: true
+    t.index ["user_id"], name: "index_contest_applications_on_user_id"
+  end
+
+  create_table "contest_preconfigured_stocks", id: false, force: :cascade do |t|
+    t.bigint "contest_id", null: false
+    t.bigint "stock_id", null: false
+    t.index ["contest_id", "stock_id"], name: "index_contest_preconfigured_stocks_on_contest_id_and_stock_id", unique: true
+    t.index ["contest_id"], name: "index_contest_preconfigured_stocks_on_contest_id"
+    t.index ["stock_id"], name: "index_contest_preconfigured_stocks_on_stock_id"
+  end
+
+  create_table "contests", force: :cascade do |t|
+    t.datetime "reg_ending_at", null: false
+    t.datetime "summarizing_at", null: false
+    t.string "status", null: false
+    t.bigint "coins_entry_fee", null: false
+    t.bigint "max_fantasy_points_threshold"
+    t.boolean "use_briefcase_only", null: false
+    t.string "direction_strategy", null: false
+    t.boolean "fixed_direction_up"
+    t.boolean "use_disabled_multipliers", null: false
+    t.boolean "use_inverted_stock_prices", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "stocks", force: :cascade do |t|
