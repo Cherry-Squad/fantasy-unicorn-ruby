@@ -44,8 +44,9 @@ class Contest < ApplicationRecord
 
   def fixed_direction_presence
     return if direction_strategy == Contest.direction_strategies[:fixed]
+    return if fixed_direction_up.nil?
 
-    errors.add(:fixed_direction_up, "can't be with direction strategy == #{direction_strategy}") unless fixed_direction_up.nil?
+    errors.add(:fixed_direction_up, "can't be with direction strategy == #{direction_strategy}")
   end
 
   # noinspection RubyInstanceMethodNamingConvention
@@ -61,8 +62,9 @@ class Contest < ApplicationRecord
 
   def finish_positions
     return unless status == Contest.statuses[:finished] && status_changed? && persisted?
+    return if contest_applications.map(&:final?).all?
 
-    errors.add(:contest_applications, 'have some unfinished applications') unless contest_applications.map(&:final?).all?
+    errors.add(:contest_applications, 'have some unfinished applications')
   end
 
   def set_defaults
