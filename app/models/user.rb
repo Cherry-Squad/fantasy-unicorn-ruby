@@ -4,6 +4,7 @@
 # The User model holds user info and credentials.
 class User < ApplicationRecord
   has_many :achievements, dependent: :delete_all
+  has_one :briefcase, dependent: :destroy
 
   validates :username, presence: true, length: { in: 3..25 }
   validates :email, presence: true

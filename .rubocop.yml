@@ -10,3 +10,7 @@ Metrics/MethodLength:
 Metrics/BlockLength:
   Exclude:
     - 'spec/models/*'
+    - 'spec/factories.rb'
+
+Layout/SpaceAroundOperators:
+  Enabled: false
