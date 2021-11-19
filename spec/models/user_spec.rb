@@ -59,17 +59,21 @@ RSpec.describe User, type: :model do
     end.to raise_error(ActiveRecord::RecordInvalid)
   end
 
-  it 'must have unique username' do
-    u = create :user
-    expect do
-      create :user, username: u.username
-    end.to raise_error(ActiveRecord::RecordNotUnique)
-  end
+  context 'created with default parametes' do
+    before do
+      @user = create :user
+    end
 
-  it 'must have unique email' do
-    u = create :user
-    expect do
-      create :user, email: u.email
-    end.to raise_error(ActiveRecord::RecordNotUnique)
+    it 'must have unique username' do
+      expect do
+        create :user, username: @user.username
+      end.to raise_error(ActiveRecord::RecordNotUnique)
+    end
+
+    it 'must have unique email' do
+      expect do
+        create :user, email: @user.email
+      end.to raise_error(ActiveRecord::RecordNotUnique)
+    end
   end
 end

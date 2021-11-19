@@ -14,6 +14,8 @@ class CreateBriefcases < ActiveRecord::Migration[6.1]
     create_table :briefcases_stocks, id: false do |t|
       t.belongs_to :briefcase
       t.belongs_to :stock
+
+      t.index %i[briefcase_id stock_id], unique: true
     end
   end
 end

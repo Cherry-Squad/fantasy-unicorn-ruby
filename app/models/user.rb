@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-# This class represents a User record
+# This class represents a User record.
+# The User model holds user info and credentials.
 class User < ApplicationRecord
   has_many :achievements, dependent: :delete_all
   has_many :contest_applications, dependent: :delete_all
