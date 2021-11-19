@@ -38,8 +38,9 @@ class Contest < ApplicationRecord
 
   def reg_ending_before_summarizing
     return unless reg_ending_at.present? && summarizing_at.present?
+    return unless summarizing_at < reg_ending_at
 
-    errors.add(:reg_ending_at, "can't be after summarizing") if summarizing_at < reg_ending_at
+    errors.add(:reg_ending_at, "can't be after summarizing")
   end
 
   def fixed_direction_presence
@@ -52,12 +53,15 @@ class Contest < ApplicationRecord
   # noinspection RubyInstanceMethodNamingConvention
   def fixed_direction_on_fixed_strategy
     return unless direction_strategy == Contest.direction_strategies[:fixed]
+    return unless fixed_direction_up.nil?
 
-    errors.add(:fixed_direction_up, 'have to be present with direction strategy == fixed') if fixed_direction_up.nil?
+    errors.add(:fixed_direction_up, 'have to be present with direction strategy == fixed')
   end
 
   def finished_change
-    errors.add(:status, "can't change") if status_was == Contest.statuses[:finished] && status_changed? && persisted?
+    return unless status_was == Contest.statuses[:finished] && status_changed? && persisted?
+
+    errors.add(:status, "can't change")
   end
 
   def finish_positions
