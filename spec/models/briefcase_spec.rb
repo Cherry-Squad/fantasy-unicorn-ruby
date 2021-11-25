@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe Briefcase, type: :model do
   subject { create(:briefcase) }
 
-  it 'is valid' do
+  it 'is valid with valid arguments' do
     is_expected.to be_valid
   end
 

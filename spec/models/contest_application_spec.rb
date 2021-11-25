@@ -7,7 +7,7 @@ RSpec.describe ContestApplication, type: :model do
   let(:user) { subject.user }
   let(:contest) { subject.contest }
 
-  it 'is valid' do
+  it 'is valid with valid arguments' do
     is_expected.to be_valid
   end
 
