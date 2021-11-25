@@ -1,7 +1,7 @@
 # fantasy-unicorn-ruby
 
 Forex-simulation-like online trading game
-[![Actions Status](https://github.com/Cherry-Squad/fantasy-unicorn-ruby/workflows/specs/badge.svg)](https://github.com/Cherry-Squad/fantasy-unicorn-ruby/actions)
+[![Actions Status](https://github.com/Cherry-Squad/fantasy-unicorn-ruby/actions/workflows/specs/badge.svg)](https://github.com/Cherry-Squad/fantasy-unicorn-ruby/actions/workflows/specs)
 
 ## Getting started
 
