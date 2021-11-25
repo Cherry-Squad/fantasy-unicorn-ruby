@@ -37,7 +37,7 @@ RSpec.describe ContestApplication, type: :model do
     expect { contest.status = Contest.statuses[:finished] }.to change(subject, :valid?).from(true).to(false)
   end
 
-  context 'with finish data' do
+  context 'created with finish data' do
     subject { create :contest_application, :with_results }
     let(:final_position) { subject.final_position }
 
