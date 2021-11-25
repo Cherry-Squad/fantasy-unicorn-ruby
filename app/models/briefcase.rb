@@ -16,3 +16,18 @@ class Briefcase < ApplicationRecord
   validates :expiring_at, presence: true
   validates :stocks, length: { maximum: BRIEFCASE_STOCKS_MAX_COUNT }
 end
+
+# == Schema Information
+#
+# Table name: briefcases
+#
+#  id          :bigint           not null, primary key
+#  expiring_at :datetime         not null
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  user_id     :bigint           not null
+#
+# Indexes
+#
+#  index_briefcases_on_user_id  (user_id) UNIQUE
+#

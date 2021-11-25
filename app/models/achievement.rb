@@ -9,3 +9,19 @@ class Achievement < ApplicationRecord
 
   validates_presence_of :user, :achievement_identifier
 end
+
+# == Schema Information
+#
+# Table name: achievements
+#
+#  id                     :bigint           not null, primary key
+#  achievement_identifier :integer
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  user_id                :bigint
+#
+# Indexes
+#
+#  index_achievements_on_user_id                             (user_id)
+#  index_achievements_on_user_id_and_achievement_identifier  (user_id,achievement_identifier) UNIQUE
+#

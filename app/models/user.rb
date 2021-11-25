@@ -23,3 +23,25 @@ class User < ApplicationRecord
     self.fantasy_points ||= 0
   end
 end
+
+# == Schema Information
+#
+# Table name: users
+#
+#  id              :bigint           not null, primary key
+#  coins           :bigint           not null
+#  email           :string(255)      not null
+#  email_validated :boolean          not null
+#  fantasy_points  :bigint           not null
+#  password        :string(255)      not null
+#  preferred_lang  :string(10)
+#  username        :string(25)       not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  avatar_id       :integer
+#
+# Indexes
+#
+#  index_users_on_email     (email) UNIQUE
+#  index_users_on_username  (username) UNIQUE
+#

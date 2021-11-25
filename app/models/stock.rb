@@ -12,3 +12,18 @@ class Stock < ApplicationRecord
     message: "provided robinhood_id isn't UUID"
   }
 end
+
+# == Schema Information
+#
+# Table name: stocks
+#
+#  id           :bigint           not null, primary key
+#  name         :string           not null
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  robinhood_id :string           not null
+#
+# Indexes
+#
+#  index_stocks_on_name  (name) UNIQUE
+#

@@ -1,5 +1,25 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: contest_applications
+#
+#  id                   :bigint           not null, primary key
+#  coins_delta          :bigint
+#  fantasy_points_delta :bigint
+#  final_position       :integer
+#  created_at           :datetime         not null
+#  updated_at           :datetime         not null
+#  contest_id           :bigint           not null
+#  user_id              :bigint           not null
+#
+# Indexes
+#
+#  index_contest_applications_on_contest_id                     (contest_id)
+#  index_contest_applications_on_contest_id_and_final_position  (contest_id,final_position) UNIQUE
+#  index_contest_applications_on_user_id                        (user_id)
+#  index_contest_applications_on_user_id_and_contest_id         (user_id,contest_id) UNIQUE
+#
 require 'rails_helper'
 
 RSpec.describe ContestApplication, type: :model do

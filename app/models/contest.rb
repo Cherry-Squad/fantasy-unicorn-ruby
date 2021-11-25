@@ -80,3 +80,22 @@ class Contest < ApplicationRecord
     self.use_inverted_stock_prices ||= false
   end
 end
+
+# == Schema Information
+#
+# Table name: contests
+#
+#  id                           :bigint           not null, primary key
+#  coins_entry_fee              :bigint           not null
+#  direction_strategy           :string           not null
+#  fixed_direction_up           :boolean
+#  max_fantasy_points_threshold :bigint
+#  reg_ending_at                :datetime         not null
+#  status                       :string           not null
+#  summarizing_at               :datetime         not null
+#  use_briefcase_only           :boolean          not null
+#  use_disabled_multipliers     :boolean          not null
+#  use_inverted_stock_prices    :boolean          not null
+#  created_at                   :datetime         not null
+#  updated_at                   :datetime         not null
+#

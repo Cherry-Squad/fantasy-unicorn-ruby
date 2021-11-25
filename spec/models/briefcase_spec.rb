@@ -1,5 +1,19 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: briefcases
+#
+#  id          :bigint           not null, primary key
+#  expiring_at :datetime         not null
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  user_id     :bigint           not null
+#
+# Indexes
+#
+#  index_briefcases_on_user_id  (user_id) UNIQUE
+#
 require 'rails_helper'
 
 RSpec.describe Briefcase, type: :model do
