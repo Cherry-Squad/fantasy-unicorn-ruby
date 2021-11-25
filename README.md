@@ -1,24 +1,20 @@
-# README
+# fantasy-unicorn-ruby
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Forex-simulation-like online trading game
+[![Actions Status](https://github.com/Cherry-Squad/fantasy-unicorn-ruby/workflows/specs/badge.svg)](https://github.com/Cherry-Squad/fantasy-unicorn-ruby/actions)
 
-Things you may want to cover:
+## Getting started
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+1. Install these components:
+    - Ruby >= 3.0.2
+    - PostgreSQL >= 14. On Debian, install libpq-dev too.
+    - Ruby on Rails >= 6.1.4
+2. Clone an app and open a terminal in app's folder.
+3. Run following commands:
+    ```shell
+    $ bundle install
+    $ rake db:setup
+    $ rake db:migrate
+    $ rake db:seed
+    ```
+   Then run `rails server` to start a server on 127.0.0.1:3000.
