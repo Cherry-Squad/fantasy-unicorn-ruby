@@ -3,38 +3,36 @@
 require 'rails_helper'
 
 RSpec.describe Stock, type: :model do
-  it 'valid with valid arguments' do
-    expect(create(:stock)).to be_valid
+  subject { create(:stock) }
+  let(:name) { subject.name }
+
+  it 'is valid with valid arguments' do
+    is_expected.to be_valid
   end
 
   it "isn't valid without name" do
-    expect do
-      create :stock, name: nil
-    end.to raise_error(ActiveRecord::RecordInvalid)
+    subject.name = nil
+    is_expected.to_not be_valid
   end
 
   it "isn't valid without robinhood id" do
-    expect do
-      create :stock, robinhood_id: nil
-    end.to raise_error(ActiveRecord::RecordInvalid)
+    subject.robinhood_id = nil
+    is_expected.to_not be_valid
   end
 
   it "isn't valid if name is too long" do
-    expect do
-      create :stock, name: Faker::String.random(length: 40)
-    end.to raise_error(ActiveRecord::RecordInvalid)
+    subject.name = Faker::String.random(length: 40)
+    is_expected.to_not be_valid
   end
 
   it "isn't valid if robinhood id isn't UUID" do
-    expect do
-      create :stock, robinhood_id: Faker::String.random(length: 35)
-    end.to raise_error(ActiveRecord::RecordInvalid)
+    subject.robinhood_id = Faker::String.random(length: 35)
+    is_expected.to_not be_valid
   end
 
   it 'must have unique name' do
-    s = create :stock
     expect do
-      create :stock, name: s.name
+      create :stock, name: name
     end.to raise_error(ActiveRecord::RecordNotUnique)
   end
 end
