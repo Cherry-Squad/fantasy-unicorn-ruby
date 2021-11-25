@@ -3,77 +3,71 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  it 'valid with valid attributes' do
-    expect(create(:user_with_points)).to be_valid
-  end
+  subject { create(:user) }
+  let(:username) { subject.username }
+  let(:email) { subject.email }
 
-  it 'valid with only necessary attributes' do
-    expect(create(:user)).to be_valid
+  it 'is valid with valid arguments' do
+    is_expected.to be_valid
   end
 
   it "isn't valid without username" do
-    expect do
-      create :user, username: nil
-    end.to raise_error(ActiveRecord::RecordInvalid)
+    subject.username = nil
+    is_expected.to_not be_valid
   end
 
   it "isn't valid without email" do
-    expect do
-      create :user, email: nil
-    end.to raise_error(ActiveRecord::RecordInvalid)
+    subject.email = nil
+    is_expected.to_not be_valid
   end
 
   it "isn't valid without password" do
-    expect do
-      create :user, password: nil
-    end.to raise_error(ActiveRecord::RecordInvalid)
+    subject.password = nil
+    is_expected.to_not be_valid
   end
 
   it "isn't valid if username is too big" do
-    expect do
-      create :user, username: Faker::Internet.username(specifier: 30..40)
-    end.to raise_error(ActiveRecord::RecordInvalid)
+    subject.username = Faker::Internet.username(specifier: 30..40)
+    is_expected.to_not be_valid
   end
 
   it "isn't valid if password is too big" do
-    expect do
-      create :user, password: Faker::Internet.password(min_length: 300)
-    end.to raise_error(ActiveRecord::RecordInvalid)
+    subject.username = Faker::Internet.password(min_length: 300)
+    is_expected.to_not be_valid
   end
 
   it "isn't valid if preferred lang is too big" do
-    expect do
-      create :user, preferred_lang: Faker::String.random(length: 15)
-    end.to raise_error(ActiveRecord::RecordInvalid)
+    subject.preferred_lang = Faker::String.random(length: 15)
+    is_expected.to_not be_valid
   end
 
   it "isn't valid if coins are below zero" do
-    expect do
-      create :user, coins: -Faker::Number.number.abs
-    end.to raise_error(ActiveRecord::RecordInvalid)
+    subject.coins = -Faker::Number.number.abs
+    is_expected.to_not be_valid
   end
 
   it "isn't valid if fantasy points are below zero" do
-    expect do
-      create :user, fantasy_points: -Faker::Number.number.abs
-    end.to raise_error(ActiveRecord::RecordInvalid)
+    subject.fantasy_points = -Faker::Number.number.abs
+    is_expected.to_not be_valid
   end
 
-  context 'created with default parametes' do
-    before do
-      @user = create :user
-    end
+  it 'must have unique username' do
+    expect do
+      create :user, username: username
+    end.to raise_error(ActiveRecord::RecordNotUnique)
+  end
 
-    it 'must have unique username' do
-      expect do
-        create :user, username: @user.username
-      end.to raise_error(ActiveRecord::RecordNotUnique)
-    end
+  it 'must have unique email' do
+    expect do
+      create :user, email: email
+    end.to raise_error(ActiveRecord::RecordNotUnique)
+  end
 
-    it 'must have unique email' do
-      expect do
-        create :user, email: @user.email
-      end.to raise_error(ActiveRecord::RecordNotUnique)
+  context 'created with points' do
+    subject { create(:user_with_points) }
+
+    it 'is valid' do
+      is_expected.to be_valid
     end
   end
 end
