@@ -20,11 +20,11 @@ RSpec.describe ContestApplication, type: :model do
   end
 
   it "isn't destroy the user" do
-    expect { subject.destroy }.not_to(change { User.exists?(id: user.id) })
+    expect { subject.destroy }.not_to change { User.exists?(id: user.id) }.from(true)
   end
 
   it "isn't destroy the contest" do
-    expect { subject.destroy }.not_to(change { Contest.exists?(id: contest.id) })
+    expect { subject.destroy }.not_to change { Contest.exists?(id: contest.id) }.from(true)
   end
 
   it "can't duplicate contest-user pair" do
