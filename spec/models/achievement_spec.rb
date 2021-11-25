@@ -35,10 +35,10 @@ RSpec.describe Achievement, type: :model do
   end
 
   it 'destroyed together with the user' do
-    expect { user.destroy }.to change(subject, :exists).to(false)
+    expect { user.destroy }.to change { Achievement.exists?(id: subject.id) }.to(false)
   end
 
   it "doesn't destroy owner on destroy" do
-    expect { achievement.destroy }.not_to change(user, :exists).to(false)
+    expect { subject.destroy }.not_to(change { User.exists?(id: user.id) })
   end
 end
