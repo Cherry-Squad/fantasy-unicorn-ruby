@@ -1,4 +1,4 @@
 finance_api:
   finnhub:
     enable: false
-    api_key: # set api_key here for finnhub.io
+    api_key: # set api_key for finnhub.io
