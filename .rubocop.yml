@@ -10,7 +10,7 @@ Metrics/MethodLength:
 Metrics/BlockLength:
   Exclude:
     - 'spec/models/*'
-    - 'spec/factories.rb'
+    - 'spec/factories/**/*'
     - 'lib/tasks/auto_annotate_models.rake'
 
 Layout/SpaceAroundOperators:
