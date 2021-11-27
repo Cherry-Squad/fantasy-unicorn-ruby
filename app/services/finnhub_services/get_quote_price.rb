@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
 module FinnhubServices
-  # This service provides the current quote price from finnhub.io
-  # for a given symbol (ticker).
+  # GetQuotePrice provides the current quote price from finnhub.io for a given symbol (ticker).
+  #
+  # Usage:
+  # quote_price_response = FinnhubServices::GetQuotePrice.call()
+  # puts quote_price_response.result
   class GetQuotePrice < Patterns::Service
     def initialize(stock_id, finnhub_client = FinnhubRuby::DefaultApi.new)
       super()
@@ -12,11 +15,16 @@ module FinnhubServices
 
     def call
       result = @finnhub_client.quote(@symbol)
-      result.c
-    rescue FinnhubRuby::ApiError => e
-      raise FinnhubServices::TooManyRequests if e.code == 429
+      price = result.c
+      change = result.d
 
-      raise FinnhubServices::ApiError
+      raise ApiError::UnknownSymbol, @symbol if price.zero? && change.nil?
+
+      price
+    rescue FinnhubRuby::ApiError => e
+      raise ApiError::TooManyRequests if e.code == 429
+
+      raise ApiError, e.message
     end
   end
 end
