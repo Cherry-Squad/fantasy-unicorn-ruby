@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_11_02_111126) do
+ActiveRecord::Schema.define(version: 2021_12_02_152313) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,6 +38,19 @@ ActiveRecord::Schema.define(version: 2021_11_02_111126) do
     t.index ["briefcase_id", "stock_id"], name: "index_briefcases_stocks_on_briefcase_id_and_stock_id", unique: true
     t.index ["briefcase_id"], name: "index_briefcases_stocks_on_briefcase_id"
     t.index ["stock_id"], name: "index_briefcases_stocks_on_stock_id"
+  end
+
+  create_table "contest_application_stocks", force: :cascade do |t|
+    t.bigint "contest_application_id", null: false
+    t.bigint "stock_id", null: false
+    t.decimal "multiplier", null: false
+    t.decimal "reg_price", null: false
+    t.decimal "final_price"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["contest_application_id", "stock_id"], name: "cas_ca_id_stock_id", unique: true
+    t.index ["contest_application_id"], name: "index_contest_application_stocks_on_contest_application_id"
+    t.index ["stock_id"], name: "index_contest_application_stocks_on_stock_id"
   end
 
   create_table "contest_applications", force: :cascade do |t|

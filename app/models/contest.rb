@@ -18,7 +18,7 @@ class Contest < ApplicationRecord
   }
 
   has_and_belongs_to_many :stocks, join_table: 'contest_preconfigured_stocks'
-  has_many :contest_applications, dependent: :delete_all
+  has_many :contest_applications, dependent: :destroy
 
   after_initialize :set_defaults
 
