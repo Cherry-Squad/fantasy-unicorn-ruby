@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module FinnhubServices
-  # piError is a generic error that occurs due to an error after a request to finnhub.
+  # ApiError is a generic error that occurs due to an error after a request to finnhub.
   class ApiError < StandardError
     def initialize(msg = nil)
       super
