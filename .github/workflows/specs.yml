@@ -47,6 +47,7 @@ jobs:
     - name: Run RSpec
       env:
         USE_FX: ${{ matrix.fx }}
+        SETTINGS__FINANCE_API__FINNHUB__API_KEY: ${{ secrets.FINNHUB_API_KEY }}
       run: |
         bundle exec rspec -f d --force-color
     - name: Simplecov Report
