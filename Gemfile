@@ -32,9 +32,7 @@ gem 'bootsnap', '>= 1.4.4', require: false
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
-gem 'finnhub_ruby', '~> 1.1.9'
-
-gem 'config'
+gem 'finnhub_ruby', '~> 1.1.10'
 
 gem 'rails-patterns'
 
