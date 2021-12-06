@@ -11,9 +11,7 @@ FactoryBot.define do
       multiplier { Faker::Number.decimal(l_digits: 1, r_digits: 2) + 0.01 }
     end
 
-    # trait :with_reg_price do
     reg_price { Faker::Number.between(from: 0.5, to: 5000.0) }
-    # end
 
     trait :with_final_price do
       contest_application { association :contest_application, :with_results }
