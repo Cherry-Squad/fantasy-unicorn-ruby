@@ -88,7 +88,7 @@ RSpec.describe FinnhubServices::GetQuotePrice do
 
   context 'created with the real api' do
     it 'must have an api key' do
-      expect(Settings.finance_api.finnhub.api_key).to_not be_nil
+      expect(Rails.application.credentials.finnhub_api_key).to_not be_nil
     end
 
     it '#call return correct price' do

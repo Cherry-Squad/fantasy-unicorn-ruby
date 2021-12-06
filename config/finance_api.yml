@@ -1,0 +1,13 @@
+defaults: &defaults
+  finnhub:
+    enable: true
+    api_key: <%= Rails.application.credentials.finnhub_api_key %>
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults
