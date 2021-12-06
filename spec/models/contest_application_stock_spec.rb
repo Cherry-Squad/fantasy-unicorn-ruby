@@ -7,7 +7,7 @@
 #  id                     :bigint           not null, primary key
 #  final_price            :decimal(, )
 #  multiplier             :decimal(, )      not null
-#  reg_price              :decimal(, )      not null
+#  reg_price              :decimal(, )
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  contest_application_id :bigint           not null
@@ -55,11 +55,6 @@ RSpec.describe ContestApplicationStock, type: :model do
     is_expected.to_not be_valid
   end
 
-  it "isn't valid without reg price" do
-    subject.reg_price = nil
-    is_expected.to_not be_valid
-  end
-
   it "isn't valid with negative reg price" do
     subject.reg_price = -reg_price
     is_expected.to_not be_valid
@@ -84,6 +79,11 @@ RSpec.describe ContestApplicationStock, type: :model do
 
     it "isn't valid with negative final price" do
       subject.final_price = -final_price
+      is_expected.not_to be_valid
+    end
+
+    it "isn't valid without reg price" do
+      subject.reg_price = nil
       is_expected.not_to be_valid
     end
 

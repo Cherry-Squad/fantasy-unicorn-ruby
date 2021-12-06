@@ -10,7 +10,9 @@ class ContestApplicationStock < ApplicationRecord
   belongs_to :contest_application
   belongs_to :stock
 
-  validates :multiplier, :reg_price, numericality: { greater_than: 0 }
+  validates :multiplier, numericality: { greater_than: 0 }
+  validates :reg_price, numericality: { greater_than: 0 }, allow_nil: true
+  validates :reg_price, presence: true, unless: -> { final_price.nil? }
   validates :final_price, numericality: { greater_than: 0 }, presence: true, if: :contest_status_is_finished
   validates :final_price, absence: true, if: :contest_status_is_not_finished
 
@@ -36,7 +38,7 @@ end
 #  id                     :bigint           not null, primary key
 #  final_price            :decimal(, )
 #  multiplier             :decimal(, )      not null
-#  reg_price              :decimal(, )      not null
+#  reg_price              :decimal(, )
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  contest_application_id :bigint           not null

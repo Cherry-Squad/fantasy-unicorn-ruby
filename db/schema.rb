@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 2021_12_02_152313) do
     t.bigint "contest_application_id", null: false
     t.bigint "stock_id", null: false
     t.decimal "multiplier", null: false
-    t.decimal "reg_price", null: false
+    t.decimal "reg_price"
     t.decimal "final_price"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
