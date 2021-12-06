@@ -10,7 +10,7 @@ class CreateContestApplicationStocks < ActiveRecord::Migration[6.1]
       t.decimal :reg_price
       t.decimal :final_price
 
-      t.index %i[contest_application_id stock_id], name: "cas_ca_id_stock_id", unique: true
+      t.index %i[contest_application_id stock_id], name: 'cas_ca_id_stock_id', unique: true
       t.timestamps
     end
   end
