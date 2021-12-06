@@ -65,8 +65,13 @@ RSpec.describe ContestApplicationStock, type: :model do
     is_expected.to_not be_valid
   end
 
+  it "isn't valid if reg price == 0" do
+    subject.reg_price = 0
+    is_expected.not_to be_valid
+  end
+
   it "isn't valid if contest status == finished and without final price" do
-    contest.status = Contest.statuses[:reg_ended]
+    contest.status = Contest.statuses[:finished]
     is_expected.not_to be_valid
   end
 
@@ -79,6 +84,11 @@ RSpec.describe ContestApplicationStock, type: :model do
 
     it "isn't valid with negative final price" do
       subject.final_price = -final_price
+      is_expected.not_to be_valid
+    end
+
+    it "isn't valid if final price == 0" do
+      subject.final_price = 0
       is_expected.not_to be_valid
     end
 
@@ -115,21 +125,21 @@ RSpec.describe ContestApplicationStock, type: :model do
 
   it 'is destroyed with the contest application' do
     expect { contest_application.destroy }.to change { ContestApplicationStock.exists?(id: subject.id) }
-                                                .from(true).to(false)
+      .from(true).to(false)
   end
 
   it 'is destroyed with the stock' do
     expect { stock.destroy }.to change { ContestApplicationStock.exists?(id: subject.id) }
-                                  .from(true).to(false)
+      .from(true).to(false)
   end
 
   it 'is destroyed with the user' do
     expect { user.destroy }.to change { ContestApplicationStock.exists?(id: subject.id) }
-                                 .from(true).to(false)
+      .from(true).to(false)
   end
 
   it 'is destroyed with the contest' do
     expect { contest.destroy }.to change { ContestApplicationStock.exists?(id: subject.id) }
-                                    .from(true).to(false)
+      .from(true).to(false)
   end
 end

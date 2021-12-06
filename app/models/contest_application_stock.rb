@@ -11,7 +11,8 @@ class ContestApplicationStock < ApplicationRecord
   belongs_to :stock
 
   validates :multiplier, :reg_price, numericality: { greater_than: 0 }
-  validates :final_price, numericality: { greater_than: 0 }, if: :contest_status_is_finished
+  validates :final_price, numericality: { greater_than: 0 }, presence: true, if: :contest_status_is_finished
+  validates :final_price, absence: true, if: :contest_status_is_not_finished
 
   private
 
@@ -19,6 +20,12 @@ class ContestApplicationStock < ApplicationRecord
     return false if contest_application.nil? || contest_application.contest.nil?
 
     contest_application.contest.status == Contest.statuses[:finished]
+  end
+
+  def contest_status_is_not_finished
+    return false if contest_application.nil? || contest_application.contest.nil?
+
+    contest_application.contest.status != Contest.statuses[:finished]
   end
 end
 
