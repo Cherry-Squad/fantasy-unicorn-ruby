@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 # This class represents a ContestApplicationStock record.
-# The ContestApplicationStock holds an registered with
-# ContestApplication stock and some meta-info
+# The ContestApplicationStock holds a registered stock bet
+# on ContestApplication and some meta-info.
 #
 # ContestApplication < ContestApplicationStock: many-to-one
 # Stock < ContestApplicationStock: many-to-one
