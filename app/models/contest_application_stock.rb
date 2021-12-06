@@ -36,9 +36,9 @@ end
 # Table name: contest_application_stocks
 #
 #  id                     :bigint           not null, primary key
-#  final_price            :decimal(, )
-#  multiplier             :decimal(, )      not null
-#  reg_price              :decimal(, )
+#  final_price            :decimal(8, 4)
+#  multiplier             :decimal(4, 2)    not null
+#  reg_price              :decimal(8, 4)
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  contest_application_id :bigint           not null
