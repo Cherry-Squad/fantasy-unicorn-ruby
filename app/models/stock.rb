@@ -4,6 +4,7 @@
 # The Stock model holds stock info and its id on stock exchanges like Robinhood.
 class Stock < ApplicationRecord
   has_and_belongs_to_many :briefcases
+  has_many :contest_application_stocks, dependent: :delete_all
   before_destroy { briefcases.clear }
 
   validates :name, presence: true, length: { maximum: 16 }
