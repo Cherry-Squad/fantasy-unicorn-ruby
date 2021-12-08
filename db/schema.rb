@@ -40,6 +40,19 @@ ActiveRecord::Schema.define(version: 2021_12_06_184042) do
     t.index ["stock_id"], name: "index_briefcases_stocks_on_stock_id"
   end
 
+  create_table "contest_application_stocks", force: :cascade do |t|
+    t.bigint "contest_application_id", null: false
+    t.bigint "stock_id", null: false
+    t.decimal "multiplier", precision: 4, scale: 2, null: false
+    t.decimal "reg_price", precision: 8, scale: 4
+    t.decimal "final_price", precision: 8, scale: 4
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["contest_application_id", "stock_id"], name: "cas_ca_id_stock_id", unique: true
+    t.index ["contest_application_id"], name: "index_contest_application_stocks_on_contest_application_id"
+    t.index ["stock_id"], name: "index_contest_application_stocks_on_stock_id"
+  end
+
   create_table "contest_applications", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "contest_id", null: false

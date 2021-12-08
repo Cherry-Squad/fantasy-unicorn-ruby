@@ -9,6 +9,7 @@
 class ContestApplication < ApplicationRecord
   belongs_to :contest
   belongs_to :user
+  has_many :contest_application_stocks, dependent: :delete_all
 
   validates :final_position, numericality: { greater_than: 0 }, if: -> { !final_position.nil? }
   validate :data_after_contest_end
