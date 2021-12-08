@@ -4,11 +4,10 @@
 #
 # Table name: stocks
 #
-#  id           :bigint           not null, primary key
-#  name         :string           not null
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  robinhood_id :string           not null
+#  id         :bigint           not null, primary key
+#  name       :string           not null
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 # Indexes
 #
@@ -29,18 +28,8 @@ RSpec.describe Stock, type: :model do
     is_expected.to_not be_valid
   end
 
-  it "isn't valid without robinhood id" do
-    subject.robinhood_id = nil
-    is_expected.to_not be_valid
-  end
-
   it "isn't valid if name is too long" do
     subject.name = Faker::String.random(length: 40)
-    is_expected.to_not be_valid
-  end
-
-  it "isn't valid if robinhood id isn't UUID" do
-    subject.robinhood_id = Faker::String.random(length: 35)
     is_expected.to_not be_valid
   end
 
