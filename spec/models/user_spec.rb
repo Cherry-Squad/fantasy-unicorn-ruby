@@ -53,20 +53,20 @@ RSpec.describe User, type: :model do
     is_expected.to_not be_valid
   end
 
-  #it "isn't valid without password" do
-    #subject.password = nil
-    #is_expected.to_not be_valid
-  #end
+  # it "isn't valid without password" do
+  # subject.password = nil
+  # is_expected.to_not be_valid
+  # end
 
   it "isn't valid if username is too big" do
     subject.username = Faker::Internet.username(specifier: 30..40)
     is_expected.to_not be_valid
   end
 
-  #it "isn't valid if password is too big" do
-    #subject.password = Faker::Internet.password(min_length: 300)
-    #is_expected.to_not be_valid
-  #end
+  # it "isn't valid if password is too big" do
+  # subject.password = Faker::Internet.password(min_length: 300)
+  # is_expected.to_not be_valid
+  # end
 
   it "isn't valid if preferred lang is too big" do
     subject.preferred_lang = Faker::String.random(length: 15)

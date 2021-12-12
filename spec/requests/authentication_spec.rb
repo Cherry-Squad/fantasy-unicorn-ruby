@@ -1,11 +1,12 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe 'Authentication', type: :request do # rubocop:disable Metrics/BlockLength
   subject { create(:user) }
-  #let(:username) { Faker::Internet.username }
-  #let(:email) { Faker::Internet.email }
-  #let(:password) { Faker::Internet.password(min_length: 6) }
+  # let(:username) { Faker::Internet.username }
+  # let(:email) { Faker::Internet.email }
+  # let(:password) { Faker::Internet.password(min_length: 6) }
   let(:username) { subject.username }
   let(:email) { subject.email }
   let(:password) { subject.password }
@@ -17,9 +18,9 @@ RSpec.describe 'Authentication', type: :request do # rubocop:disable Metrics/Blo
     end
 
     it 'Should create database record' do
-      expect{
+      expect do
         post api_v1_user_registration_path(username: username, email: email, password: password)
-      }.to change(User, :count).by(1)
+      end.to change(User, :count).by(1)
     end
 
     it 'Should respond with status 422 if user already created' do
