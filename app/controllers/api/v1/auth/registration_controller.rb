@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-module Custom
+module Api::V1
   # Adds username as required parameter for registration and update
-  class RegistrationController < DeviseTokenAuth::RegistrationsController
+  class Auth::RegistrationController < DeviseTokenAuth::RegistrationsController
     before_action :configure_permitted_parameters
 
     protected
