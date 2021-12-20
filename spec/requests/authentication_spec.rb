@@ -205,6 +205,10 @@ RSpec.describe 'Authentication', type: :request do
         expect(response).to have_http_status(200)
       end
 
+it 'Should remove the database record' do
+  expect(User.count).to eq(0)
+end
+
       it 'Should respond with message: Account with UID email@example.com has been destroyed in body' do
         expect(response.body).to include('has been destroyed')
       end
