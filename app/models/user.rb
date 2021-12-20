@@ -11,9 +11,8 @@ class User < ApplicationRecord
   has_many :contest_applications, dependent: :destroy
   has_one :briefcase, dependent: :destroy
 
-  validates :username, presence: true, length: { in: 3..25 }
+  validates :username, presence: true, uniqueness: true, length: { in: 3..25 }
   validates :email, presence: true
-  validates_uniqueness_of :username
   validates :preferred_lang, length: { in: 2..10 }
   validates :fantasy_points, numericality: { greater_than_or_equal_to: 0 }
   validates :coins, numericality: { greater_than_or_equal_to: 0 }
