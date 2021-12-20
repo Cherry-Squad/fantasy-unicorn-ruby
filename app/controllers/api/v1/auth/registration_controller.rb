@@ -6,6 +6,7 @@ module Api
       # Adds username as required parameter for registration and update
       class RegistrationController < DeviseTokenAuth::RegistrationsController
         before_action :configure_permitted_parameters
+        wrap_parameters format: []
 
         protected
 
