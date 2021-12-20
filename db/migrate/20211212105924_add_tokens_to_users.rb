@@ -16,6 +16,5 @@ class AddTokensToUsers < ActiveRecord::Migration[6.1]
     add_column :users, :confirmation_sent_at, :datetime
     add_index :users, %i[uid provider], unique: true
 
-    User.reset_column_information
   end
 end
