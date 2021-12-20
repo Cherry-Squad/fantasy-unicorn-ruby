@@ -144,7 +144,6 @@ RSpec.describe 'Authentication', type: :request do
       end
     end
 
-
     context 'When email is invalid' do
       let(:invalid_email) { "invalid#{email}" }
       before do
