@@ -14,6 +14,7 @@ class User < ApplicationRecord
 
   validates :username, presence: true, length: { in: 3..25 }
   validates :email, presence: true
+  validates_uniqueness_of :username
   # validates :password, presence: true, length: { in: 4..255 }
   validates :preferred_lang, length: { in: 2..10 }
   validates :fantasy_points, numericality: { greater_than_or_equal_to: 0 }
