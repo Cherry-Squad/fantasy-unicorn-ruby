@@ -214,7 +214,7 @@ end
       end
     end
 
-    context 'Whith invalid auth_headers' do
+    context 'With invalid auth_headers' do
       before do
         auth_headers = {}
         delete api_v1_user_registration_path, headers: auth_headers
