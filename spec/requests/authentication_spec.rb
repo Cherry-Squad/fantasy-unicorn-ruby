@@ -55,7 +55,7 @@ RSpec.describe 'Authentication', type: :request do
         expect(response).to have_http_status(422)
       end
 
-      it 'Should respond with error ' do
+      it 'Should respond with error' do
         expect(response.body).to include('Username has already been taken')
       end
     end
