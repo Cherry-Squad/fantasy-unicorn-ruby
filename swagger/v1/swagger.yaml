@@ -1,0 +1,58 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/auth/":
+    post:
+      summary: Creates a user
+      tags:
+      - Auth
+      parameters: []
+      responses:
+        '200':
+          description: user created
+          content:
+            application/json:
+              example:
+                status: success
+                data:
+                  email: tisa_rowe@rempel.name
+                  email_validated: false
+                  id: 3317
+                  fantasy_points: 0
+                  coins: 0
+                  uid: tisa_rowe@rempel.name
+                  username: michal_padberg#1
+                  preferred_lang: ru_RU
+                  avatar_id:
+                  created_at: '2021-12-22T14:25:19.108Z'
+                  updated_at: '2021-12-22T14:25:19.115Z'
+                  provider: email
+                  allow_password_change: false
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+              - username
+              - email
+              - password
+consumes:
+- application/json
+produces:
+- application/json
+servers:
+- url: "{defaultHost}"
+  variables:
+    defaultHost:
+      default: http://localhost:3000

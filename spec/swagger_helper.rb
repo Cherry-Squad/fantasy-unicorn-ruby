@@ -22,12 +22,14 @@ RSpec.configure do |config|
         version: 'v1'
       },
       paths: {},
+      consumes: ['application/json'],
+      produces: ['application/json'],
       servers: [
         {
-          url: 'https://{defaultHost}',
+          url: '{defaultHost}',
           variables: {
             defaultHost: {
-              default: 'www.example.com'
+              default: 'http://localhost:3000'
             }
           }
         }
@@ -40,4 +42,16 @@ RSpec.configure do |config|
   # the key, this may want to be changed to avoid putting yaml in json files.
   # Defaults to json. Accepts ':json' and ':yaml'.
   config.swagger_format = :yaml
+
+  config.swagger_dry_run = false
+
+  config.after do |example|
+    if respond_to?(:response) && response&.body.present? && !example.metadata[:response].nil?
+      example.metadata[:response][:content] = {
+        'application/json' => {
+          example: JSON.parse(response.body, symbolize_names: true)
+        }
+      }
+    end
+  end
 end
