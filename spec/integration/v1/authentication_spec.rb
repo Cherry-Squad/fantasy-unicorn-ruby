@@ -2,14 +2,14 @@
 
 require 'swagger_helper'
 
-describe 'Auth API' do
+describe 'Auth API', swagger_doc: 'v1/swagger.yaml' do
   let(:user_obj) { build(:user) }
   let(:username) { user_obj.username }
   let(:email) { user_obj.email }
   let(:password) { user_obj.password }
   let(:user) { { username: username, email: email, password: password } }
 
-  path '/auth/' do
+  path '/api/v1/auth/' do
     post 'Creates a user' do
       tags 'Auth'
       parameter name: :user, in: :body, schema: {
