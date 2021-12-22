@@ -9,7 +9,7 @@ Metrics/MethodLength:
 
 Metrics/BlockLength:
   Exclude:
-    - 'spec/integration/*'
+    - 'spec/integration/**/*'
     - 'spec/models/*'
     - 'spec/requests/*'
     - 'spec/services/**/*'
