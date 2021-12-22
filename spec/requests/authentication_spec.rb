@@ -8,16 +8,16 @@ RSpec.describe 'Authentication', type: :request do
   let(:email) { subject.email }
   let(:password) { subject.password }
 
-  context 'POST api/v1/auth (Sign Up process)' do
+  context 'POST auth (Sign Up process)' do
     context 'With valid data' do
       it 'Should respond with status 200' do
-        post api_v1_user_registration_path(username: username, email: email, password: password)
+        post user_registration_path(username: username, email: email, password: password)
         expect(response).to have_http_status(200)
       end
 
       it 'Should create database record' do
         expect do
-          post api_v1_user_registration_path(username: username, email: email, password: password)
+          post user_registration_path(username: username, email: email, password: password)
         end.to change(User, :count).by(1)
       end
     end
@@ -28,8 +28,8 @@ RSpec.describe 'Authentication', type: :request do
       let(:password_new) { Faker::Internet.password(min_length: 6) }
 
       before do
-        post api_v1_user_registration_path(username: username, email: email, password: password)
-        post api_v1_user_registration_path(username: username_new, email: email_old, password_new: password)
+        post user_registration_path(username: username, email: email, password: password)
+        post user_registration_path(username: username_new, email: email_old, password_new: password)
       end
 
       it 'Should respond with status 422' do
@@ -47,8 +47,8 @@ RSpec.describe 'Authentication', type: :request do
       let(:password_new) { Faker::Internet.password(min_length: 6) }
 
       before do
-        post api_v1_user_registration_path(username: username, email: email, password: password)
-        post api_v1_user_registration_path(username: username_old, email: email_new, password: password_new)
+        post user_registration_path(username: username, email: email, password: password)
+        post user_registration_path(username: username_old, email: email_new, password: password_new)
       end
 
       it 'Should respond with status 422' do
@@ -66,8 +66,8 @@ RSpec.describe 'Authentication', type: :request do
       let(:password_new) { Faker::Internet.password(min_length: 6) }
 
       before do
-        post api_v1_user_registration_path(username: username, email: email, password: password)
-        post api_v1_user_registration_path(username: username_old, email: email_old, password: password_new)
+        post user_registration_path(username: username, email: email, password: password)
+        post user_registration_path(username: username_old, email: email_old, password: password_new)
       end
 
       it 'Should respond with status 422' do
@@ -83,7 +83,7 @@ RSpec.describe 'Authentication', type: :request do
       let(:username) { Faker::Internet.username(specifier: 1..2) }
 
       before do
-        post api_v1_user_registration_path(username: username, email: email, password: password)
+        post user_registration_path(username: username, email: email, password: password)
       end
 
       it 'Should respond with status 422' do
@@ -99,7 +99,7 @@ RSpec.describe 'Authentication', type: :request do
       let(:email) { Faker::Internet.username }
 
       before do
-        post api_v1_user_registration_path(username: username, email: email, password: password)
+        post user_registration_path(username: username, email: email, password: password)
       end
 
       it 'Should respond with status 422' do
@@ -112,11 +112,11 @@ RSpec.describe 'Authentication', type: :request do
     end
   end
 
-  context 'POST api/v1/auth/sign_in (Sign In process)' do
+  context 'POST auth/sign_in (Sign In process)' do
     context 'With valid data' do
       before do
-        post api_v1_user_registration_path(username: username, email: email, password: password)
-        post api_v1_user_session_path(email: email, password: password)
+        post user_registration_path(username: username, email: email, password: password)
+        post user_session_path(email: email, password: password)
       end
 
       it 'Should respond with status 200' do
@@ -147,8 +147,8 @@ RSpec.describe 'Authentication', type: :request do
     context 'When email is invalid' do
       let(:invalid_email) { "invalid#{email}" }
       before do
-        post api_v1_user_registration_path(username: username, email: email, password: password)
-        post api_v1_user_session_path(email: invalid_email, password: password)
+        post user_registration_path(username: username, email: email, password: password)
+        post user_session_path(email: invalid_email, password: password)
       end
 
       it 'Should respond with status 401' do
@@ -163,8 +163,8 @@ RSpec.describe 'Authentication', type: :request do
     context 'When password is invalid' do
       let(:invalid_password) { "invalid#{password}" }
       before do
-        post api_v1_user_registration_path(username: username, email: email, password: password)
-        post api_v1_user_session_path(email: email, password: invalid_password)
+        post user_registration_path(username: username, email: email, password: password)
+        post user_session_path(email: email, password: invalid_password)
       end
 
       it 'Should respond with status 401' do
@@ -178,8 +178,8 @@ RSpec.describe 'Authentication', type: :request do
 
     context 'When blunk credentials' do
       before do
-        post api_v1_user_registration_path(username: username, email: email, password: password)
-        post api_v1_user_session_path(email: '', password: '')
+        post user_registration_path(username: username, email: email, password: password)
+        post user_session_path(email: '', password: '')
       end
 
       it 'Should respond with status 401' do
@@ -192,13 +192,13 @@ RSpec.describe 'Authentication', type: :request do
     end
   end
 
-  context 'DELETE api/v1/auth (Destroy user)' do
+  context 'DELETE auth (Destroy user)' do
     context 'With valid auth_headers' do
       before do
-        post api_v1_user_registration_path(username: username, email: email, password: password)
+        post user_registration_path(username: username, email: email, password: password)
         user = User.last
         auth_headers = user.create_new_auth_token
-        delete api_v1_user_registration_path, headers: auth_headers
+        delete user_registration_path, headers: auth_headers
       end
 
       it 'Should respond with status 200 with user auth_headers: access-token, client, uid' do
@@ -217,7 +217,7 @@ RSpec.describe 'Authentication', type: :request do
     context 'With invalid auth_headers' do
       before do
         auth_headers = {}
-        delete api_v1_user_registration_path, headers: auth_headers
+        delete user_registration_path, headers: auth_headers
       end
 
       it 'Should respond with status 404 if user auth_headers not match with user' do
@@ -230,12 +230,12 @@ RSpec.describe 'Authentication', type: :request do
     end
   end
 
-  context 'DELETE api/v1/auth/sign_out (Sign Out)' do
+  context 'DELETE auth/sign_out (Sign Out)' do
     it 'Should respond with status 200' do
-      post api_v1_user_registration_path(username: username, email: email, password: password)
+      post user_registration_path(username: username, email: email, password: password)
       user = User.last
       auth_headers = user.create_new_auth_token
-      delete destroy_api_v1_user_session_path, headers: auth_headers
+      delete destroy_user_session_path, headers: auth_headers
       expect(response).to have_http_status(200)
     end
   end
