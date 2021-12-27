@@ -163,4 +163,26 @@ describe 'Auth API', swagger_doc: 'v1/swagger.yaml' do
       end
     end
   end
+
+  path '/api/v1/auth/validate_token' do
+    get 'Validate token' do
+      tags 'Auth'
+
+      response '200', 'user successfully deleted' do
+        include_context 'auth token'
+
+        run_test! do |response|
+          data = JSON.parse(response.body)
+          expect(data['data']['email']).to eq(email)
+        end
+      end
+
+      response '401', 'credentials are invalid' do
+        include_context 'auth token'
+        let(:"Access-Token") { 'not-token' }
+
+        run_test!
+      end
+    end
+  end
 end
