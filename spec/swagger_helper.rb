@@ -33,6 +33,32 @@ RSpec.configure do |config|
             }
           }
         }
+      ],
+      components: {
+        securitySchemes: {
+          accessToken: {
+            type: :apiKey,
+            in: :header,
+            name: 'Access-Token'
+          },
+          client: {
+            type: :apiKey,
+            in: :header,
+            name: 'Client'
+          },
+          uid: {
+            type: :apiKey,
+            in: :header,
+            name: 'UID'
+          }
+        }
+      },
+      security: [
+        {
+          accessToken: [],
+          client: [],
+          uid: []
+        }
       ]
     }
   }

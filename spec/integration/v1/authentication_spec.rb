@@ -22,6 +22,8 @@ describe 'Auth API', swagger_doc: 'v1/swagger.yaml' do
         required: %w[username email password]
       }
 
+      security []
+
       response '200', 'user created' do
         run_test! do
           expect(User.count).to eq(1)
@@ -66,6 +68,27 @@ describe 'Auth API', swagger_doc: 'v1/swagger.yaml' do
         end
       end
     end
+
+    delete 'Delete a user' do
+      tags 'Auth'
+
+      response '200', 'user successfully deleted' do
+        include_context 'auth token'
+
+        run_test! do
+          expect(User.count).to eq(0)
+        end
+      end
+
+      response '404', 'credentials are invalid' do
+        include_context 'auth token'
+        let(:"Access-Token") { 'not-token' }
+
+        run_test! do
+          expect(User.count).to eq(1)
+        end
+      end
+    end
   end
 
   path '/api/v1/auth/sign_in' do
@@ -81,6 +104,8 @@ describe 'Auth API', swagger_doc: 'v1/swagger.yaml' do
       }
       let!(:user_obj) { create(:user) }
       let(:user) { { email: email, password: password } }
+
+      security []
 
       response '200', 'logged in' do
         header 'access-token', type: :string, description: 'Access token'
