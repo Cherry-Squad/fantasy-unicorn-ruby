@@ -19,17 +19,17 @@ paths:
               example:
                 status: success
                 data:
-                  email: katie_russel@hahn-dickinson.org
+                  email: vince_bartoletti@wolff.info
                   email_validated: false
-                  id: 4835
+                  id: 4848
                   fantasy_points: 0
                   coins: 0
-                  uid: katie_russel@hahn-dickinson.org
-                  username: alise#1
+                  uid: vince_bartoletti@wolff.info
+                  username: joeann.feil#1
                   preferred_lang: ru_RU
                   avatar_id:
-                  created_at: '2021-12-27T14:48:37.967Z'
-                  updated_at: '2021-12-27T14:48:37.976Z'
+                  created_at: '2021-12-27T15:41:26.026Z'
+                  updated_at: '2021-12-27T15:41:26.034Z'
                   provider: email
                   allow_password_change: false
         '422':
@@ -41,8 +41,8 @@ paths:
                 status: error
                 data:
                   id:
-                  username: ashley_bayer#6
-                  email: donald
+                  username: boris#6
+                  email: trinidad.smith
                   email_validated: false
                   preferred_lang: ru_RU
                   avatar_id:
@@ -87,7 +87,8 @@ paths:
             application/json:
               example:
                 status: success
-                message: Account with UID 'theo@graham-grimes.net' has been destroyed.
+                message: Account with UID 'barbera.barrows@ondricka-skiles.biz' has
+                  been destroyed.
         '404':
           description: credentials are invalid
           content:
@@ -124,13 +125,13 @@ paths:
             application/json:
               example:
                 data:
-                  email: taina_gottlieb@walter.biz
+                  email: ivana.pacocha@gottlieb.info
                   email_validated: false
-                  id: 4840
+                  id: 4853
                   fantasy_points: 0
                   coins: 0
-                  uid: taina_gottlieb@walter.biz
-                  username: aurelio#9
+                  uid: ivana.pacocha@gottlieb.info
+                  username: dylan#9
                   preferred_lang: ru_RU
                   avatar_id:
                   provider: email
@@ -189,16 +190,16 @@ paths:
               example:
                 success: true
                 data:
-                  id: 4846
-                  username: davis_heidenreich#15
-                  email: charisse@schowalter.name
+                  id: 4859
+                  username: jason.hilll#15
+                  email: lyndon@kessler.com
                   email_validated: false
                   preferred_lang: ru_RU
                   avatar_id:
                   coins: 0
                   fantasy_points: 0
                   provider: email
-                  uid: charisse@schowalter.name
+                  uid: lyndon@kessler.com
                   allow_password_change: false
         '401':
           description: credentials are invalid

@@ -1,0 +1,56 @@
+name: rswag
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  rswag:
+    runs-on: ubuntu-latest
+
+    env:
+      BUNDLE_JOBS: 4
+      BUNDLE_RETRY: 3
+      CI: true
+      RAILS_ENV: test
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/fantasy_unicorn_ruby_test
+      APPLICATION_HOST: localhost:3000
+
+    services:
+      postgres:
+        image: postgres:14
+        ports: [ "5432:5432" ]
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: borales/actions-yarn@v2.3.0
+        with:
+          cmd: install
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.0.2
+          bundler-cache: true
+
+      - name: Setup database
+        run: |
+          bundle exec rake db:create
+          bundle exec rake db:migrate:reset
+
+      - name: Run RSwag
+        env:
+          SWAGGER_DRY_RUN: 0
+        run: |
+          rails rswag PATTERN='spec/integration/**/*_spec.rb'
+
+      - name: Commit & Push changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Update swagger.yaml
