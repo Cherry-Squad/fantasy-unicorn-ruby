@@ -19,17 +19,17 @@ paths:
               example:
                 status: success
                 data:
-                  email: jordon@treutel.co
+                  email: truman_vandervort@schumm.io
                   email_validated: false
-                  id: 4611
+                  id: 4642
                   fantasy_points: 0
                   coins: 0
-                  uid: jordon@treutel.co
-                  username: rufus_rohan#1
+                  uid: truman_vandervort@schumm.io
+                  username: reita.hoppe#1
                   preferred_lang: ru_RU
                   avatar_id:
-                  created_at: '2021-12-27T14:21:32.009Z'
-                  updated_at: '2021-12-27T14:21:32.017Z'
+                  created_at: '2021-12-27T14:28:15.832Z'
+                  updated_at: '2021-12-27T14:28:15.840Z'
                   provider: email
                   allow_password_change: false
         '422':
@@ -41,8 +41,8 @@ paths:
                 status: error
                 data:
                   id:
-                  username: sammy_dibbert#6
-                  email: dale_wolf
+                  username: miles.greenfelder#6
+                  email: quinton
                   email_validated: false
                   preferred_lang: ru_RU
                   avatar_id:
@@ -87,7 +87,7 @@ paths:
             application/json:
               example:
                 status: success
-                message: Account with UID 'rana@rath.co' has been destroyed.
+                message: Account with UID 'leonard@kling-anderson.biz' has been destroyed.
         '404':
           description: credentials are invalid
           content:
@@ -124,13 +124,13 @@ paths:
             application/json:
               example:
                 data:
-                  email: armida_hahn@parker.io
+                  email: janiece@hegmann.co
                   email_validated: false
-                  id: 4616
+                  id: 4647
                   fantasy_points: 0
                   coins: 0
-                  uid: armida_hahn@parker.io
-                  username: stacey_carroll#9
+                  uid: janiece@hegmann.co
+                  username: aisha_ebert#9
                   preferred_lang: ru_RU
                   avatar_id:
                   provider: email
@@ -156,6 +156,26 @@ paths:
               required:
               - email
               - password
+  "/api/v1/auth/sign_out":
+    delete:
+      summary: Sign out
+      tags:
+      - Auth
+      responses:
+        '200':
+          description: signed out
+          content:
+            application/json:
+              example:
+                success: true
+        '404':
+          description: credentials are invalid
+          content:
+            application/json:
+              example:
+                success: false
+                errors:
+                - User was not found or was not logged in.
 consumes:
 - application/json
 produces:

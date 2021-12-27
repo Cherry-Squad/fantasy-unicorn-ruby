@@ -144,4 +144,23 @@ describe 'Auth API', swagger_doc: 'v1/swagger.yaml' do
       end
     end
   end
+
+  path '/api/v1/auth/sign_out' do
+    delete 'Sign out' do
+      tags 'Auth'
+
+      response '200', 'signed out' do
+        include_context 'auth token'
+
+        run_test!
+      end
+
+      response '404', 'credentials are invalid' do
+        include_context 'auth token'
+        let(:"Access-Token") { 'not-token' }
+
+        run_test!
+      end
+    end
+  end
 end
