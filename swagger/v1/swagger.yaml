@@ -19,17 +19,17 @@ paths:
               example:
                 status: success
                 data:
-                  email: zachery@upton.biz
+                  email: lovie@marvin.biz
                   email_validated: false
-                  id: 4874
+                  id: 1
                   fantasy_points: 0
                   coins: 0
-                  uid: zachery@upton.biz
-                  username: korey.smith#1
+                  uid: lovie@marvin.biz
+                  username: burl#1
                   preferred_lang: ru_RU
-                  avatar_id:
-                  created_at: '2021-12-27T15:56:40.451Z'
-                  updated_at: '2021-12-27T15:56:40.459Z'
+                  avatar_id: 
+                  created_at: '2021-12-27T15:58:09.480Z'
+                  updated_at: '2021-12-27T15:58:09.500Z'
                   provider: email
                   allow_password_change: false
         '422':
@@ -40,16 +40,16 @@ paths:
               example:
                 status: error
                 data:
-                  id:
-                  username: missy.schiller#6
-                  email: marcell
+                  id: 
+                  username: bret_waelchi#6
+                  email: malcolm
                   email_validated: false
                   preferred_lang: ru_RU
-                  avatar_id:
+                  avatar_id: 
                   coins: 0
                   fantasy_points: 0
-                  created_at:
-                  updated_at:
+                  created_at: 
+                  updated_at: 
                   provider: email
                   uid: ''
                   allow_password_change: false
@@ -87,7 +87,7 @@ paths:
             application/json:
               example:
                 status: success
-                message: Account with UID 'tim.hilll@reynolds.io' has been destroyed.
+                message: Account with UID 'clemente@schaden.io' has been destroyed.
         '404':
           description: credentials are invalid
           content:
@@ -124,15 +124,15 @@ paths:
             application/json:
               example:
                 data:
-                  email: theodore_corwin@ledner.net
+                  email: skye.mcclure@pfannerstill.org
                   email_validated: false
-                  id: 4879
+                  id: 6
                   fantasy_points: 0
                   coins: 0
-                  uid: theodore_corwin@ledner.net
-                  username: cathryn_konopelski#9
+                  uid: skye.mcclure@pfannerstill.org
+                  username: heidy_kuhic#9
                   preferred_lang: ru_RU
-                  avatar_id:
+                  avatar_id: 
                   provider: email
                   allow_password_change: false
         '401':
@@ -189,16 +189,16 @@ paths:
               example:
                 success: true
                 data:
-                  id: 4885
-                  username: eldridge.bahringer#15
-                  email: stacy@erdman.net
+                  id: 12
+                  username: elyse#15
+                  email: tamala@weissnat.com
                   email_validated: false
                   preferred_lang: ru_RU
-                  avatar_id:
+                  avatar_id: 
                   coins: 0
                   fantasy_points: 0
                   provider: email
-                  uid: stacy@erdman.net
+                  uid: tamala@weissnat.com
                   allow_password_change: false
         '401':
           description: credentials are invalid
