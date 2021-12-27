@@ -48,7 +48,7 @@ jobs:
         env:
           SWAGGER_DRY_RUN: 0
         run: |
-          rails rswag PATTERN='spec/integration/**/*_spec.rb'
+          bundle exec rake rswag PATTERN='spec/integration/**/*_spec.rb'
 
       - name: Commit & Push changes
         uses: stefanzweifel/git-auto-commit-action@v4
