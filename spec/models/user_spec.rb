@@ -4,22 +4,33 @@
 #
 # Table name: users
 #
-#  id              :bigint           not null, primary key
-#  coins           :bigint           not null
-#  email           :string(255)      not null
-#  email_validated :boolean          not null
-#  fantasy_points  :bigint           not null
-#  password        :string(255)      not null
-#  preferred_lang  :string(10)
-#  username        :string(25)       not null
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  avatar_id       :integer
+#  id                     :bigint           not null, primary key
+#  allow_password_change  :boolean          default(FALSE)
+#  coins                  :bigint           not null
+#  confirmation_sent_at   :datetime
+#  confirmation_token     :string
+#  confirmed_at           :datetime
+#  email                  :string(255)      not null
+#  email_validated        :boolean          not null
+#  encrypted_password     :string(255)      not null
+#  fantasy_points         :bigint           not null
+#  preferred_lang         :string(10)
+#  provider               :string           default("email"), not null
+#  remember_created_at    :datetime
+#  reset_password_sent_at :datetime
+#  reset_password_token   :string
+#  tokens                 :json
+#  uid                    :string           default(""), not null
+#  username               :string(25)       not null
+#  created_at             :datetime         not null
+#  updated_at             :datetime         not null
+#  avatar_id              :integer
 #
 # Indexes
 #
-#  index_users_on_email     (email) UNIQUE
-#  index_users_on_username  (username) UNIQUE
+#  index_users_on_email             (email) UNIQUE
+#  index_users_on_uid_and_provider  (uid,provider) UNIQUE
+#  index_users_on_username          (username) UNIQUE
 #
 require 'rails_helper'
 
@@ -42,18 +53,8 @@ RSpec.describe User, type: :model do
     is_expected.to_not be_valid
   end
 
-  it "isn't valid without password" do
-    subject.password = nil
-    is_expected.to_not be_valid
-  end
-
   it "isn't valid if username is too big" do
     subject.username = Faker::Internet.username(specifier: 30..40)
-    is_expected.to_not be_valid
-  end
-
-  it "isn't valid if password is too big" do
-    subject.username = Faker::Internet.password(min_length: 300)
     is_expected.to_not be_valid
   end
 
@@ -75,13 +76,13 @@ RSpec.describe User, type: :model do
   it 'must have unique username' do
     expect do
       create :user, username: username
-    end.to raise_error(ActiveRecord::RecordNotUnique)
+    end.to raise_error(ActiveRecord::RecordInvalid)
   end
 
   it 'must have unique email' do
     expect do
       create :user, email: email
-    end.to raise_error(ActiveRecord::RecordNotUnique)
+    end.to raise_error(ActiveRecord::RecordInvalid)
   end
 
   context 'created with points' do
