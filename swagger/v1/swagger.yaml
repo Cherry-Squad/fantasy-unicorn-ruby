@@ -19,17 +19,17 @@ paths:
               example:
                 status: success
                 data:
-                  email: janessa@hansen-hane.co
+                  email: valentin_king@jacobi.co
                   email_validated: false
-                  id: 5189
+                  id: 5434
                   fantasy_points: 0
                   coins: 0
-                  uid: janessa@hansen-hane.co
-                  username: enrique.rippin#1
+                  uid: valentin_king@jacobi.co
+                  username: rayford#1
                   preferred_lang: ru_RU
                   avatar_id:
-                  created_at: '2021-12-28T15:19:48.877Z'
-                  updated_at: '2021-12-28T15:19:48.886Z'
+                  created_at: '2021-12-30T14:25:13.188Z'
+                  updated_at: '2021-12-30T14:25:13.195Z'
                   provider: email
                   allow_password_change: false
         '422':
@@ -41,8 +41,8 @@ paths:
                 status: error
                 data:
                   id:
-                  username: maryam.west#6
-                  email: dylan
+                  username: inocencia#6
+                  email: melvin_kris
                   email_validated: false
                   preferred_lang: ru_RU
                   avatar_id:
@@ -87,7 +87,8 @@ paths:
             application/json:
               example:
                 status: success
-                message: Account with UID 'ebonie_crooks@kihn.com' has been destroyed.
+                message: Account with UID 'erminia.ferry@crona-labadie.io' has been
+                  destroyed.
         '404':
           description: credentials are invalid
           content:
@@ -124,13 +125,13 @@ paths:
             application/json:
               example:
                 data:
-                  email: samuel@lueilwitz.com
+                  email: drew.borer@kuhlman.org
                   email_validated: false
-                  id: 5194
+                  id: 5439
                   fantasy_points: 0
                   coins: 0
-                  uid: samuel@lueilwitz.com
-                  username: chana#9
+                  uid: drew.borer@kuhlman.org
+                  username: erik#9
                   preferred_lang: ru_RU
                   avatar_id:
                   provider: email
@@ -183,22 +184,22 @@ paths:
       - Auth
       responses:
         '200':
-          description: user successfully deleted
+          description: token is valid
           content:
             application/json:
               example:
                 success: true
                 data:
-                  id: 5200
-                  username: robin#15
-                  email: marlyn@walker.biz
+                  id: 5445
+                  username: sydney#15
+                  email: zachery@erdman-durgan.com
                   email_validated: false
                   preferred_lang: ru_RU
                   avatar_id:
                   coins: 0
                   fantasy_points: 0
                   provider: email
-                  uid: marlyn@walker.biz
+                  uid: zachery@erdman-durgan.com
                   allow_password_change: false
         '401':
           description: credentials are invalid

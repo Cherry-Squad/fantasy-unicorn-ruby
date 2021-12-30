@@ -168,7 +168,7 @@ describe 'Auth API', swagger_doc: 'v1/swagger.yaml' do
     get 'Validate token' do
       tags 'Auth'
 
-      response '200', 'user successfully deleted' do
+      response '200', 'token is valid' do
         include_context 'auth token'
 
         run_test! do |response|
