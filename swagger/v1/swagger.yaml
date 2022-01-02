@@ -1,0 +1,238 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/api/v1/auth/":
+    post:
+      summary: Create a user
+      tags:
+      - Auth
+      parameters: []
+      security: []
+      responses:
+        '200':
+          description: user created
+          content:
+            application/json:
+              example:
+                status: success
+                data:
+                  email: valentin_king@jacobi.co
+                  email_validated: false
+                  id: 5434
+                  fantasy_points: 0
+                  coins: 0
+                  uid: valentin_king@jacobi.co
+                  username: rayford#1
+                  preferred_lang: ru_RU
+                  avatar_id:
+                  created_at: '2021-12-30T14:25:13.188Z'
+                  updated_at: '2021-12-30T14:25:13.195Z'
+                  provider: email
+                  allow_password_change: false
+        '422':
+          description: incorrect email or username; email and/or username has already
+            been taken
+          content:
+            application/json:
+              example:
+                status: error
+                data:
+                  id:
+                  username: inocencia#6
+                  email: melvin_kris
+                  email_validated: false
+                  preferred_lang: ru_RU
+                  avatar_id:
+                  coins: 0
+                  fantasy_points: 0
+                  created_at:
+                  updated_at:
+                  provider: email
+                  uid: ''
+                  allow_password_change: false
+                errors:
+                  email:
+                  - is not an email
+                  full_messages:
+                  - Email is not an email
+                  username:
+                  - is too short (minimum is 3 characters)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+              - username
+              - email
+              - password
+    delete:
+      summary: Delete a user
+      tags:
+      - Auth
+      responses:
+        '200':
+          description: user successfully deleted
+          content:
+            application/json:
+              example:
+                status: success
+                message: Account with UID 'erminia.ferry@crona-labadie.io' has been
+                  destroyed.
+        '404':
+          description: credentials are invalid
+          content:
+            application/json:
+              example:
+                success: false
+                errors:
+                - Unable to locate account for destruction.
+                status: error
+  "/api/v1/auth/sign_in":
+    post:
+      summary: Sign in
+      tags:
+      - Auth
+      parameters: []
+      security: []
+      responses:
+        '200':
+          description: logged in
+          headers:
+            access-token:
+              type: string
+              description: Access token
+            client:
+              type: string
+              description: Client token
+            uid:
+              type: string
+              description: User identifier
+            expiry:
+              type: string
+              description: Token expiry timestamp
+          content:
+            application/json:
+              example:
+                data:
+                  email: drew.borer@kuhlman.org
+                  email_validated: false
+                  id: 5439
+                  fantasy_points: 0
+                  coins: 0
+                  uid: drew.borer@kuhlman.org
+                  username: erik#9
+                  preferred_lang: ru_RU
+                  avatar_id:
+                  provider: email
+                  allow_password_change: false
+        '401':
+          description: credentials are invalid
+          content:
+            application/json:
+              example:
+                success: false
+                errors:
+                - Invalid login credentials. Please try again.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+              - email
+              - password
+  "/api/v1/auth/sign_out":
+    delete:
+      summary: Sign out
+      tags:
+      - Auth
+      responses:
+        '200':
+          description: signed out
+          content:
+            application/json:
+              example:
+                success: true
+        '404':
+          description: credentials are invalid
+          content:
+            application/json:
+              example:
+                success: false
+                errors:
+                - User was not found or was not logged in.
+  "/api/v1/auth/validate_token":
+    get:
+      summary: Validate token
+      tags:
+      - Auth
+      responses:
+        '200':
+          description: token is valid
+          content:
+            application/json:
+              example:
+                success: true
+                data:
+                  id: 5445
+                  username: sydney#15
+                  email: zachery@erdman-durgan.com
+                  email_validated: false
+                  preferred_lang: ru_RU
+                  avatar_id:
+                  coins: 0
+                  fantasy_points: 0
+                  provider: email
+                  uid: zachery@erdman-durgan.com
+                  allow_password_change: false
+        '401':
+          description: credentials are invalid
+          content:
+            application/json:
+              example:
+                success: false
+                errors:
+                - Invalid login credentials
+consumes:
+- application/json
+produces:
+- application/json
+servers:
+- url: "{defaultHost}"
+  variables:
+    defaultHost:
+      default: http://localhost:3000
+components:
+  securitySchemes:
+    accessToken:
+      type: apiKey
+      in: header
+      name: Access-Token
+    client:
+      type: apiKey
+      in: header
+      name: Client
+    uid:
+      type: apiKey
+      in: header
+      name: UID
+security:
+- accessToken: []
+  client: []
+  uid: []

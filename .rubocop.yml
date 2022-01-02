@@ -9,10 +9,11 @@ Metrics/MethodLength:
 
 Metrics/BlockLength:
   Exclude:
+    - 'spec/integration/**/*'
     - 'spec/models/*'
-    - 'spec/requests/*'
     - 'spec/services/**/*'
     - 'spec/factories/**/*'
+    - 'spec/*_helper.rb'
     - 'lib/tasks/auto_annotate_models.rake'
 
 Layout/SpaceAroundOperators:

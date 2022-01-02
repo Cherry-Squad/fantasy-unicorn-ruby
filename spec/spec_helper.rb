@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'support/string_helpers'
+require 'support/auth_helpers'
 
 require 'simplecov'
 SimpleCov.start

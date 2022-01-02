@@ -3,6 +3,9 @@
 # Mark the database schema as having been generated.
 db/schema.rb linguist-generated
 
+swagger/v1/swagger.yaml linguist-generated
+.idea/runConfigurations/*.xml linguist-generated
+*.iml linguist-generated
 Gemfile.lock linguist-generated
 
 
