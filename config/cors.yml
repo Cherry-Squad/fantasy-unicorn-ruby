@@ -1,0 +1,16 @@
+defaults: &defaults
+  <%= ENV['APP_DOMAIN'] || "unicorn.a6raywa1cher.com" %>:
+            www.<%= ENV['APP_DOMAIN'] || "unicorn.a6raywa1cher.com" %>:
+
+development:
+  origins:
+    <<: *defaults
+    localhost:9000:
+
+test:
+  origins:
+    <<: *defaults
+
+production:
+  origins:
+    <<: *defaults
