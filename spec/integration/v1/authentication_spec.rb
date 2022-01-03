@@ -108,6 +108,8 @@ describe 'Auth API', swagger_doc: 'v1/swagger.yaml' do
       security []
 
       response '200', 'logged in' do
+        let!(:confirmed) { user_obj.confirm }
+
         header 'access-token', type: :string, description: 'Access token'
         header 'client', type: :string, description: 'Client token'
         header 'uid', type: :string, description: 'User identifier'
@@ -116,7 +118,21 @@ describe 'Auth API', swagger_doc: 'v1/swagger.yaml' do
         run_test!
       end
 
-      response '401', 'credentials are invalid' do
+      response '401', 'credentials are invalid; email is not confirmed' do
+        context 'with valid credentials and unconfirmed email' do
+          run_test! do
+            expect(response.body).to include('A confirmation email was sent')
+          end
+        end
+
+        context 'with invalid password and unconfirmed email' do
+          let(:password) { Faker::Internet.email }
+
+          run_test! do
+            expect(response.body).to include('A confirmation email was sent')
+          end
+        end
+
         context 'email is invalid' do
           let(:email) { Faker::Internet.username }
 
@@ -127,6 +143,7 @@ describe 'Auth API', swagger_doc: 'v1/swagger.yaml' do
 
         context 'password is invalid' do
           let(:password) { Faker::Internet.email }
+          let!(:confirmed) { user_obj.confirm }
 
           run_test! do
             expect(response.body).to include('Invalid login credentials. Please try again')
@@ -134,8 +151,8 @@ describe 'Auth API', swagger_doc: 'v1/swagger.yaml' do
         end
 
         context 'no credentials' do
-          let(:email) { Faker::Internet.username }
-          let(:password) { Faker::Internet.email }
+          let(:email) { '' }
+          let(:password) { '' }
 
           run_test! do
             expect(response.body).to include('Invalid login credentials. Please try again')
