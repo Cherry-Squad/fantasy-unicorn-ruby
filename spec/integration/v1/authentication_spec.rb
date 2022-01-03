@@ -202,4 +202,35 @@ describe 'Auth API', swagger_doc: 'v1/swagger.yaml' do
       end
     end
   end
+
+  path '/api/v1/auth/confirmation' do
+    post 'Resend confirmation' do
+      tags 'Auth'
+      parameter name: :user, in: :body, schema: {
+        type: :object,
+        properties: {
+          email: { type: :string }
+        },
+        required: %w[email]
+      }
+      let!(:user_obj) { create(:user) }
+      let(:user) { { email: email } }
+
+      security []
+
+      response '200', 'confirmation sent' do
+        run_test! do
+          expect(response.body).to include('An email has been sent')
+        end
+      end
+
+      response '404', 'email is invalid' do
+        let(:email) { Faker::Internet.email }
+
+        run_test! do
+          expect(response.body).to include('Unable to find user')
+        end
+      end
+    end
+  end
 end
