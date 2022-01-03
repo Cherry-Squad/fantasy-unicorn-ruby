@@ -9,7 +9,7 @@
 CONFIG = YAML.safe_load(
   ERB.new(File.read(Rails.root.join('config/cors.yml'))).result, aliases: true
 )[Rails.env]
-origins_from_config = CONFIG['origins'].keys
+origins_from_config = CONFIG['origins']
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
