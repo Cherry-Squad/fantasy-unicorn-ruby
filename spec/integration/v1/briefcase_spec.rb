@@ -38,20 +38,24 @@ describe 'Auth API', swagger_doc: 'v1/swagger.yaml' do
     end
   end
   path '/api/v1/briefcase/{id}/' do
-    let!(:briefcase_obj) { create(:briefcase) }
-    let(:id) { briefcase_obj.id }
+    let(:briefcase) { create :briefcase }
+    let(:user_obj) { briefcase.user }
+    before do
+      @user = briefcase.user
+    end
     delete 'delete a briefcase' do
       tags 'Briefcase'
-      parameter name: :id, in: :path, type: :integer, nullable: false
+      parameter name: :id, in: :path, type: :integer, required: true
 
       response '204', 'briefcase successfully deleted' do
-        include_context 'auth token'
+        auth_user
 
+        let(:id) { briefcase.id }
         run_test!
       end
 
       response '404', 'Not found 404' do
-        include_context 'auth token'
+        auth_user
         let(:id) { 'invalid' }
 
         run_test!
@@ -63,7 +67,7 @@ describe 'Auth API', swagger_doc: 'v1/swagger.yaml' do
       parameter name: :id, in: :path, type: :integer
 
       response '200', 'briefcase found' do
-        include_context 'auth token'
+        auth_user
 
         schema type: :object,
                property: {
@@ -71,22 +75,19 @@ describe 'Auth API', swagger_doc: 'v1/swagger.yaml' do
                  expiring_at: { type: :string },
                  user_id: { type: :integer },
                  created_at: { type: :string },
-                 updated_at: { type: :string}
+                 updated_at: { type: :string }
                }
 
-        let(:id) { briefcase_obj.id }
+        let(:id) { briefcase.id }
         run_test!
       end
 
       response '404', 'briefcase not found' do
-        include_context 'auth token'
+        auth_user
 
         let(:id) { 'invalid' }
         run_test!
       end
-
     end
   end
-
 end
-

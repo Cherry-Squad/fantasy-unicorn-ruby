@@ -19,18 +19,18 @@ paths:
               example:
                 status: success
                 data:
-                  email: samatha@douglas-kulas.org
-                  email_validated: false
                   id: 1
-                  fantasy_points: 0
-                  coins: 0
-                  uid: samatha@douglas-kulas.org
-                  username: alex#1
+                  username: keith.bechtelar#1
+                  email: paula@raynor-jerde.io
+                  email_validated: false
                   preferred_lang: ru_RU
-                  avatar_id: 
-                  created_at: '2022-01-02T16:02:03.901Z'
-                  updated_at: '2022-01-02T16:02:03.919Z'
+                  avatar_id:
+                  coins: 0
+                  fantasy_points: 0
+                  created_at: '2022-01-03T15:18:44.647Z'
+                  updated_at: '2022-01-03T15:18:44.650Z'
                   provider: email
+                  uid: paula@raynor-jerde.io
                   allow_password_change: false
         '422':
           description: incorrect email or username; email and/or username has already
@@ -40,16 +40,16 @@ paths:
               example:
                 status: error
                 data:
-                  id: 
-                  username: bruna.oconnell#6
-                  email: leanora_kuvalis
+                  id:
+                  username: pamelia#6
+                  email: jerald
                   email_validated: false
                   preferred_lang: ru_RU
-                  avatar_id: 
+                  avatar_id:
                   coins: 0
                   fantasy_points: 0
-                  created_at: 
-                  updated_at: 
+                  created_at:
+                  updated_at:
                   provider: email
                   uid: ''
                   allow_password_change: false
@@ -87,7 +87,7 @@ paths:
             application/json:
               example:
                 status: success
-                message: Account with UID 'eva_yundt@lockman.net' has been destroyed.
+                message: Account with UID 'byron@howe-price.net' has been destroyed.
         '404':
           description: credentials are invalid
           content:
@@ -124,15 +124,15 @@ paths:
             application/json:
               example:
                 data:
-                  email: abraham@considine.name
+                  email: fransisca@herman.org
                   email_validated: false
                   id: 6
                   fantasy_points: 0
                   coins: 0
-                  uid: abraham@considine.name
-                  username: adah.hartmann#9
+                  uid: fransisca@herman.org
+                  username: consuelo.paucek#9
                   preferred_lang: ru_RU
-                  avatar_id: 
+                  avatar_id:
                   provider: email
                   allow_password_change: false
         '401':
@@ -190,15 +190,15 @@ paths:
                 success: true
                 data:
                   id: 12
-                  username: dominique.jast#15
-                  email: joel@sauer.org
+                  username: elieli#15
+                  email: clifton.hessel@oconnell.co
                   email_validated: false
                   preferred_lang: ru_RU
-                  avatar_id: 
+                  avatar_id:
                   coins: 0
                   fantasy_points: 0
                   provider: email
-                  uid: joel@sauer.org
+                  uid: clifton.hessel@oconnell.co
                   allow_password_change: false
         '401':
           description: credentials are invalid
@@ -207,7 +207,100 @@ paths:
               example:
                 success: false
                 errors:
-                - Invalid login credentials
+                  - Invalid login credentials
+  "/api/v1/briefcase/":
+    post:
+      summary: Create a briefcase
+      tags:
+        - Briefcase
+      parameters: [ ]
+      responses:
+        '201':
+          description: briefcase created
+          content:
+            application/json:
+              example:
+                id: 1
+                expiring_at: '2022-09-18T00:00:00.000Z'
+                user_id: 14
+                created_at: '2022-01-03T15:18:48.785Z'
+                updated_at: '2022-01-03T15:18:48.785Z'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              example:
+                error: Bad request ( invalid data )
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                expiring_at:
+                  type: string
+              required:
+                - expiring_at
+  "/api/v1/briefcase/{id}/":
+    delete:
+      summary: delete a briefcase
+      tags:
+        - Briefcase
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: briefcase successfully deleted
+        '404':
+          description: Not found 404
+          content:
+            application/json:
+              example:
+                status: Not Found 404
+    get:
+      summary: Retrieve a briefcase
+      tags:
+        - Briefcase
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: briefcase found
+          content:
+            application/json:
+              example:
+                id: 4
+                expiring_at: '2022-04-01T00:00:00.000Z'
+                user_id: 18
+                created_at: '2022-01-03T15:18:49.484Z'
+                updated_at: '2022-01-03T15:18:49.484Z'
+              schema:
+                type: object
+                property:
+                  id:
+                    type: integer
+                  expiring_at:
+                    type: string
+                  user_id:
+                    type: integer
+                  created_at:
+                    type: string
+                  updated_at:
+                    type: string
+        '404':
+          description: briefcase not found
+          content:
+            application/json:
+              example:
+                status: Not Found 404
 consumes:
 - application/json
 produces:
