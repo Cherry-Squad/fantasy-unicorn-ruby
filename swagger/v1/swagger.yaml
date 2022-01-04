@@ -4,6 +4,90 @@ info:
   title: API V1
   version: v1
 paths:
+  "/api/v1/achievement/":
+    post:
+      summary: Create a achievement
+      tags:
+      - Achievement
+      parameters: []
+      responses:
+        '201':
+          description: achievement created
+          content:
+            application/json:
+              example:
+                id: 106
+                user_id: 913
+                achievement_identifier: 966
+                created_at: '2022-01-04T11:51:50.344Z'
+                updated_at: '2022-01-04T11:51:50.344Z'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                achievement_identifier:
+                  type: string
+              required:
+              - achievement_identifier
+    get:
+      summary: Get all achievements
+      tags:
+      - Achievement
+      responses:
+        '200':
+          description: get all achievement
+          content:
+            application/json:
+              example: []
+  "/api/v1/achievement/{id}/":
+    delete:
+      summary: delete a achievement
+      tags:
+      - Achievement
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: achievement successfully deleted
+        '404':
+          description: Not found 404
+          content:
+            application/json:
+              example:
+                status: Not Found 404
+    get:
+      summary: Retrieve a achievement
+      tags:
+      - Achievement
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: achievement found
+          content:
+            application/json:
+              example:
+                id: 109
+                user_id: 917
+                achievement_identifier: 146
+                created_at: '2022-01-04T11:51:51.359Z'
+                updated_at: '2022-01-04T11:51:51.359Z'
+        '404':
+          description: achievement not found
+          content:
+            application/json:
+              example:
+                status: Not Found 404
   "/api/v1/auth/":
     post:
       summary: Create a user
@@ -19,18 +103,18 @@ paths:
               example:
                 status: success
                 data:
-                  id: 1
-                  username: keith.bechtelar#1
-                  email: paula@raynor-jerde.io
+                  id: 919
+                  username: jena#8
+                  email: samatha_witting@thiel.io
                   email_validated: false
                   preferred_lang: ru_RU
                   avatar_id:
                   coins: 0
                   fantasy_points: 0
-                  created_at: '2022-01-03T15:18:44.647Z'
-                  updated_at: '2022-01-03T15:18:44.650Z'
+                  created_at: '2022-01-04T11:51:52.119Z'
+                  updated_at: '2022-01-04T11:51:52.122Z'
                   provider: email
-                  uid: paula@raynor-jerde.io
+                  uid: samatha_witting@thiel.io
                   allow_password_change: false
         '422':
           description: incorrect email or username; email and/or username has already
@@ -41,8 +125,8 @@ paths:
                 status: error
                 data:
                   id:
-                  username: pamelia#6
-                  email: jerald
+                  username: donte#13
+                  email: jesse
                   email_validated: false
                   preferred_lang: ru_RU
                   avatar_id:
@@ -87,7 +171,7 @@ paths:
             application/json:
               example:
                 status: success
-                message: Account with UID 'byron@howe-price.net' has been destroyed.
+                message: Account with UID 'marvin_weber@okeefe.io' has been destroyed.
         '404':
           description: credentials are invalid
           content:
@@ -124,13 +208,13 @@ paths:
             application/json:
               example:
                 data:
-                  email: fransisca@herman.org
+                  email: susannah_gislason@schaefer-cremin.info
                   email_validated: false
-                  id: 6
+                  id: 924
                   fantasy_points: 0
                   coins: 0
-                  uid: fransisca@herman.org
-                  username: consuelo.paucek#9
+                  uid: susannah_gislason@schaefer-cremin.info
+                  username: irwin_dooley#16
                   preferred_lang: ru_RU
                   avatar_id:
                   provider: email
@@ -189,16 +273,16 @@ paths:
               example:
                 success: true
                 data:
-                  id: 12
-                  username: elieli#15
-                  email: clifton.hessel@oconnell.co
+                  id: 930
+                  username: tod.jaskolski#22
+                  email: damon.hilll@gleichner-daniel.name
                   email_validated: false
                   preferred_lang: ru_RU
                   avatar_id:
                   coins: 0
                   fantasy_points: 0
                   provider: email
-                  uid: clifton.hessel@oconnell.co
+                  uid: damon.hilll@gleichner-daniel.name
                   allow_password_change: false
         '401':
           description: credentials are invalid
@@ -207,51 +291,44 @@ paths:
               example:
                 success: false
                 errors:
-                  - Invalid login credentials
+                - Invalid login credentials
   "/api/v1/briefcase/":
     post:
       summary: Create a briefcase
       tags:
-        - Briefcase
-      parameters: [ ]
+      - Briefcase
       responses:
         '201':
           description: briefcase created
           content:
             application/json:
               example:
-                id: 1
-                expiring_at: '2022-09-18T00:00:00.000Z'
-                user_id: 14
-                created_at: '2022-01-03T15:18:48.785Z'
-                updated_at: '2022-01-03T15:18:48.785Z'
-        '400':
-          description: Bad request
+                id: 274
+                expiring_at: '2022-01-11T11:51:57.864Z'
+                user_id: 932
+                created_at: '2022-01-04T11:51:57.872Z'
+                updated_at: '2022-01-04T11:51:57.872Z'
+    get:
+      summary: Get all briefcases
+      tags:
+      - Briefcase
+      responses:
+        '200':
+          description: get all briefcases
           content:
             application/json:
-              example:
-                error: Bad request ( invalid data )
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                expiring_at:
-                  type: string
-              required:
-                - expiring_at
+              example: []
   "/api/v1/briefcase/{id}/":
     delete:
       summary: delete a briefcase
       tags:
-        - Briefcase
+      - Briefcase
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
       responses:
         '204':
           description: briefcase successfully deleted
@@ -264,24 +341,24 @@ paths:
     get:
       summary: Retrieve a briefcase
       tags:
-        - Briefcase
+      - Briefcase
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: integer
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
       responses:
         '200':
           description: briefcase found
           content:
             application/json:
               example:
-                id: 4
-                expiring_at: '2022-04-01T00:00:00.000Z'
-                user_id: 18
-                created_at: '2022-01-03T15:18:49.484Z'
-                updated_at: '2022-01-03T15:18:49.484Z'
+                id: 277
+                expiring_at: '2022-01-30T00:00:00.000Z'
+                user_id: 936
+                created_at: '2022-01-04T11:51:58.886Z'
+                updated_at: '2022-01-04T11:51:58.886Z'
               schema:
                 type: object
                 property:
@@ -301,6 +378,410 @@ paths:
             application/json:
               example:
                 status: Not Found 404
+    patch:
+      summary: Update a briefcase
+      tags:
+      - Briefcase
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '404':
+          description: briefcase not found
+          content:
+            application/json:
+              example:
+                status: Not Found 404
+        '201':
+          description: briefcase updated
+          content:
+            application/json:
+              example:
+                id: 280
+                expiring_at: '2022-04-17T00:00:00.000Z'
+                user_id: 939
+                created_at: '2022-01-04T11:51:59.660Z'
+                updated_at: '2022-01-04T11:51:59.660Z'
+        '400':
+          description: stock not found
+          content:
+            application/json:
+              example:
+                status: Bad Request ( Stock not Found )
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                stock_id:
+                  type: integer
+                add:
+                  type: boolean
+  "/api/v1/contest/":
+    post:
+      summary: Create a contest
+      tags:
+      - Contest
+      parameters: []
+      responses:
+        '201':
+          description: contest created
+          content:
+            application/json:
+              example:
+                id: 75
+                reg_ending_at: '2022-01-06T00:00:00.000Z'
+                summarizing_at: '2022-01-09T00:00:00.000Z'
+                status: created
+                coins_entry_fee: 7998592189
+                max_fantasy_points_threshold: 1068550033
+                use_briefcase_only: true
+                direction_strategy: free
+                fixed_direction_up:
+                use_disabled_multipliers: false
+                use_inverted_stock_prices: false
+                created_at: '2022-01-04T11:52:00.202Z'
+                updated_at: '2022-01-04T11:52:00.202Z'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                coins_entry_fee:
+                  type: integer
+                direction_strategy:
+                  type: string
+                fixed_direction_up:
+                  type: string
+                max_fantasy_points_threshold:
+                  type: string
+                reg_ending_at:
+                  type: string
+                status:
+                  type: string
+                summarizing_at:
+                  type: string
+                use_briefcase_only:
+                  type: boolean
+                use_disabled_multipliers:
+                  type: boolean
+                use_inverted_stock_prices:
+                  type: boolean
+              required:
+              - coins_entry_fee
+              - direction_strategy
+              - fixed_direction_up
+              - max_fantasy_points_threshold
+              - reg_ending_at
+              - status
+              - summarizing_at
+              - use_briefcase_only
+              - use_disabled_multipliers
+              - use_inverted_stock_prices
+    get:
+      summary: Get contests
+      tags:
+      - Contest
+      responses:
+        '200':
+          description: get all contests
+          content:
+            application/json:
+              example: []
+  "/api/v1/contest/{id}/":
+    delete:
+      summary: delete a contest
+      tags:
+      - Contest
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: contest successfully deleted
+        '404':
+          description: contest not found
+          content:
+            application/json:
+              example:
+                status: Not Found 404
+    patch:
+      summary: Update a contest
+      tags:
+      - Contest
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '404':
+          description: contest not found
+          content:
+            application/json:
+              example:
+                status: Not Found 404
+        '201':
+          description: briefcase updated
+          content:
+            application/json:
+              example:
+                use_briefcase_only: false
+                use_disabled_multipliers: false
+                use_inverted_stock_prices: false
+                id: 78
+                coins_entry_fee: 5858594948
+                direction_strategy: single_per_user
+                fixed_direction_up:
+                max_fantasy_points_threshold: 5545703498
+                reg_ending_at: '2022-01-07T00:00:00.000Z'
+                status: created
+                summarizing_at: '2022-01-10T00:00:00.000Z'
+                created_at: '2022-01-04T11:52:01.227Z'
+                updated_at: '2022-01-04T11:52:01.227Z'
+        '400':
+          description: contest not found
+          content:
+            application/json:
+              example:
+                error: an error occurred ["Reg ending at can't be blank"]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                coins_entry_fee:
+                  type: integer
+                direction_strategy:
+                  type: string
+                fixed_direction_up:
+                  type: string
+                max_fantasy_points_threshold:
+                  type: string
+                reg_ending_at:
+                  type: string
+                status:
+                  type: string
+                summarizing_at:
+                  type: string
+                use_briefcase_only:
+                  type: boolean
+                use_disabled_multipliers:
+                  type: boolean
+                use_inverted_stock_prices:
+                  type: boolean
+    get:
+      summary: Retrieve a contest
+      tags:
+      - Contest
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: contest found
+          content:
+            application/json:
+              example:
+                id: 80
+                reg_ending_at: '2022-01-07T00:00:00.000Z'
+                summarizing_at: '2022-01-09T00:00:00.000Z'
+                status: created
+                coins_entry_fee: 8750084259
+                max_fantasy_points_threshold: 8609499990
+                use_briefcase_only: true
+                direction_strategy: fixed
+                fixed_direction_up: true
+                use_disabled_multipliers: false
+                use_inverted_stock_prices: false
+                created_at: '2022-01-04T11:52:01.739Z'
+                updated_at: '2022-01-04T11:52:01.739Z'
+        '404':
+          description: contest not found
+          content:
+            application/json:
+              example:
+                status: Not Found 404
+  "/api/v1/stock/":
+    post:
+      summary: Create a stock
+      tags:
+      - Stock
+      security: []
+      parameters: []
+      responses:
+        '201':
+          description: stock created
+          content:
+            application/json:
+              example:
+                id: 171
+                name: MRK
+                created_at: '2022-01-04T11:52:02.255Z'
+                updated_at: '2022-01-04T11:52:02.255Z'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+              required:
+              - name
+    get:
+      summary: Get stocks
+      tags:
+      - Stock
+      responses:
+        '200':
+          description: get all stocks
+          content:
+            application/json:
+              example:
+              - id: 172
+                name: CVX
+                created_at: '2022-01-04T11:52:02.501Z'
+                updated_at: '2022-01-04T11:52:02.501Z'
+  "/api/v1/stock/{id}/":
+    delete:
+      summary: delete a stock
+      tags:
+      - Stock
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: stock successfully deleted
+        '404':
+          description: Not found 404
+          content:
+            application/json:
+              example:
+                status: Not Found 404
+    get:
+      summary: Retrieve a stock
+      tags:
+      - Stock
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      security: []
+      responses:
+        '200':
+          description: stock found
+          content:
+            application/json:
+              example:
+                id: 175
+                name: AAPL
+                created_at: '2022-01-04T11:52:03.277Z'
+                updated_at: '2022-01-04T11:52:03.277Z'
+        '404':
+          description: stock not found
+          content:
+            application/json:
+              example:
+                status: Not Found 404
+  "/api/v1/user/":
+    get:
+      summary: Get user
+      tags:
+      - User
+      responses:
+        '200':
+          description: get all users
+          content:
+            application/json:
+              example:
+              - id: 955
+                username: alva#47
+                email: damien.effertz@ernser.com
+                email_validated: false
+                preferred_lang: ru_RU
+                avatar_id:
+                coins: 0
+                fantasy_points: 0
+                created_at: '2022-01-04T11:52:03.780Z'
+                updated_at: '2022-01-04T11:52:03.783Z'
+                provider: email
+                uid: damien.effertz@ernser.com
+                allow_password_change: false
+    patch:
+      summary: update a user
+      tags:
+      - User
+      responses:
+        '201':
+          description: user updated
+          content:
+            application/json:
+              example:
+                email: dorethea@rempel.org
+                email_validated: false
+                id: 956
+                fantasy_points: 0
+                coins: 0
+                uid: dorethea@rempel.org
+                username: clay#48
+                preferred_lang: ru_RU
+                avatar_id:
+                created_at: '2022-01-04T11:52:04.035Z'
+                updated_at: '2022-01-04T11:52:04.038Z'
+                provider: email
+                allow_password_change: false
+  "/api/v1/user/{id}/":
+    get:
+      summary: Retrieve a user
+      tags:
+      - User
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: stock found
+          content:
+            application/json:
+              example:
+                id: 957
+                username: jeanetta#49
+                email: enrique@fadel-feeney.info
+                email_validated: false
+                preferred_lang: ru_RU
+                avatar_id:
+                coins: 0
+                fantasy_points: 0
+                created_at: '2022-01-04T11:52:04.291Z'
+                updated_at: '2022-01-04T11:52:04.291Z'
+                provider: email
+                uid: enrique@fadel-feeney.info
+                allow_password_change: false
+        '404':
+          description: stock not found
 consumes:
 - application/json
 produces:
