@@ -19,18 +19,18 @@ paths:
               example:
                 status: success
                 data:
-                  id: 4204
-                  username: jessia_medhurst#1
-                  email: freeman_berge@bayer-reinger.info
+                  id: 5536
+                  username: lanell#1
+                  email: dahlia.bode@beier-kiehn.io
                   email_validated: false
                   preferred_lang: ru_RU
                   avatar_id: 
                   coins: 0
                   fantasy_points: 0
-                  created_at: '2022-01-04T12:30:30.007Z'
-                  updated_at: '2022-01-04T12:30:30.007Z'
+                  created_at: '2022-01-04T17:04:47.656Z'
+                  updated_at: '2022-01-04T17:04:47.656Z'
                   provider: email
-                  uid: freeman_berge@bayer-reinger.info
+                  uid: dahlia.bode@beier-kiehn.io
                   allow_password_change: false
         '422':
           description: incorrect email or username; email and/or username has already
@@ -41,8 +41,8 @@ paths:
                 status: error
                 data:
                   id: 
-                  username: charise.mills#6
-                  email: gustavo
+                  username: christian_bode#6
+                  email: maisha.orn
                   email_validated: false
                   preferred_lang: ru_RU
                   avatar_id: 
@@ -87,7 +87,7 @@ paths:
             application/json:
               example:
                 status: success
-                message: Account with UID 'lemuel.fahey@mcclure.name' has been destroyed.
+                message: Account with UID 'lincoln_wiegand@emard.com' has been destroyed.
         '404':
           description: credentials are invalid
           content:
@@ -124,13 +124,13 @@ paths:
             application/json:
               example:
                 data:
-                  email: mack@oconnell.co
+                  email: chante_murazik@hammes-christiansen.name
                   email_validated: false
-                  id: 4209
+                  id: 5541
                   fantasy_points: 0
                   coins: 0
-                  uid: mack@oconnell.co
-                  username: bertram#9
+                  uid: chante_murazik@hammes-christiansen.name
+                  username: nestor#9
                   preferred_lang: ru_RU
                   avatar_id: 
                   provider: email
@@ -189,16 +189,16 @@ paths:
               example:
                 success: true
                 data:
-                  id: 4217
-                  username: leanna#17
-                  email: erich.heathcote@simonis.biz
+                  id: 5549
+                  username: louis.lang#17
+                  email: john.connelly@ortiz-murazik.co
                   email_validated: false
                   preferred_lang: ru_RU
                   avatar_id: 
                   coins: 0
                   fantasy_points: 0
                   provider: email
-                  uid: erich.heathcote@simonis.biz
+                  uid: john.connelly@ortiz-murazik.co
                   allow_password_change: false
         '401':
           description: credentials are invalid
@@ -222,8 +222,8 @@ paths:
             application/json:
               example:
                 success: true
-                message: An email has been sent to 'raymond@kihn-kemmer.name' containing
-                  instructions for confirming your account.
+                message: An email has been sent to 'frederick@trantow-murray.info'
+                  containing instructions for confirming your account.
         '404':
           description: email is invalid
           content:
@@ -231,7 +231,7 @@ paths:
               example:
                 success: false
                 errors:
-                - Unable to find user with email 'korey.haag@langosh.net'.
+                - Unable to find user with email 'merlin@gerhold-lowe.io'.
       requestBody:
         content:
           application/json:
@@ -247,6 +247,7 @@ paths:
       summary: Change password
       tags:
       - Auth
+      description: Change password
       parameters: []
       responses:
         '200':
@@ -256,17 +257,17 @@ paths:
               example:
                 success: true
                 data:
-                  email: judi@howell.biz
+                  email: benito_paucek@kohler.net
                   email_validated: false
-                  id: 4221
+                  id: 5553
                   fantasy_points: 0
                   coins: 0
-                  uid: judi@howell.biz
-                  username: bertram#21
+                  uid: benito_paucek@kohler.net
+                  username: ray.gusikowski#21
                   preferred_lang: ru_RU
                   avatar_id: 
-                  created_at: '2022-01-04T12:30:35.516Z'
-                  updated_at: '2022-01-04T12:30:35.723Z'
+                  created_at: '2022-01-04T17:04:53.260Z'
+                  updated_at: '2022-01-04T17:04:53.466Z'
                   provider: email
                   allow_password_change: false
                 message: Your password has been successfully updated.
@@ -302,6 +303,115 @@ paths:
               required:
               - password
               - password_confirmation
+  "/api/v1/auth/password/":
+    put:
+      summary: Change password with reset_password_token
+      tags:
+      - Auth
+      description: Set password that was reset
+      parameters: []
+      security: []
+      responses:
+        '200':
+          description: password has been updated
+          content:
+            application/json:
+              example:
+                success: true
+                data:
+                  email: lorenza@fay-mcdermott.name
+                  email_validated: false
+                  id: 5557
+                  fantasy_points: 0
+                  coins: 0
+                  uid: lorenza@fay-mcdermott.name
+                  username: louise#25
+                  preferred_lang: ru_RU
+                  avatar_id: 
+                  created_at: '2022-01-04T17:04:54.517Z'
+                  updated_at: '2022-01-04T17:04:54.786Z'
+                  provider: email
+                  allow_password_change: false
+                message: Your password has been successfully updated.
+        '422':
+          description: must fill out the fields password; doesn't match password
+          content:
+            application/json:
+              example:
+                success: false
+                errors:
+                  password_confirmation:
+                  - doesn't match Password
+                  full_messages:
+                  - Password confirmation doesn't match Password
+        '401':
+          description: unauthorized
+          content:
+            application/json:
+              example:
+                success: false
+                errors:
+                - Unauthorized
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                password_confirmation:
+                  type: string
+                reset_password_token:
+                  type: string
+              required:
+              - password
+              - password_confirmation
+              - reset_password_token
+    post:
+      summary: Send a  password reset confirmation email
+      tags:
+      - Auth
+      parameters: []
+      security: []
+      responses:
+        '200':
+          description: email has been sent
+          content:
+            application/json:
+              example:
+                success: true
+                message: An email has been sent to 'chiquita_rutherford@ohara.name'
+                  containing instructions for resetting your password.
+        '404':
+          description: invalid email
+          content:
+            application/json:
+              example:
+                success: false
+                errors:
+                - Unable to find user with email 'johnny.price'.
+        '401':
+          description: missing field
+          content:
+            application/json:
+              example:
+                success: false
+                errors:
+                - You must provide an email address.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                redirect_url:
+                  type: string
+              required:
+              - email
+              - redirect_url
 consumes:
 - application/json
 produces:

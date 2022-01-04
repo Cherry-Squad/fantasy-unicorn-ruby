@@ -237,6 +237,7 @@ describe 'Auth API', swagger_doc: 'v1/swagger.yaml' do
   path '/api/v1/auth/password' do
     put 'Change password' do
       tags 'Auth'
+      description 'Change password'
       parameter name: :user, in: :body, schema: {
         type: :object,
         properties: {
@@ -280,6 +281,114 @@ describe 'Auth API', swagger_doc: 'v1/swagger.yaml' do
         let(:"Access-Token") { 'not-token' }
 
         run_test!
+      end
+    end
+  end
+
+  path '/api/v1/auth/password/' do
+    put 'Change password with reset_password_token' do
+      tags 'Auth'
+      description 'Set password that was reset'
+      parameter name: :user, in: :body, schema: {
+        type: :object,
+        properties: {
+          password: { type: :string },
+          password_confirmation: { type: :string },
+          reset_password_token: { type: :string }
+        },
+        required: %w[password password_confirmation reset_password_token]
+      }
+      let!(:user_obj) { create(:user) }
+      let(:user) do
+        { password: password, password_confirmation: password,
+          reset_password_token: user_obj.send_reset_password_instructions }
+      end
+
+      security []
+
+      response '200', 'password has been updated' do
+        run_test! do
+          expect(response.body).to include('Your password has been successfully updated')
+        end
+      end
+
+      response '422', "must fill out the fields password; doesn't match password" do
+        context 'not all fields' do
+          let(:user) { { password: password, reset_password_token: user_obj.send_reset_password_instructions } }
+
+          run_test! do
+            expect(response.body).to include('You must fill out the fields')
+          end
+        end
+
+        context "password doesn't match" do
+          let(:user) do
+            { password: password, password_confirmation: password*2,
+              reset_password_token: user_obj.send_reset_password_instructions }
+          end
+          run_test! do
+            expect(response.body).to include("doesn't match")
+          end
+        end
+      end
+
+      response '401', 'unauthorized' do
+        let(:user) do
+          { password: password, password_confirmation: password,
+            reset_password_token: '' }
+        end
+
+        run_test!
+      end
+    end
+  end
+
+  path '/api/v1/auth/password/' do
+    post 'Send a  password reset confirmation email' do
+      tags 'Auth'
+      parameter name: :user, in: :body, schema: {
+        type: :object,
+        properties: {
+          email: { type: :string },
+          redirect_url: { type: :string }
+        },
+        required: %w[email redirect_url]
+      }
+      let!(:user_obj) { create(:user) }
+      let(:user) { { email: email, redirect_url: 'localhost:9000' } }
+
+      security []
+
+      response '200', 'email has been sent' do
+        run_test! do
+          expect(response.body).to include('An email has been sent')
+        end
+      end
+
+      response '404', 'invalid email' do
+        let(:email) { Faker::Internet.username }
+
+        run_test! do
+          expect(response.body).to include('Unable to find user')
+        end
+      end
+
+      response '401', 'missing field' do
+        context 'redirect_url' do
+          let(:user) { { email: email } }
+
+          run_test! do
+            expect(response.body).to include('Missing redirect URL')
+          end
+        end
+
+        context 'email' do
+          let(:user) { { redirect_url: 'localhost:9000' } }
+
+          run_test! do
+            expect(response.body).to include('You must provide an email address')
+          end
+        end
       end
     end
   end
