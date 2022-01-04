@@ -48,11 +48,7 @@ module Api
     end
 
     def get_user_by_id
-      begin
-        User.find_by(id: params[:id])
-      rescue ActiveRecord::RecordNotFound
-        nil
-      end
+      User.find_by(id: params[:id])
     end
 
     def get_current_user

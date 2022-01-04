@@ -7,7 +7,6 @@ module Api
 
       def create
         contest_application_stock = ContestApplicationStock.new(
-          final_price: contest_application_stock_create_params[:final_price],
           multiplier: contest_application_stock_create_params[:multiplier],
           reg_price: contest_application_stock_create_params[:reg_price],
           contest_application_id: contest_application_stock_create_params[:contest_application_id],
@@ -65,7 +64,6 @@ module Api
 
       def contest_application_stock_create_params
         params.require(:contest_application_stock).permit(%i[
-                                                            final_price
                                                             multiplier
                                                             reg_price
                                                             contest_application_id
@@ -76,7 +74,6 @@ module Api
       def contest_application_stock_update_params
         params.require(:contest_application_stock).permit(%i[
                                                             id
-                                                            final_price
                                                             multiplier
                                                             reg_price
                                                             contest_application_id

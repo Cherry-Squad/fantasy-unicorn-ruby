@@ -3,7 +3,7 @@
 module Api
   module V1
     class StockController < ApplicationController
-      before_action :authenticate_api_v1_user!, only: [:index, :update, :delete]
+      before_action :authenticate_api_v1_user!
 
       def create
         stock = Stock.new(

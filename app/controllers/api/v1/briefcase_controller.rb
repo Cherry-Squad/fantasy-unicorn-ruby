@@ -20,30 +20,28 @@ module Api
       end
 
       def index
-        briefcases = get_briefcases
+        briefcases = get_briefcases_for_current_user
         render json: briefcases, status: 200
       end
 
       def update
         briefcase = get_briefcase_by_id
-        if briefcase
+        if briefcase and get_stock
           stock = get_stock
-          if stock
-            if params[:add] == true
-              unless briefcase.stock_ids.include? stock.id
-                stocks = briefcase.stocks
-                stocks << stock
-              end
-            else
-              unless briefcase.stock_ids.include? stock.id
-                stocks = briefcase.stocks
-                stocks.delete(stock)
-              end
+          if params[:add] == true
+            unless briefcase.stock_ids.include? stock.id
+              stocks = briefcase.stocks
+              stocks << stock
             end
-            render json: briefcase, status: 201
           else
-            render json: { status: 'Bad Request ( Stock not Found )' }, status: 400
+            unless briefcase.stock_ids.include? stock.id
+              stocks = briefcase.stocks
+              stocks.delete(stock)
+            end
           end
+          render json: briefcase, status: 201
+        elsif get_stock == nil
+          render json: { status: 'Bad Request ( Stock not Found )' }, status: 400
         else
           render json: { status: 'Not Found 404' }, status: 404
         end
@@ -80,7 +78,7 @@ module Api
         @briefcase = Briefcase.find_by(id: params[:id], user: current_api_v1_user)
       end
 
-      def get_briefcases
+      def get_briefcases_for_current_user
         @briefcases = Briefcase.where(user: current_api_v1_user)
       end
     end
