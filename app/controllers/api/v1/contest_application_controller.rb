@@ -7,7 +7,8 @@ module Api
 
       def create
         contest_application = ContestApplication.new(
-          user_id: contest_application_create_params[:user_id]
+          user_id: contest_application_create_params[:user_id],
+          contest_id: contest_application_create_params[:contest_id]
         )
         if contest_application.save
           render json: contest_application, status: 201
@@ -47,6 +48,7 @@ module Api
       def contest_application_create_params
         params.require(:contest_application).permit(%i[
                                                       user_id
+                                                      contest_id
                                                     ])
       end
 
