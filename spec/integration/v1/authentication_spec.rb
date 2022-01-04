@@ -233,4 +233,54 @@ describe 'Auth API', swagger_doc: 'v1/swagger.yaml' do
       end
     end
   end
+
+  path '/api/v1/auth/password' do
+    put 'Change password' do
+      tags 'Auth'
+      parameter name: :user, in: :body, schema: {
+        type: :object,
+        properties: {
+          password: { type: :string },
+          password_confirmation: { type: :string }
+        },
+        required: %w[password password_confirmation]
+      }
+      let(:user) { { password: password, password_confirmation: password } }
+
+      response '200', 'password has been updated' do
+        include_context 'auth token'
+
+        run_test! do
+          expect(response.body).to include('Your password has been successfully updated')
+        end
+      end
+
+      response '422', "must fill out the fields password; doesn't match password" do
+        include_context 'auth token'
+
+        context 'not all fields' do
+          let(:user) { { password: password } }
+
+          run_test! do
+            expect(response.body).to include('You must fill out the fields')
+          end
+        end
+
+        context "password doesn't match" do
+          let(:user) { { password: password, password_confirmation: password*2 } }
+
+          run_test! do
+            expect(response.body).to include("doesn't match")
+          end
+        end
+      end
+
+      response '401', 'unauthorized' do
+        include_context 'auth token'
+        let(:"Access-Token") { 'not-token' }
+
+        run_test!
+      end
+    end
+  end
 end
