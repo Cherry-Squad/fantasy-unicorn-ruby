@@ -43,13 +43,11 @@ Rails.application.routes.draw do
       get 'contest_application/:id(.:format)/', to: 'contest_application#show'
       post 'contest_application/', to: 'contest_application#create'
       delete 'contest_application/:id(.:format)/', to: 'contest_application#delete'
-      patch 'contest_application/:id(.:format)/', to: 'contest_application#update'
 
       get 'contest_application_stock/', to: 'contest_application_stock#index'
       get 'contest_application_stock/:id(.:format)/', to: 'contest_application_stock#show'
       post 'contest_application_stock/', to: 'contest_application_stock#create'
       delete 'contest_application_stock/:id(.:format)/', to: 'contest_application_stock#delete'
-      patch 'contest_application_stock/:id(.:format)/', to: 'contest_application_stock#update'
     end
   end
 end
