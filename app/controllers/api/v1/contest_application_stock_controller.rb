@@ -64,7 +64,6 @@ module Api
       def contest_application_stock_create_params
         params.require(:contest_application_stock).permit(%i[
                                                             multiplier
-                                                            reg_price
                                                             contest_application_id
                                                             stock_id
                                                           ])
