@@ -8,7 +8,6 @@ module Api
       def create
         contest_application_stock = ContestApplicationStock.new(
           multiplier: contest_application_stock_create_params[:multiplier],
-          reg_price: contest_application_stock_create_params[:reg_price],
           contest_application_id: contest_application_stock_create_params[:contest_application_id],
           stock_id: contest_application_stock_create_params[:stock_id]
         )
