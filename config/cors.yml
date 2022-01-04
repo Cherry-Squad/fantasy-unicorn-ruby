@@ -1,15 +1,12 @@
 defaults: &defaults
   origins:
-    - <%= ENV['APP_DOMAIN'] || "unicorn.a6raywa1cher.com" %>
-    - www.<%= ENV['APP_DOMAIN'] || "unicorn.a6raywa1cher.com" %>
+    - <%= ENV['APP_DOMAIN'] || "fantasy-unicorn-react-prod.herokuapp.com" %>
+    - www.<%= ENV['APP_DOMAIN'] || "fantasy-unicorn-react-prod.herokuapp.com" %>
+    - localhost:9000
 
 
 development:
   <<: *defaults
-  origins:
-    - <%= ENV['APP_DOMAIN'] || "unicorn.a6raywa1cher.com" %>
-    - www.<%= ENV['APP_DOMAIN'] || "unicorn.a6raywa1cher.com" %>
-    - localhost:9000
 
 test:
   <<: *defaults
