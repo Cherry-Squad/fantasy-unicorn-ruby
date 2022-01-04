@@ -12,6 +12,8 @@ CONFIG = YAML.safe_load(
 )[Rails.env]
 origins_from_config = CONFIG['origins']
 
+puts "origins:", origins_from_config
+
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
     origins origins_from_config
