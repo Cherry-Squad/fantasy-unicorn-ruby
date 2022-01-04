@@ -26,8 +26,8 @@ module Api
 
       def update
         briefcase = get_briefcase_by_id
-        if briefcase and get_stock
-          stock = get_stock
+        stock = get_stock
+        if briefcase and stock
           if params[:add] == true
             unless briefcase.stock_ids.include? stock.id
               stocks = briefcase.stocks
