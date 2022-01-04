@@ -74,7 +74,6 @@ module Api
         params.require(:contest_application_stock).permit(%i[
                                                             id
                                                             multiplier
-                                                            reg_price
                                                             contest_application_id
                                                             stock_id
                                                           ])
