@@ -38,8 +38,8 @@ describe 'Contest API', swagger_doc: 'v1/swagger.yaml' do
           properties: {
             coins_entry_fee: { type: :integer },
             direction_strategy: { type: :string },
-            fixed_direction_up: { type: :string },
-            max_fantasy_points_threshold: { type: :string },
+            fixed_direction_up: { type: :boolean },
+            max_fantasy_points_threshold: { type: :integer },
             reg_ending_at: { type: :string },
             status: { type: :string },
             summarizing_at: { type: :string },
@@ -106,8 +106,8 @@ describe 'Contest API', swagger_doc: 'v1/swagger.yaml' do
           properties: {
             coins_entry_fee: { type: :integer },
             direction_strategy: { type: :string },
-            fixed_direction_up: { type: :string },
-            max_fantasy_points_threshold: { type: :string },
+            fixed_direction_up: { type: :boolean },
+            max_fantasy_points_threshold: { type: :integer },
             reg_ending_at: { type: :string },
             status: { type: :string },
             summarizing_at: { type: :string },
@@ -130,8 +130,8 @@ describe 'Contest API', swagger_doc: 'v1/swagger.yaml' do
           properties: {
             coins_entry_fee: { type: :integer },
             direction_strategy: { type: :string },
-            fixed_direction_up: { type: :string },
-            max_fantasy_points_threshold: { type: :string },
+            fixed_direction_up: { type: :boolean },
+            max_fantasy_points_threshold: { type: :integer },
             reg_ending_at: { type: :string },
             status: { type: :string },
             summarizing_at: { type: :string },
@@ -152,10 +152,10 @@ describe 'Contest API', swagger_doc: 'v1/swagger.yaml' do
         parameter name: :contest, in: :body, schema: {
           type: :object,
           properties: {
-            coins_entry_fee: { type: :boolean },
+            coins_entry_fee: { type: :integer },
             direction_strategy: { type: :string },
-            fixed_direction_up: { type: :string },
-            max_fantasy_points_threshold: { type: :string },
+            fixed_direction_up: { type: :boolean },
+            max_fantasy_points_threshold: { type: :integer },
             reg_ending_at: { type: :string },
             status: { type: :string },
             summarizing_at: { type: :string },
