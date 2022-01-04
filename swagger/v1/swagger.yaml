@@ -20,17 +20,17 @@ paths:
                 status: success
                 data:
                   id: 1
-                  username: margret_kassulke#1
-                  email: glenna.mcglynn@gibson.info
+                  username: tommie#1
+                  email: ron@quitzon-lehner.co
                   email_validated: false
                   preferred_lang: ru_RU
                   avatar_id: 
                   coins: 0
                   fantasy_points: 0
-                  created_at: '2022-01-04T10:53:38.966Z'
-                  updated_at: '2022-01-04T10:53:38.966Z'
+                  created_at: '2022-01-04T12:19:34.858Z'
+                  updated_at: '2022-01-04T12:19:34.858Z'
                   provider: email
-                  uid: glenna.mcglynn@gibson.info
+                  uid: ron@quitzon-lehner.co
                   allow_password_change: false
         '422':
           description: incorrect email or username; email and/or username has already
@@ -41,8 +41,8 @@ paths:
                 status: error
                 data:
                   id: 
-                  username: kenneth_vonrueden#6
-                  email: danyell_marks
+                  username: elieli#6
+                  email: elanor.howell
                   email_validated: false
                   preferred_lang: ru_RU
                   avatar_id: 
@@ -87,7 +87,7 @@ paths:
             application/json:
               example:
                 status: success
-                message: Account with UID 'jennifer_grady@kris.name' has been destroyed.
+                message: Account with UID 'zulema@barton.info' has been destroyed.
         '404':
           description: credentials are invalid
           content:
@@ -124,13 +124,13 @@ paths:
             application/json:
               example:
                 data:
-                  email: arthur@schuster.com
+                  email: cory@gleichner.net
                   email_validated: false
                   id: 6
                   fantasy_points: 0
                   coins: 0
-                  uid: arthur@schuster.com
-                  username: armandina.batz#9
+                  uid: cory@gleichner.net
+                  username: hilario.mills#9
                   preferred_lang: ru_RU
                   avatar_id: 
                   provider: email
@@ -190,15 +190,15 @@ paths:
                 success: true
                 data:
                   id: 14
-                  username: chong#17
-                  email: angelika@flatley.info
+                  username: vicenta.gulgowski#17
+                  email: reuben_auer@mosciski-schmidt.net
                   email_validated: false
                   preferred_lang: ru_RU
                   avatar_id: 
                   coins: 0
                   fantasy_points: 0
                   provider: email
-                  uid: angelika@flatley.info
+                  uid: reuben_auer@mosciski-schmidt.net
                   allow_password_change: false
         '401':
           description: credentials are invalid
@@ -222,7 +222,7 @@ paths:
             application/json:
               example:
                 success: true
-                message: An email has been sent to 'maria@borer.net' containing instructions
+                message: An email has been sent to 'dong@mcglynn.co' containing instructions
                   for confirming your account.
         '404':
           description: email is invalid
@@ -231,7 +231,7 @@ paths:
               example:
                 success: false
                 errors:
-                - Unable to find user with email 'mireille@weissnat.biz'.
+                - Unable to find user with email 'sunday.cummings@pouros.biz'.
       requestBody:
         content:
           application/json:
