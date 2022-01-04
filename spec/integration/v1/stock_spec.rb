@@ -2,7 +2,7 @@
 
 require 'swagger_helper'
 
-describe 'Auth API', swagger_doc: 'v1/swagger.yaml' do
+describe 'Stock API', swagger_doc: 'v1/swagger.yaml' do
   let(:briefcase_obj) { build(:briefcase) }
   let(:expiring_at) { Time.now.utc + 604800 }
   let(:briefcase) { { expiring_at: expiring_at} }
@@ -13,8 +13,6 @@ describe 'Auth API', swagger_doc: 'v1/swagger.yaml' do
   path '/api/v1/stock/' do
     post 'Create a stock' do
       tags 'Stock'
-
-      security []
 
       response '201', 'stock created' do
         include_context 'auth token'
@@ -80,8 +78,6 @@ describe 'Auth API', swagger_doc: 'v1/swagger.yaml' do
     get 'Retrieve a stock' do
       tags 'Stock'
       parameter name: :id, in: :path, type: :integer
-
-      security []
 
       response '200', 'stock found' do
         auth_user

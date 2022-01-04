@@ -3,7 +3,7 @@
 
 require 'swagger_helper'
 
-describe 'Auth API', swagger_doc: 'v1/swagger.yaml' do
+describe 'User API', swagger_doc: 'v1/swagger.yaml' do
   let(:user_obj) { build(:user) }
   let(:username) { user_obj.username }
   let(:email) { user_obj.email }
@@ -12,7 +12,7 @@ describe 'Auth API', swagger_doc: 'v1/swagger.yaml' do
 
   path '/api/v1/user/' do
 
-    get 'Get user' do
+    get 'Get users' do
       tags 'User'
 
       response '200', 'get all users' do

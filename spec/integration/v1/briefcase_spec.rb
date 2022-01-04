@@ -2,7 +2,7 @@
 
 require 'swagger_helper'
 
-describe 'Auth API', swagger_doc: 'v1/swagger.yaml' do
+describe 'Briefcase API', swagger_doc: 'v1/swagger.yaml' do
   let(:briefcase_obj) { build(:briefcase) }
   let(:expiring_at) { Time.now.utc + 604800 }
   let(:briefcase) { { expiring_at: expiring_at} }
@@ -11,6 +11,11 @@ describe 'Auth API', swagger_doc: 'v1/swagger.yaml' do
   let(:stock) { { name: name} }
 
   path '/api/v1/briefcase/' do
+    let(:briefcase) { create :briefcase }
+    let(:user_obj) { briefcase.user }
+    before do
+      @user = briefcase.user
+    end
     post 'Create a briefcase' do
       tags 'Briefcase'
 
@@ -25,8 +30,8 @@ describe 'Auth API', swagger_doc: 'v1/swagger.yaml' do
     get 'Get all briefcases' do
       tags 'Briefcase'
 
-      response '200', 'get all briefcases' do
-        include_context 'auth token'
+      response '200', 'get all briefcases for current user' do
+        auth_user
 
         run_test!
       end
@@ -61,7 +66,7 @@ describe 'Auth API', swagger_doc: 'v1/swagger.yaml' do
       tags 'Briefcase'
       parameter name: :id, in: :path, type: :integer
 
-      response '200', 'briefcase found' do
+      response '200', 'briefcase connected with current user found' do
         auth_user
 
         schema type: :object,

@@ -2,7 +2,7 @@
 
 require 'swagger_helper'
 
-describe 'Auth API', swagger_doc: 'v1/swagger.yaml' do
+describe 'Contest API', swagger_doc: 'v1/swagger.yaml' do
   let(:contest_obj) { build(:contest) }
   let(:coins_entry_fee) { contest_obj.coins_entry_fee }
   let(:direction_strategy) { contest_obj.direction_strategy }

@@ -2,12 +2,22 @@
 
 require 'swagger_helper'
 
-describe 'Auth API', swagger_doc: 'v1/swagger.yaml' do
+describe 'Achievement API', swagger_doc: 'v1/swagger.yaml' do
+  let(:user_obj) { build(:user) }
+  let(:username) { user_obj.username }
+  let(:email) { user_obj.email }
+  let(:password) { user_obj.password }
+  let(:user) { { username: username, email: email, password: password } }
   let(:achievement_obj) { build(:achievement) }
   let(:achievement_identifier) { achievement_obj.achievement_identifier }
-  let(:achievement) { { achievement_identifier: achievement_identifier} }
+  let(:achievement) { { achievement_identifier: achievement_identifier, user_id: user_obj.id} }
 
   path '/api/v1/achievement/' do
+    let(:achievement) { create :achievement }
+    let(:user_obj) { achievement.user }
+    before do
+      @user = achievement.user
+    end
     post 'Create a achievement' do
       tags 'Achievement'
 
@@ -30,7 +40,7 @@ describe 'Auth API', swagger_doc: 'v1/swagger.yaml' do
       tags 'Achievement'
 
       response '200', 'get all achievement' do
-        include_context 'auth token'
+        auth_user
 
         run_test!
       end
