@@ -9,6 +9,12 @@ Rails.application.routes.draw do
         registrations: 'api/v1/auth/registration',
         sessions: 'api/v1/auth/sessions'
       }
+
+      get 'user/', to: 'user#index'
+      get 'user/:id(.:format)/', to: 'user#show'
+      delete 'user/', to: 'user#delete'
+      patch 'user/', to: 'user#update'
+
       get 'briefcase/', to: 'briefcase#index'
       get 'briefcase/:id(.:format)/', to: 'briefcase#show'
       post 'briefcase/', to: 'briefcase#create'
