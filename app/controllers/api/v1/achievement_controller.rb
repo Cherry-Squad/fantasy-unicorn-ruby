@@ -2,12 +2,12 @@
 
 module Api
   module V1
-    class AchievementController < DeviseTokenAuth::RegistrationsController
+    class AchievementController < ApplicationController
       before_action :authenticate_api_v1_user!
 
       def create
         achievement = Achievement.new(
-          user_id: achievement_create_params[:user_id],
+          user_id: current_api_v1_user[:id],
           achievement_identifier: achievement_create_params[:achievement_identifier]
         )
         if achievement.save
@@ -24,21 +24,6 @@ module Api
         render json: achievements, status: 200
       end
 
-      def update
-        achievement = get_achievement_by_id
-        if achievement
-          if achievement.update(achievement_update_params)
-            render json: achievement, status: 201
-          else
-            render json: { error: "An Error occurred #{achievement.errors.full_messages}" }, status: 400
-          end
-        else
-          render json: { status: 'Not Found 404' }, status: 404
-        end
-      rescue StandardError => e
-        render json: { error: "An Error occurred #{e.message}" }, status: 400
-      end
-
       def delete
         achievement = get_achievement_by_id
         if achievement
@@ -50,7 +35,7 @@ module Api
       end
 
       def show
-        achievement = Achievement.find(params[:id])
+        achievement = get_achievement_by_id
         if achievement
           render json: achievement, status: 200
         else
@@ -62,15 +47,6 @@ module Api
 
       def achievement_create_params
         params.require(:achievement).permit(%i[
-                                              user_id
-                                              achievement_identifier
-                                            ])
-      end
-
-      def achievement_update_params
-        params.require(:achievement).permit(%i[
-                                              id
-                                              user_id
                                               achievement_identifier
                                             ])
       end

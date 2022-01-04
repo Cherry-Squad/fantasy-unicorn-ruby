@@ -28,11 +28,7 @@ module Api
       end
 
       def index
-        contests = if params[:type] == 'all'
-                     get_contests
-                   else
-                     get_contests_for_current_user
-                   end
+        contests = get_contests
         render json: contests, status: 200
       end
 
@@ -52,7 +48,7 @@ module Api
       end
 
       def delete
-        contest = current_api_v1_user
+        contest = get_contest_by_id
         if contest
           contest.delete
           render json: nil, status: 204
@@ -62,7 +58,7 @@ module Api
       end
 
       def show
-        contest = current_api_v1_user
+        contest = get_contest_by_id
         if contest
           render json: contest, status: 200
         else
@@ -104,11 +100,7 @@ module Api
       end
 
       def get_contest_by_id
-        @contest = Contest.find_by(id: params[:id], user: current_api_v1_user)
-      end
-
-      def get_contests_for_current_user
-        @contests = Contest.where(user: current_api_v1_user)
+        @contest = Contest.find_by(id: params[:id])
       end
 
       def get_contests

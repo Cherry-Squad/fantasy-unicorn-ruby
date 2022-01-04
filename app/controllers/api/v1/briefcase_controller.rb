@@ -7,7 +7,7 @@ module Api
 
       def create
         briefcase = Briefcase.new(
-          expiring_at: briefcase_create_params[:expiring_at],
+          expiring_at: Time.now.utc + 604800,
           user_id: current_api_v1_user[:id]
         )
         if briefcase.save
@@ -27,16 +27,28 @@ module Api
       def update
         briefcase = get_briefcase_by_id
         if briefcase
-          if briefcase.update(briefcase_update_params)
+          stock = get_stock
+          if stock
+            if params[:add] == true
+              unless briefcase.stock_ids.include? stock.id
+                stocks = briefcase.stocks
+                stocks << stock
+              end
+            else
+              unless briefcase.stock_ids.include? stock.id
+                stocks = briefcase.stocks
+                stocks.delete(stock)
+              end
+            end
             render json: briefcase, status: 201
           else
-            render json: { error: 'Bad request ( invalid data )' }, status: 400
+            render json: { status: 'Bad Request ( Stock not Found )' }, status: 400
           end
         else
           render json: { status: 'Not Found 404' }, status: 404
         end
-      rescue StandardError
-        render json: { error: 'Bad request ( invalid data )' }, status: 400
+      rescue StandardError => e
+        render json: { error: "An Error occurred #{e.message}" }, status: 400
       end
 
       def delete
@@ -60,17 +72,8 @@ module Api
 
       private
 
-      def briefcase_create_params
-        params.require(:briefcase).permit([
-                                            :expiring_at
-                                          ])
-      end
-
-      def briefcase_update_params
-        params.require(:briefcase).permit(%i[
-                                            id
-                                            expiring_at
-                                          ])
+      def get_stock
+        @stock = Stock.find_by(id: params[:stock_id])
       end
 
       def get_briefcase_by_id
