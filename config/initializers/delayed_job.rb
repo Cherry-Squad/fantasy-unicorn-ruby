@@ -7,4 +7,8 @@ Delayed::Worker.queue_attributes = {
   contest_processing: { priority: 1 }
 }
 
-ContestsServices::InspectContests.call unless Rails.env.test?
+begin
+  ContestsServices::InspectContests.call unless Rails.env.test?
+rescue ActiveRecord::StatementInvalid => e
+  puts 'Can`t queue a job', e.inspect
+end

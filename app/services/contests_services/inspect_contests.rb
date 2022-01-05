@@ -28,8 +28,6 @@ module ContestsServices
 
     def need_to_create?
       @active_contests_amount = Contest.where.not(status: 'finished').size
-      return false unless @active_contests_amount
-
       @maximum_contests > @active_contests_amount
     end
 

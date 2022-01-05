@@ -10,15 +10,15 @@ RSpec.describe ContestsServices::CreateContest do
       let(:division_params) { Rails.configuration.divisions[division_name] }
 
       it 'creates contest' do
-        contest = ContestsServices::CreateContest.call(division_name)
-        expect { contest }.eql? Contest.last
+        contest = ContestsServices::CreateContest.call(division_name).result
+        expect(contest).to eq(Contest.last)
       end
 
       it 'must create contest with parameters from config' do
         ContestsServices::CreateContest.call(division_name)
         contest = Contest.last
 
-        expect { contest.max_fantasy_points_threshold }.eql? division_params[:fantasy_points_threshold]
+        expect(contest.max_fantasy_points_threshold).to eq(division_params[:fantasy_points_threshold])
 
         reg_duration_bounds = division_params[:reg_duration_range].split('..')
         reg_duration_lb = reg_duration_bounds[0].to_f * 60.0 - 0.5
@@ -43,8 +43,8 @@ RSpec.describe ContestsServices::CreateContest do
       let(:division_name) { Rails.configuration.divisions.keys[0].to_s }
 
       it 'creates contest' do
-        contest = ContestsServices::CreateContest.call(division_name)
-        expect { contest }.eql? Contest.last
+        contest = ContestsServices::CreateContest.call(division_name).result
+        expect(contest).to eq(Contest.last)
       end
     end
   end
@@ -62,14 +62,14 @@ RSpec.describe ContestsServices::CreateContest do
     context '\'range from string\'' do
       let(:lower_bound) { Faker::Number.number.abs }
       let(:upper_bound) { Faker::Number.number.abs }
-      let(:range_string) { 'lower_bound..upper_bound' }
+      let(:range_string) { "#{lower_bound}..#{upper_bound}" }
 
       it 'must correctly cast string to range' do
-        range = :range_string.to_s.split('..').inject { |l, r| l.to_i..r.to_i }
-        lb = range.split('..').to_a[0]
-        ub = range.split('..').to_a[1]
-        expect { :lower_bound }.eql? lb
-        expect { :upper_bound }.eql? ub
+        range = range_string.to_s.split('..').inject { |l, r| l.to_i..r.to_i }
+        lb = range.begin
+        ub = range.end
+        expect(lower_bound).to eq(lb)
+        expect(upper_bound).to eq(ub)
       end
     end
   end

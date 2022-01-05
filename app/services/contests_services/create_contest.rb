@@ -24,7 +24,6 @@ module ContestsServices
         summarizing_at: summarizing_at
       )
     end
-    handle_asynchronously :call, queue: 'contest_creating'
 
     private
 
