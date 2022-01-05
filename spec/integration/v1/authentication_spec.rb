@@ -344,7 +344,7 @@ describe 'Auth API', swagger_doc: 'v1/swagger.yaml' do
   end
 
   path '/api/v1/auth/password/' do
-    post 'Send a  password reset confirmation email' do
+    post 'Send a password reset email' do
       tags 'Auth'
       parameter name: :user, in: :body, schema: {
         type: :object,
