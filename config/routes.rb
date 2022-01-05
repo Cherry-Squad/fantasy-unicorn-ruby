@@ -15,6 +15,7 @@ Rails.application.routes.draw do
         get '/:id(.:format)/', to: 'user#show'
         delete '/', to: 'user#delete'
         patch '/', to: 'user#update'
+        get '/contest_applications/:id(.:format)/', to: 'contest_application#show'
       end
 
       namespace :briefcases do
@@ -62,7 +63,6 @@ Rails.application.routes.draw do
         post '/', to: 'contest_application_stock#create'
         delete '/:id(.:format)/', to: 'contest_application_stock#delete'
       end
-
     end
   end
 end
