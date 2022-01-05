@@ -4,11 +4,11 @@ require 'swagger_helper'
 
 describe 'Stock API', swagger_doc: 'v1/swagger.yaml' do
   let(:briefcase_obj) { build(:briefcase) }
-  let(:expiring_at) { Time.now.utc + 604800 }
-  let(:briefcase) { { expiring_at: expiring_at} }
+  let(:expiring_at) { Time.now.utc + 604_800 }
+  let(:briefcase) { { expiring_at: expiring_at } }
   let(:stock_obj) { build(:stock) }
   let(:name) { stock_obj.name }
-  let(:stock) { { name: name} }
+  let(:stock) { { name: name } }
 
   path '/api/v1/stocks/' do
     post 'Create a stock' do
@@ -19,14 +19,13 @@ describe 'Stock API', swagger_doc: 'v1/swagger.yaml' do
         parameter name: :stock, in: :body, schema: {
           type: :object,
           properties: {
-            name: { type: :string },
+            name: { type: :string }
           },
           required: %w[name]
         }
 
         run_test!
       end
-
     end
 
     get 'Get stocks' do
@@ -93,8 +92,5 @@ describe 'Stock API', swagger_doc: 'v1/swagger.yaml' do
         run_test!
       end
     end
-
   end
-
 end
-

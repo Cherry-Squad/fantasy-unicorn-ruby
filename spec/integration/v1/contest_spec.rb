@@ -14,18 +14,18 @@ describe 'Contest API', swagger_doc: 'v1/swagger.yaml' do
   let(:use_disabled_multipliers) { contest_obj.use_disabled_multipliers }
   let(:use_inverted_stock_prices) { contest_obj.use_inverted_stock_prices }
   let(:reg_ending_at) { contest_obj.reg_ending_at }
-  let(:contest) { {  coins_entry_fee: coins_entry_fee,
-                     direction_strategy: direction_strategy,
-                     fixed_direction_up: fixed_direction_up,
-                     max_fantasy_points_threshold: max_fantasy_points_threshold,
-                     status: status,
-                     reg_ending_at: reg_ending_at,
-                     summarizing_at: summarizing_at,
-                     use_briefcase_only: use_briefcase_only,
-                     use_disabled_multipliers: use_disabled_multipliers,
-                     use_inverted_stock_prices: use_inverted_stock_prices
-  } }
-
+  let(:contest) do
+    {  coins_entry_fee: coins_entry_fee,
+       direction_strategy: direction_strategy,
+       fixed_direction_up: fixed_direction_up,
+       max_fantasy_points_threshold: max_fantasy_points_threshold,
+       status: status,
+       reg_ending_at: reg_ending_at,
+       summarizing_at: summarizing_at,
+       use_briefcase_only: use_briefcase_only,
+       use_disabled_multipliers: use_disabled_multipliers,
+       use_inverted_stock_prices: use_inverted_stock_prices }
+  end
 
   path '/api/v1/contests/' do
     post 'Create a contest' do
@@ -45,30 +45,32 @@ describe 'Contest API', swagger_doc: 'v1/swagger.yaml' do
             summarizing_at: { type: :string },
             use_briefcase_only: { type: :boolean },
             use_disabled_multipliers: { type: :boolean },
-            use_inverted_stock_prices: { type: :boolean },
+            use_inverted_stock_prices: { type: :boolean }
           },
           required: %w[coins_entry_fee direction_strategy fixed_direction_up max_fantasy_points_threshold
-                       reg_ending_at status summarizing_at use_briefcase_only use_disabled_multipliers use_inverted_stock_prices]
+                       reg_ending_at status summarizing_at use_briefcase_only use_disabled_multipliers
+                       use_inverted_stock_prices]
         }
 
         run_test!
       end
-
     end
 
     get 'Get contests' do
       tags 'Contest'
 
-
-      response '200', 'get all contests' do
+      response '200', 'all contests' do
         include_context 'auth token'
 
-        run_test!
+        before { create_list(:contest, 2) }
+
+        run_test! do |response|
+          data = JSON.parse(response.body)
+          expect(data).to eq(Contest.all.as_json)
+        end
       end
     end
   end
-
-
 
   path '/api/v1/contests/{id}/' do
     let(:contest) { create :contest }
@@ -91,7 +93,6 @@ describe 'Contest API', swagger_doc: 'v1/swagger.yaml' do
         let(:id) { 'invalid' }
         run_test!
       end
-
     end
 
     patch 'Update a contest' do
@@ -113,8 +114,8 @@ describe 'Contest API', swagger_doc: 'v1/swagger.yaml' do
             summarizing_at: { type: :string },
             use_briefcase_only: { type: :boolean },
             use_disabled_multipliers: { type: :boolean },
-            use_inverted_stock_prices: { type: :boolean },
-          },
+            use_inverted_stock_prices: { type: :boolean }
+          }
         }
 
         let(:id) { 'invalid' }
@@ -137,8 +138,8 @@ describe 'Contest API', swagger_doc: 'v1/swagger.yaml' do
             summarizing_at: { type: :string },
             use_briefcase_only: { type: :boolean },
             use_disabled_multipliers: { type: :boolean },
-            use_inverted_stock_prices: { type: :boolean },
-          },
+            use_inverted_stock_prices: { type: :boolean }
+          }
         }
         let(:contest) { create :contest }
         let(:id) { contest.id }
@@ -161,20 +162,21 @@ describe 'Contest API', swagger_doc: 'v1/swagger.yaml' do
             summarizing_at: { type: :string },
             use_briefcase_only: { type: :boolean },
             use_disabled_multipliers: { type: :boolean },
-            use_inverted_stock_prices: { type: :boolean },
-          },
+            use_inverted_stock_prices: { type: :boolean }
+          }
         }
-        let(:contest) { {  coins_entry_fee: false,
-                           direction_strategy: direction_strategy,
-                           fixed_direction_up: fixed_direction_up,
-                           max_fantasy_points_threshold: max_fantasy_points_threshold,
-                           status: status,
-                           reg_ending_at: 6,
-                           summarizing_at: summarizing_at,
-                           use_briefcase_only: use_briefcase_only,
-                           use_disabled_multipliers: use_disabled_multipliers,
-                           use_inverted_stock_prices: use_inverted_stock_prices
-        } }
+        let(:contest) do
+          {  coins_entry_fee: false,
+             direction_strategy: direction_strategy,
+             fixed_direction_up: fixed_direction_up,
+             max_fantasy_points_threshold: max_fantasy_points_threshold,
+             status: status,
+             reg_ending_at: 6,
+             summarizing_at: summarizing_at,
+             use_briefcase_only: use_briefcase_only,
+             use_disabled_multipliers: use_disabled_multipliers,
+             use_inverted_stock_prices: use_inverted_stock_prices }
+        end
         let(:contest_object) { create :contest }
         let(:id) { contest_object.id }
         run_test!
@@ -199,7 +201,5 @@ describe 'Contest API', swagger_doc: 'v1/swagger.yaml' do
         run_test!
       end
     end
-
   end
-
 end

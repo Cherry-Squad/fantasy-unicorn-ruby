@@ -4,11 +4,11 @@ require 'swagger_helper'
 
 describe 'Briefcase API', swagger_doc: 'v1/swagger.yaml' do
   let(:briefcase_obj) { build(:briefcase) }
-  let(:expiring_at) { Time.now.utc + 604800 }
-  let(:briefcase) { { expiring_at: expiring_at} }
+  let(:expiring_at) { Time.now.utc + 604_800 }
+  let(:briefcase) { { expiring_at: expiring_at } }
   let(:stock_obj) { build(:stock) }
   let(:name) { stock_obj.name }
-  let(:stock) { { name: name} }
+  let(:stock) { { name: name } }
 
   path '/api/v1/briefcases/' do
     let(:briefcase) { create :briefcase }
@@ -24,7 +24,6 @@ describe 'Briefcase API', swagger_doc: 'v1/swagger.yaml' do
 
         run_test!
       end
-
     end
 
     get 'Get all briefcases' do
@@ -103,8 +102,8 @@ describe 'Briefcase API', swagger_doc: 'v1/swagger.yaml' do
           type: :object,
           properties: {
             stock_id: { type: :integer },
-            add: { type: :boolean },
-          },
+            add: { type: :boolean }
+          }
         }
 
         let(:id) { 'invalid' }
@@ -121,8 +120,8 @@ describe 'Briefcase API', swagger_doc: 'v1/swagger.yaml' do
           type: :object,
           properties: {
             stock_id: { type: :integer },
-            add: { type: :boolean },
-          },
+            add: { type: :boolean }
+          }
         }
         let(:data) { { stock_id: stock.id, add: true } }
         let(:id) { briefcase.id }
@@ -137,16 +136,14 @@ describe 'Briefcase API', swagger_doc: 'v1/swagger.yaml' do
           type: :object,
           properties: {
             stock_id: { type: :integer },
-            add: { type: :boolean },
-          },
+            add: { type: :boolean }
+          }
         }
 
         let(:id) { briefcase.id }
         let(:data) { { stock_id: 'invalid', add: true } }
         run_test!
       end
-
-
     end
   end
 end

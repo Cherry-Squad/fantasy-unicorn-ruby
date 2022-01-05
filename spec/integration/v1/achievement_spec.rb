@@ -10,7 +10,7 @@ describe 'Achievement API', swagger_doc: 'v1/swagger.yaml' do
   let(:user) { { username: username, email: email, password: password } }
   let(:achievement_obj) { build(:achievement) }
   let(:achievement_identifier) { achievement_obj.achievement_identifier }
-  let(:achievement) { { achievement_identifier: achievement_identifier, user_id: user_obj.id} }
+  let(:achievement) { { achievement_identifier: achievement_identifier, user_id: user_obj.id } }
 
   path '/api/v1/achievements/' do
     let(:achievement) { create :achievement }
@@ -26,14 +26,13 @@ describe 'Achievement API', swagger_doc: 'v1/swagger.yaml' do
         parameter name: :achievement, in: :body, schema: {
           type: :object,
           properties: {
-            achievement_identifier: { type: :string },
+            achievement_identifier: { type: :string }
           },
           required: %w[achievement_identifier]
         }
 
         run_test!
       end
-
     end
 
     get 'Get all achievements' do
