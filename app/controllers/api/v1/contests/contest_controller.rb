@@ -107,7 +107,7 @@ module Api
 
         def all_contests
           filter_params = params.permit(:status, :direction_strategy, :fixed_direction_up, :use_briefcase_only,
-                                        :use_disabled_multipliers, :use_inverted_stock_prices, :start_date, :end_date)
+                                        :use_disabled_multipliers, :use_inverted_stock_prices)
                                 .delete_if { |_key, value| value.blank? }.transform_values! { |v| v.split(',') }
           int_filter_params = params.permit(:coins_entry_fee_min_edge, :coins_entry_fee_max_edge,
                                             :max_fantasy_points_threshold).delete_if { |_key, value| value.blank? }

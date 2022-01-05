@@ -60,14 +60,20 @@ describe 'Contest API', swagger_doc: 'v1/swagger.yaml' do
       tags 'Contest'
 
       response '200', 'all contests' do
+        parameter name: :fixed_direction_up, in: :query, type: :boolean, required: false
+        parameter name: :use_briefcase_only, in: :query, type: :boolean, required: false
+        parameter name: :use_disabled_multipliers, in: :query, type: :boolean, required: false
+        parameter name: :use_inverted_stock_prices, in: :query, type: :boolean, required: false
+        parameter name: :status, in: :query, type: :string, required: false
+        parameter name: :direction_strategy, in: :query, type: :string, required: false
+        parameter name: :coins_entry_fee_min_edge, in: :query, type: :integer, required: false
+        parameter name: :coins_entry_fee_max_edge, in: :query, type: :integer, required: false
+        parameter name: :max_fantasy_points_threshold, in: :query, type: :integer, required: false
         include_context 'auth token'
 
-        before { create_list(:contest, 2) }
+        before { create_list(:contest, 10) }
 
-        run_test! do |response|
-          data = JSON.parse(response.body)
-          expect(data).to eq(Contest.all.as_json)
-        end
+        run_test!
       end
     end
   end
