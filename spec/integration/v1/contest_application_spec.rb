@@ -2,10 +2,8 @@
 
 require 'swagger_helper'
 
-
 describe 'ContestApplication API', type: :request do
-  let(:contest_application) { {  user_id: user.id, contest_id: contest.id} }
-
+  let(:contest_application) { { user_id: user.id, contest_id: contest.id } }
 
   path '/api/v1/contest_applications/' do
     let(:user) { create :user }
@@ -20,11 +18,11 @@ describe 'ContestApplication API', type: :request do
           type: :object,
           properties: {
             user_id: { type: :integer },
-            contest_id: { type: :integer },
+            contest_id: { type: :integer }
           },
-          required: %w[user_id, contest_id]
+          required: %w[user_id contest_id]
         }
-         let(:contest_application) { {  user_id: user.id, contest_id: contest.id} }
+        let(:contest_application) { { user_id: user.id, contest_id: contest.id } }
 
         run_test!
       end
@@ -35,19 +33,17 @@ describe 'ContestApplication API', type: :request do
           type: :object,
           properties: {
             user_id: { type: :integer },
-            contest_id: { type: :integer },
+            contest_id: { type: :integer }
           },
-          required: %w[user_id, contest_id]
+          required: %w[user_id contest_id]
         }
-        let(:contest_application) { {  user_id: nil , contest_id: contest.id} }
+        let(:contest_application) { { user_id: nil, contest_id: contest.id } }
         run_test!
       end
-
     end
 
     get 'Get contest applications' do
       tags 'ContestApplication'
-
 
       response '200', 'get all contest applications' do
         include_context 'auth token'
@@ -55,7 +51,6 @@ describe 'ContestApplication API', type: :request do
         run_test!
       end
     end
-
   end
 
   path '/api/v1/contest_applications/{id}/' do
@@ -84,7 +79,6 @@ describe 'ContestApplication API', type: :request do
         let(:id) { 'invalid' }
         run_test!
       end
-
     end
 
     get 'Retrieve a contest application' do
@@ -105,7 +99,5 @@ describe 'ContestApplication API', type: :request do
         run_test!
       end
     end
-
   end
-
 end

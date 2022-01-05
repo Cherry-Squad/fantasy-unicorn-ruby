@@ -2,16 +2,16 @@
 
 require 'swagger_helper'
 
-
 describe 'ContestApplicationStock API', type: :request do
-  let(:contest_application) { {  user_id: user.id, contest_id: contest.id} }
+  let(:contest_application) { { user_id: user.id, contest_id: contest.id } }
   let(:contest_application_stock_obj) { build(:contest_application_stock) }
   let(:multiplier) { contest_application_stock_obj.multiplier }
-  let(:contest_application_stock) { {  stock_id: stock.id, contest_application_id: contest_application.id, multiplier: multiplier } }
+  let(:contest_application_stock) do
+    { stock_id: stock.id, contest_application_id: contest_application.id, multiplier: multiplier }
+  end
   let(:stock_obj) { build(:stock) }
   let(:name) { stock_obj.name }
-  let(:stock) { { name: name} }
-
+  let(:stock) { { name: name } }
 
   path '/api/v1/contest_application_stocks/' do
     let(:contest_application) { create :contest_application }
@@ -27,11 +27,13 @@ describe 'ContestApplicationStock API', type: :request do
           properties: {
             stock_id: { type: :integer },
             contest_application_id: { type: :integer },
-            multiplier: { type: :float },
+            multiplier: { type: :float }
           },
           required: %w[multiplier stock_id contest_application_id]
         }
-        let(:contest_application_stock) { {  stock_id: stock.id, contest_application_id: contest_application.id, multiplier: multiplier } }
+        let(:contest_application_stock) do
+          { stock_id: stock.id, contest_application_id: contest_application.id, multiplier: multiplier }
+        end
 
         run_test!
       end
@@ -43,20 +45,20 @@ describe 'ContestApplicationStock API', type: :request do
           properties: {
             stock_id: { type: :integer },
             contest_application_id: { type: :integer },
-            multiplier: { type: :float },
+            multiplier: { type: :float }
           },
           required: %w[multiplier stock_id contest_application_id]
         }
-        let(:contest_application_stock) { {  stock_id: nil, contest_application_id: contest_application.id, multiplier: multiplier } }
+        let(:contest_application_stock) do
+          { stock_id: nil, contest_application_id: contest_application.id, multiplier: multiplier }
+        end
 
         run_test!
       end
-
     end
 
     get 'Get contest application stock stocks' do
       tags 'ContestApplicationStock'
-
 
       response '200', 'get all contest application stocks' do
         include_context 'auth token'
@@ -64,7 +66,6 @@ describe 'ContestApplicationStock API', type: :request do
         run_test!
       end
     end
-
   end
 
   path '/api/v1/contest_application_stocks/{id}/' do
@@ -90,7 +91,6 @@ describe 'ContestApplicationStock API', type: :request do
         let(:id) { 'invalid' }
         run_test!
       end
-
     end
 
     get 'Retrieve a contest application stock' do
@@ -112,7 +112,5 @@ describe 'ContestApplicationStock API', type: :request do
         run_test!
       end
     end
-
   end
-
 end
