@@ -39,6 +39,5 @@ module ContestsServices
     def range_from(string)
       string.to_s.split('..').inject { |l, r| l.to_i..r.to_i }
     end
-
   end
 end
