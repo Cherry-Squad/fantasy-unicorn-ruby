@@ -6,6 +6,7 @@ AllCops:
 Metrics/MethodLength:
   Exclude:
     - 'db/**/*'
+    - 'app/controllers/**/*'
 
 Metrics/BlockLength:
   Exclude:
@@ -15,6 +16,11 @@ Metrics/BlockLength:
     - 'spec/factories/**/*'
     - 'spec/*_helper.rb'
     - 'lib/tasks/auto_annotate_models.rake'
+    - 'config/environments/*'
+
+Metrics/AbcSize:
+  Exclude:
+    - 'app/controllers/**/*'
 
 Layout/SpaceAroundOperators:
   Enabled: false

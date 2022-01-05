@@ -5,7 +5,8 @@
 class User < ApplicationRecord
   extend Devise::Models
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable,
+         :confirmable
 
   has_many :achievements, dependent: :delete_all
   has_many :contest_applications, dependent: :destroy
