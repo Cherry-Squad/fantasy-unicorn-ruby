@@ -6,7 +6,7 @@ RSpec.describe ContestsServices::CreateContest do
   Delayed::Worker.delay_jobs = false
   context 'correct division name' do
     context 'presented as symbol' do
-      let(:division_name) { Rails.configuration.divisions.keys[0].to_s }
+      let(:division_name) { Rails.configuration.divisions.keys[0].to_sym }
       let(:division_params) { Rails.configuration.divisions[division_name] }
 
       it 'creates contest' do
