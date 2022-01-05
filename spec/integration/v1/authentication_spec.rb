@@ -349,13 +349,12 @@ describe 'Auth API', swagger_doc: 'v1/swagger.yaml' do
       parameter name: :user, in: :body, schema: {
         type: :object,
         properties: {
-          email: { type: :string },
-          redirect_url: { type: :string }
+          email: { type: :string }
         },
-        required: %w[email redirect_url]
+        required: %w[email]
       }
       let!(:user_obj) { create(:user) }
-      let(:user) { { email: email, redirect_url: 'localhost:9000' } }
+      let(:user) { { email: email } }
 
       security []
 
@@ -373,21 +372,11 @@ describe 'Auth API', swagger_doc: 'v1/swagger.yaml' do
         end
       end
 
-      response '401', 'missing field' do
-        context 'redirect_url' do
-          let(:user) { { email: email } }
+      response '401', 'missing email' do
+        let(:user) {}
 
-          run_test! do
-            expect(response.body).to include('Missing redirect URL')
-          end
-        end
-
-        context 'email' do
-          let(:user) { { redirect_url: 'localhost:9000' } }
-
-          run_test! do
-            expect(response.body).to include('You must provide an email address')
-          end
+        run_test! do
+          expect(response.body).to include('You must provide an email address')
         end
       end
     end
