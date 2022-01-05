@@ -27,7 +27,7 @@ describe 'Contest API', swagger_doc: 'v1/swagger.yaml' do
   } }
 
 
-  path '/api/v1/contest/' do
+  path '/api/v1/contests/' do
     post 'Create a contest' do
       tags 'Contest'
 
@@ -70,7 +70,7 @@ describe 'Contest API', swagger_doc: 'v1/swagger.yaml' do
 
 
 
-  path '/api/v1/contest/{id}/' do
+  path '/api/v1/contests/{id}/' do
     let(:contest) { create :contest }
 
     delete 'delete a contest' do

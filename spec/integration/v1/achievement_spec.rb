@@ -12,7 +12,7 @@ describe 'Achievement API', swagger_doc: 'v1/swagger.yaml' do
   let(:achievement_identifier) { achievement_obj.achievement_identifier }
   let(:achievement) { { achievement_identifier: achievement_identifier, user_id: user_obj.id} }
 
-  path '/api/v1/achievement/' do
+  path '/api/v1/achievements/' do
     let(:achievement) { create :achievement }
     let(:user_obj) { achievement.user }
     before do
@@ -46,7 +46,7 @@ describe 'Achievement API', swagger_doc: 'v1/swagger.yaml' do
       end
     end
   end
-  path '/api/v1/achievement/{id}/' do
+  path '/api/v1/achievements/{id}/' do
     let(:achievement) { create :achievement }
     let(:user_obj) { achievement.user }
     before do

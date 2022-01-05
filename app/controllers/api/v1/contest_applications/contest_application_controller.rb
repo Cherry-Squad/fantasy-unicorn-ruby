@@ -2,7 +2,8 @@
 
 module Api
   module V1
-    class ContestApplicationController < ApplicationController
+    module ContestApplications
+      class ContestApplicationController < ApplicationController
       before_action :authenticate_api_v1_user!
 
       def create
@@ -58,6 +59,7 @@ module Api
 
       def get_contest_application_for_current_user
         @contest_applications = ContestApplication.where(user: current_api_v1_user)
+      end
       end
     end
   end

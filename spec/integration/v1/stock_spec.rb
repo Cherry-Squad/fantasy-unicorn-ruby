@@ -10,7 +10,7 @@ describe 'Stock API', swagger_doc: 'v1/swagger.yaml' do
   let(:name) { stock_obj.name }
   let(:stock) { { name: name} }
 
-  path '/api/v1/stock/' do
+  path '/api/v1/stocks/' do
     post 'Create a stock' do
       tags 'Stock'
 
@@ -47,7 +47,7 @@ describe 'Stock API', swagger_doc: 'v1/swagger.yaml' do
     end
   end
 
-  path '/api/v1/stock/{id}/' do
+  path '/api/v1/stocks/{id}/' do
     let(:stock) { create :stock }
     let(:briefcase) { create :briefcase }
     let(:user_obj) { briefcase.user }

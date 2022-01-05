@@ -2,7 +2,8 @@
 
 module Api
   module V1
-    class ContestController < ApplicationController
+    module Contests
+      class ContestController < ApplicationController
       before_action :authenticate_api_v1_user!
 
       def create
@@ -105,6 +106,7 @@ module Api
 
       def get_contests
         Contest.all
+      end
       end
     end
   end

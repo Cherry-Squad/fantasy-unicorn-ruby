@@ -1,7 +1,8 @@
 
 module Api
   module V1
-    class UserController < ApplicationController
+    module Users
+      class UserController < ApplicationController
     before_action :authenticate_api_v1_user!
 
     def index
@@ -54,6 +55,7 @@ module Api
     def get_current_user
       User.find_by(id: current_api_v1_user.id)
     end
-  end
+      end
+    end
   end
 end

@@ -2,7 +2,8 @@
 
 module Api
   module V1
-    class BriefcaseController < ApplicationController
+    module Briefcases
+      class BriefcaseController < ApplicationController
       before_action :authenticate_api_v1_user!
 
       def create
@@ -80,6 +81,7 @@ module Api
 
       def get_briefcases_for_current_user
         @briefcases = Briefcase.where(user: current_api_v1_user)
+      end
       end
     end
   end

@@ -2,7 +2,8 @@
 
 module Api
   module V1
-    class StockController < ApplicationController
+    module Stocks
+      class StockController < ApplicationController
       before_action :authenticate_api_v1_user!
 
       def create
@@ -64,6 +65,7 @@ module Api
       def get_stocks_for_current_user
         briefcase = Briefcase.find_by(user: current_api_v1_user)
         @stocks = briefcase.stocks
+      end
       end
     end
   end

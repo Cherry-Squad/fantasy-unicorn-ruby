@@ -2,7 +2,8 @@
 
 module Api
   module V1
-    class AchievementController < ApplicationController
+    module Achievements
+      class AchievementController < ApplicationController
       before_action :authenticate_api_v1_user!
 
       def create
@@ -57,6 +58,7 @@ module Api
 
       def get_achievements_for_current_user
         @achievements = Achievement.where(user: current_api_v1_user)
+      end
       end
     end
   end

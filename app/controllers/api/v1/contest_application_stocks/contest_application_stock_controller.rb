@@ -2,7 +2,8 @@
 
 module Api
   module V1
-    class ContestApplicationStockController < ApplicationController
+    module ContestApplicationStocks
+      class ContestApplicationStockController < ApplicationController
       before_action :authenticate_api_v1_user!
 
       def create
@@ -60,6 +61,7 @@ module Api
 
       def get_contest_application_stock
         @contest_application_stocks = ContestApplicationStock.all
+      end
       end
     end
   end

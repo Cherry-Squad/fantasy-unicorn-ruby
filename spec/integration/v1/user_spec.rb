@@ -10,7 +10,7 @@ describe 'User API', swagger_doc: 'v1/swagger.yaml' do
   let(:password) { user_obj.password }
   let(:user) { { username: username, email: email, password: password } }
 
-  path '/api/v1/user/' do
+  path '/api/v1/users/' do
 
     get 'Get users' do
       tags 'User'
@@ -35,7 +35,7 @@ describe 'User API', swagger_doc: 'v1/swagger.yaml' do
     end
   end
 
-  path '/api/v1/user/{id}/' do
+  path '/api/v1/users/{id}/' do
     let(:user) { create :user }
 
     get 'Retrieve a user' do

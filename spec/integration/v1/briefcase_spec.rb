@@ -10,7 +10,7 @@ describe 'Briefcase API', swagger_doc: 'v1/swagger.yaml' do
   let(:name) { stock_obj.name }
   let(:stock) { { name: name} }
 
-  path '/api/v1/briefcase/' do
+  path '/api/v1/briefcases/' do
     let(:briefcase) { create :briefcase }
     let(:user_obj) { briefcase.user }
     before do
@@ -37,7 +37,7 @@ describe 'Briefcase API', swagger_doc: 'v1/swagger.yaml' do
       end
     end
   end
-  path '/api/v1/briefcase/{id}/' do
+  path '/api/v1/briefcases/{id}/' do
     let(:briefcase) { create :briefcase }
     let(:user_obj) { briefcase.user }
     before do

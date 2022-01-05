@@ -7,7 +7,7 @@ describe 'ContestApplication API', type: :request do
   let(:contest_application) { {  user_id: user.id, contest_id: contest.id} }
 
 
-  path '/api/v1/contest_application/' do
+  path '/api/v1/contest_applications/' do
     let(:user) { create :user }
     let(:contest) { create :contest }
 
@@ -58,7 +58,7 @@ describe 'ContestApplication API', type: :request do
 
   end
 
-  path '/api/v1/contest_application/{id}/' do
+  path '/api/v1/contest_applications/{id}/' do
     let(:user) { create :user }
     let(:contest) { create :contest }
     let(:contest_application_obj) { create :contest_application }

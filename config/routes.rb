@@ -10,44 +10,59 @@ Rails.application.routes.draw do
         sessions: 'api/v1/auth/sessions'
       }
 
-      get 'user/', to: 'user#index'
-      get 'user/:id(.:format)/', to: 'user#show'
-      delete 'user/', to: 'user#delete'
-      patch 'user/', to: 'user#update'
+      namespace :users do
+        get '/', to: 'user#index'
+        get '/:id(.:format)/', to: 'user#show'
+        delete '/', to: 'user#delete'
+        patch '/', to: 'user#update'
+      end
 
-      get 'briefcase/', to: 'briefcase#index'
-      get 'briefcase/:id(.:format)/', to: 'briefcase#show'
-      post 'briefcase/', to: 'briefcase#create'
-      delete 'briefcase/:id(.:format)/', to: 'briefcase#delete'
-      patch 'briefcase/:id(.:format)/', to: 'briefcase#update'
+      namespace :briefcases do
+        get '/', to: 'briefcase#index'
+        get '/:id(.:format)/', to: 'briefcase#show'
+        post '/', to: 'briefcase#create'
+        delete '/:id(.:format)/', to: 'briefcase#delete'
+        patch '/:id(.:format)/', to: 'briefcase#update'
+      end
 
-      get 'achievement/', to: 'achievement#index'
-      get 'achievement/:id(.:format)/', to: 'achievement#show'
-      post 'achievement/', to: 'achievement#create'
-      delete 'achievement/:id(.:format)/', to: 'achievement#delete'
-      patch 'achievement/:id(.:format)/', to: 'achievement#update'
+      namespace :achievements do
+        get '/', to: 'achievement#index'
+        get '/:id(.:format)/', to: 'achievement#show'
+        post '/', to: 'achievement#create'
+        delete '/:id(.:format)/', to: 'achievement#delete'
+        patch '/:id(.:format)/', to: 'achievement#update'
+      end
 
-      get 'contest/', to: 'contest#index'
-      get 'contest/:id(.:format)/', to: 'contest#show'
-      post 'contest/', to: 'contest#create'
-      delete 'contest/:id(.:format)/', to: 'contest#delete'
-      patch 'contest/:id(.:format)/', to: 'contest#update'
+      namespace :contests do
+        get '/', to: 'contest#index'
+        get '/:id(.:format)/', to: 'contest#show'
+        post '/', to: 'contest#create'
+        delete '/:id(.:format)/', to: 'contest#delete'
+        patch '/:id(.:format)/', to: 'contest#update'
+      end
 
-      get 'stock/', to: 'stock#index'
-      get 'stock/:id(.:format)/', to: 'stock#show'
-      post 'stock/', to: 'stock#create'
-      delete 'stock/:id(.:format)/', to: 'stock#delete'
-      patch 'stock/:id(.:format)/', to: 'stock#update'
+      namespace :stocks do
+        get '/', to: 'stock#index'
+        get '/:id(.:format)/', to: 'stock#show'
+        post '/', to: 'stock#create'
+        delete '/:id(.:format)/', to: 'stock#delete'
+        patch '/:id(.:format)/', to: 'stock#update'
+      end
 
-      get 'contest_application/', to: 'contest_application#index'
-      get 'contest_application/:id(.:format)/', to: 'contest_application#show'
-      post 'contest_application/', to: 'contest_application#create'
-      delete 'contest_application/:id(.:format)/', to: 'contest_application#delete'
+      namespace :contest_applications do
+        get '/', to: 'contest_application#index'
+        get '/:id(.:format)/', to: 'contest_application#show'
+        post '/', to: 'contest_application#create'
+        delete '/:id(.:format)/', to: 'contest_application#delete'
+      end
 
-      get 'contest_application_stock/', to: 'contest_application_stock#index'
-      get 'contest_application_stock/:id(.:format)/', to: 'contest_application_stock#show'
-      post 'contest_application_stock/', to: 'contest_application_stock#create'
-      delete 'contest_application_stock/:id(.:format)/', to: 'contest_application_stock#delete'
+      namespace :contest_application_stocks do
+        get '/', to: 'contest_application_stock#index'
+        get '/:id(.:format)/', to: 'contest_application_stock#show'
+        post '/', to: 'contest_application_stock#create'
+        delete '/:id(.:format)/', to: 'contest_application_stock#delete'
+      end
+
     end
   end
 end

@@ -13,7 +13,7 @@ describe 'ContestApplicationStock API', type: :request do
   let(:stock) { { name: name} }
 
 
-  path '/api/v1/contest_application_stock/' do
+  path '/api/v1/contest_application_stocks/' do
     let(:contest_application) { create :contest_application }
     let(:stock) { create :stock }
 
@@ -67,7 +67,7 @@ describe 'ContestApplicationStock API', type: :request do
 
   end
 
-  path '/api/v1/contest_application_stock/{id}/' do
+  path '/api/v1/contest_application_stocks/{id}/' do
     let(:contest_application) { create :contest_application }
     let(:stock) { create :stock }
     let(:contest_application_stock_obj) { create :contest_application_stock }
