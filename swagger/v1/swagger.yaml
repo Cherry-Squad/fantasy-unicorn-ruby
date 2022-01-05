@@ -19,18 +19,18 @@ paths:
               example:
                 status: success
                 data:
-                  email: dee_pacocha@durgan.com
+                  id: 1
+                  username: dana_krajcik#1
+                  email: erlene.homenick@mayer.info
                   email_validated: false
-                  id: 1362
-                  fantasy_points: 0
-                  coins: 0
-                  uid: dee_pacocha@durgan.com
-                  username: dino#1
                   preferred_lang: ru_RU
                   avatar_id: 
-                  created_at: '2022-01-05T19:38:35.428Z'
-                  updated_at: '2022-01-05T19:38:35.487Z'
+                  coins: 0
+                  fantasy_points: 0
+                  created_at: '2022-01-05T22:28:20.419Z'
+                  updated_at: '2022-01-05T22:28:20.419Z'
                   provider: email
+                  uid: erlene.homenick@mayer.info
                   allow_password_change: false
         '422':
           description: incorrect email or username; email and/or username has already
@@ -41,8 +41,8 @@ paths:
                 status: error
                 data:
                   id: 
-                  username: glen#6
-                  email: shaquita
+                  username: vanvan#6
+                  email: catherine_stracke
                   email_validated: false
                   preferred_lang: ru_RU
                   avatar_id: 
@@ -87,7 +87,8 @@ paths:
             application/json:
               example:
                 status: success
-                message: Account with UID 'trey@bartell.info' has been destroyed.
+                message: Account with UID 'lesa_dare@beahan-langosh.name' has been
+                  destroyed.
         '404':
           description: credentials are invalid
           content:
@@ -124,19 +125,19 @@ paths:
             application/json:
               example:
                 data:
-                  email: tammy@heathcote-daugherty.biz
+                  email: lila.krajcik@bernhard.io
                   email_validated: false
-                  id: 1367
+                  id: 6
                   fantasy_points: 0
                   coins: 0
-                  uid: tammy@heathcote-daugherty.biz
-                  username: danilo#9
+                  uid: lila.krajcik@bernhard.io
+                  username: virgilio_lockman#9
                   preferred_lang: ru_RU
                   avatar_id: 
                   provider: email
                   allow_password_change: false
         '401':
-          description: credentials are invalid
+          description: credentials are invalid; email is not confirmed
           content:
             application/json:
               example:
@@ -189,16 +190,16 @@ paths:
               example:
                 success: true
                 data:
-                  id: 1373
-                  username: cassie.franecki#15
-                  email: donovan@runolfsdottir.io
+                  id: 14
+                  username: trish.hessel#17
+                  email: drew@gleichner.name
                   email_validated: false
                   preferred_lang: ru_RU
                   avatar_id: 
                   coins: 0
                   fantasy_points: 0
                   provider: email
-                  uid: donovan@runolfsdottir.io
+                  uid: drew@gleichner.name
                   allow_password_change: false
         '401':
           description: credentials are invalid
@@ -208,6 +209,207 @@ paths:
                 success: false
                 errors:
                 - Invalid login credentials
+  "/api/v1/auth/confirmation":
+    post:
+      summary: Resend confirmation
+      tags:
+      - Auth
+      parameters: []
+      security: []
+      responses:
+        '200':
+          description: confirmation sent
+          content:
+            application/json:
+              example:
+                success: true
+                message: An email has been sent to 'ashton_murphy@luettgen.net' containing
+                  instructions for confirming your account.
+        '404':
+          description: email is invalid
+          content:
+            application/json:
+              example:
+                success: false
+                errors:
+                - Unable to find user with email 'jesusita.schultz@carter.net'.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+              required:
+              - email
+  "/api/v1/auth/password":
+    put:
+      summary: Change password
+      tags:
+      - Auth
+      description: Change password
+      parameters: []
+      responses:
+        '200':
+          description: password has been updated
+          content:
+            application/json:
+              example:
+                success: true
+                data:
+                  email: evia@ledner.net
+                  email_validated: false
+                  id: 18
+                  fantasy_points: 0
+                  coins: 0
+                  uid: evia@ledner.net
+                  username: cleopatra_reynolds#21
+                  preferred_lang: ru_RU
+                  avatar_id: 
+                  created_at: '2022-01-05T22:28:28.969Z'
+                  updated_at: '2022-01-05T22:28:29.286Z'
+                  provider: email
+                  allow_password_change: false
+                message: Your password has been successfully updated.
+        '422':
+          description: must fill out the fields password; doesn't match password
+          content:
+            application/json:
+              example:
+                success: false
+                errors:
+                  password_confirmation:
+                  - doesn't match Password
+                  full_messages:
+                  - Password confirmation doesn't match Password
+        '401':
+          description: unauthorized
+          content:
+            application/json:
+              example:
+                success: false
+                errors:
+                - Unauthorized
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                password_confirmation:
+                  type: string
+              required:
+              - password
+              - password_confirmation
+  "/api/v1/auth/password/":
+    put:
+      summary: Change password with reset_password_token
+      tags:
+      - Auth
+      description: Set password that was reset
+      parameters: []
+      security: []
+      responses:
+        '200':
+          description: password has been updated
+          content:
+            application/json:
+              example:
+                success: true
+                data:
+                  email: adrian@dicki.com
+                  email_validated: false
+                  id: 22
+                  fantasy_points: 0
+                  coins: 0
+                  uid: adrian@dicki.com
+                  username: orville#25
+                  preferred_lang: ru_RU
+                  avatar_id: 
+                  created_at: '2022-01-05T22:28:30.912Z'
+                  updated_at: '2022-01-05T22:28:31.374Z'
+                  provider: email
+                  allow_password_change: false
+                message: Your password has been successfully updated.
+        '422':
+          description: must fill out the fields password; doesn't match password
+          content:
+            application/json:
+              example:
+                success: false
+                errors:
+                  password_confirmation:
+                  - doesn't match Password
+                  full_messages:
+                  - Password confirmation doesn't match Password
+        '401':
+          description: unauthorized
+          content:
+            application/json:
+              example:
+                success: false
+                errors:
+                - Unauthorized
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                password_confirmation:
+                  type: string
+                reset_password_token:
+                  type: string
+              required:
+              - password
+              - password_confirmation
+              - reset_password_token
+    post:
+      summary: Send a password reset email
+      tags:
+      - Auth
+      parameters: []
+      security: []
+      responses:
+        '200':
+          description: email has been sent
+          content:
+            application/json:
+              example:
+                success: true
+                message: An email has been sent to 'rosella@bradtke.info' containing
+                  instructions for resetting your password.
+        '404':
+          description: invalid email
+          content:
+            application/json:
+              example:
+                success: false
+                errors:
+                - Unable to find user with email 'ed'.
+        '401':
+          description: missing email
+          content:
+            application/json:
+              example:
+                success: false
+                errors:
+                - You must provide an email address.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+              required:
+              - email
 consumes:
 - application/json
 produces:
