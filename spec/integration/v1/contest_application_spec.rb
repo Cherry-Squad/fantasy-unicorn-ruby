@@ -2,7 +2,7 @@
 
 require 'swagger_helper'
 
-describe 'ContestApplication API', type: :request do
+describe 'ContestApplication API', swagger_doc: 'v1/swagger.yaml' do
   let(:contest_application) { { user_id: user.id, contest_id: contest.id } }
 
   path '/api/v1/contest_applications/' do
@@ -44,9 +44,19 @@ describe 'ContestApplication API', type: :request do
 
     get 'Get contest applications' do
       tags 'ContestApplication'
+      let(:contest_application) { create :contest_application }
+      let(:user) { create contest_application.user }
+      let(:contest) { create contest_application.contest }
+      before do
+        @user = contest_application.user
+      end
 
-      response '200', 'get all contest applications' do
-        include_context 'auth token'
+      response '200', 'get all contest applications for current user if contest_id not set otherwise returns all
+                       contest applications by contest_id' do
+        parameter name: :contest_id, in: :query, type: :integer, required: false
+        auth_user
+
+        let(:contest_id) { contest_application.contest.id }
 
         run_test!
       end

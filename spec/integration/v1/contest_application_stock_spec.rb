@@ -2,7 +2,7 @@
 
 require 'swagger_helper'
 
-describe 'ContestApplicationStock API', type: :request do
+describe 'ContestApplicationStock API', swagger_doc: 'v1/swagger.yaml' do
   let(:contest_application) { { user_id: user.id, contest_id: contest.id } }
   let(:contest_application_stock_obj) { build(:contest_application_stock) }
   let(:multiplier) { contest_application_stock_obj.multiplier }
@@ -27,7 +27,7 @@ describe 'ContestApplicationStock API', type: :request do
           properties: {
             stock_id: { type: :integer },
             contest_application_id: { type: :integer },
-            multiplier: { type: :float }
+            multiplier: { type: :integer }
           },
           required: %w[multiplier stock_id contest_application_id]
         }
@@ -45,7 +45,7 @@ describe 'ContestApplicationStock API', type: :request do
           properties: {
             stock_id: { type: :integer },
             contest_application_id: { type: :integer },
-            multiplier: { type: :float }
+            multiplier: { type: :integer }
           },
           required: %w[multiplier stock_id contest_application_id]
         }
@@ -59,9 +59,18 @@ describe 'ContestApplicationStock API', type: :request do
 
     get 'Get contest application stock stocks' do
       tags 'ContestApplicationStock'
+      let(:contest_application_stock) { create :contest_application_stock }
+      let(:contest_application) { contest_application_stock.contest_application }
+      let(:stock) { contest_application_stock.stock }
 
-      response '200', 'get all contest application stocks' do
+      response '200', 'get all contest application stocks if contest_id not set otherwise returns all
+                       contest applications by contest_id' do
+        parameter name: :contest_id, in: :query, type: :integer, required: false
         include_context 'auth token'
+
+        let(:contest_id) { contest_application_stock.contest_application.contest.id }
+
+        before { create_list(:contest_application_stock, 2) }
 
         run_test!
       end
