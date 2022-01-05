@@ -25,6 +25,9 @@ gem 'rubocop', '~> 1.22.3'
 
 gem 'devise_token_auth'
 
+gem 'daemons'
+gem 'delayed_job_active_record'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.4', require: false
 

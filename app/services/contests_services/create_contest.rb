@@ -24,6 +24,7 @@ module ContestsServices
         summarizing_at: summarizing_at
       )
     end
+    handle_asynchronously :call, queue: 'contest_creating'
 
     private
 
@@ -31,8 +32,8 @@ module ContestsServices
       division_params = Rails.configuration.divisions[@division_name]
       @max_fantasy_points_threshold = division_params[:fantasy_points_threshold]
       @coins_entry_fee = @rng.rand(range_from(division_params[:coins_entry_fee_range]))
-      @reg_duration = @rng.rand(range_from(division_params[:reg_duration_range]))
-      @summarizing_duration = @rng.rand(range_from(division_params[:summarizing_duration_range]))
+      @reg_duration = @rng.rand(range_from(division_params[:reg_duration_range])).minutes
+      @summarizing_duration = @rng.rand(range_from(division_params[:summarizing_duration_range])).minutes
     end
 
     def range_from(string)

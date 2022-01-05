@@ -22,13 +22,13 @@ RSpec.describe ContestsServices::CreateContest do
         reg_duration_bounds = division_params[:reg_duration_range].split('..')
         reg_duration_lb = reg_duration_bounds[0].to_f
         reg_duration_ub = reg_duration_bounds[1].to_f
-        actual_duration = contest.reg_ending_at - contest.created_at
+        actual_duration = (contest.reg_ending_at - contest.created_at) / 60.0
         expect(actual_duration).to be_between(reg_duration_lb, reg_duration_ub)
 
         summarizing_duration_bounds = division_params[:summarizing_duration_range].split('..')
         summarizing_duration_lb = summarizing_duration_bounds[0].to_f
         summarizing_duration_ub = summarizing_duration_bounds[1].to_f
-        actual_duration = contest.summarizing_at - contest.reg_ending_at
+        actual_duration = (contest.summarizing_at - contest.reg_ending_at) / 60
         expect(actual_duration).to be_between(summarizing_duration_lb, summarizing_duration_ub)
 
         coins_entry_fee_bounds = division_params[:coins_entry_fee_range].split('..')
