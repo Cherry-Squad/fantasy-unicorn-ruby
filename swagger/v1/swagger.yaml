@@ -19,18 +19,18 @@ paths:
               example:
                 status: success
                 data:
-                  id: 1
-                  username: dana_krajcik#1
-                  email: erlene.homenick@mayer.info
+                  id: 486
+                  username: eldridge#1
+                  email: loria.schinner@hane.co
                   email_validated: false
                   preferred_lang: ru_RU
                   avatar_id: 
                   coins: 0
                   fantasy_points: 0
-                  created_at: '2022-01-05T22:28:20.419Z'
-                  updated_at: '2022-01-05T22:28:20.419Z'
+                  created_at: '2022-01-06T00:27:08.389Z'
+                  updated_at: '2022-01-06T00:27:08.389Z'
                   provider: email
-                  uid: erlene.homenick@mayer.info
+                  uid: loria.schinner@hane.co
                   allow_password_change: false
         '422':
           description: incorrect email or username; email and/or username has already
@@ -41,8 +41,8 @@ paths:
                 status: error
                 data:
                   id: 
-                  username: vanvan#6
-                  email: catherine_stracke
+                  username: silvia#6
+                  email: fernanda
                   email_validated: false
                   preferred_lang: ru_RU
                   avatar_id: 
@@ -87,7 +87,7 @@ paths:
             application/json:
               example:
                 status: success
-                message: Account with UID 'lesa_dare@beahan-langosh.name' has been
+                message: Account with UID 'marybelle.jacobs@schuppe.net' has been
                   destroyed.
         '404':
           description: credentials are invalid
@@ -125,13 +125,13 @@ paths:
             application/json:
               example:
                 data:
-                  email: lila.krajcik@bernhard.io
+                  email: viviana@stiedemann.net
                   email_validated: false
-                  id: 6
+                  id: 491
                   fantasy_points: 0
                   coins: 0
-                  uid: lila.krajcik@bernhard.io
-                  username: virgilio_lockman#9
+                  uid: viviana@stiedemann.net
+                  username: derrick#9
                   preferred_lang: ru_RU
                   avatar_id: 
                   provider: email
@@ -190,16 +190,16 @@ paths:
               example:
                 success: true
                 data:
-                  id: 14
-                  username: trish.hessel#17
-                  email: drew@gleichner.name
+                  id: 499
+                  username: irish.altenwerth#17
+                  email: patty@zulauf.org
                   email_validated: false
                   preferred_lang: ru_RU
                   avatar_id: 
                   coins: 0
                   fantasy_points: 0
                   provider: email
-                  uid: drew@gleichner.name
+                  uid: patty@zulauf.org
                   allow_password_change: false
         '401':
           description: credentials are invalid
@@ -223,8 +223,8 @@ paths:
             application/json:
               example:
                 success: true
-                message: An email has been sent to 'ashton_murphy@luettgen.net' containing
-                  instructions for confirming your account.
+                message: An email has been sent to 'theron.bogan@schulist-nikolaus.com'
+                  containing instructions for confirming your account.
         '404':
           description: email is invalid
           content:
@@ -232,7 +232,7 @@ paths:
               example:
                 success: false
                 errors:
-                - Unable to find user with email 'jesusita.schultz@carter.net'.
+                - Unable to find user with email 'tom@kuhn-padberg.name'.
       requestBody:
         content:
           application/json:
@@ -258,17 +258,17 @@ paths:
               example:
                 success: true
                 data:
-                  email: evia@ledner.net
+                  email: genevieve@bergnaum.co
                   email_validated: false
-                  id: 18
+                  id: 503
                   fantasy_points: 0
                   coins: 0
-                  uid: evia@ledner.net
-                  username: cleopatra_reynolds#21
+                  uid: genevieve@bergnaum.co
+                  username: vonnie#21
                   preferred_lang: ru_RU
                   avatar_id: 
-                  created_at: '2022-01-05T22:28:28.969Z'
-                  updated_at: '2022-01-05T22:28:29.286Z'
+                  created_at: '2022-01-06T00:27:18.087Z'
+                  updated_at: '2022-01-06T00:27:18.452Z'
                   provider: email
                   allow_password_change: false
                 message: Your password has been successfully updated.
@@ -320,17 +320,17 @@ paths:
               example:
                 success: true
                 data:
-                  email: adrian@dicki.com
+                  email: curtis@cummerata-schimmel.net
                   email_validated: false
-                  id: 22
+                  id: 507
                   fantasy_points: 0
                   coins: 0
-                  uid: adrian@dicki.com
-                  username: orville#25
+                  uid: curtis@cummerata-schimmel.net
+                  username: porter_kunde#25
                   preferred_lang: ru_RU
                   avatar_id: 
-                  created_at: '2022-01-05T22:28:30.912Z'
-                  updated_at: '2022-01-05T22:28:31.374Z'
+                  created_at: '2022-01-06T00:27:20.421Z'
+                  updated_at: '2022-01-06T00:27:21.117Z'
                   provider: email
                   allow_password_change: false
                 message: Your password has been successfully updated.
@@ -382,7 +382,7 @@ paths:
             application/json:
               example:
                 success: true
-                message: An email has been sent to 'rosella@bradtke.info' containing
+                message: An email has been sent to 'elba@gutkowski-stroman.net' containing
                   instructions for resetting your password.
         '404':
           description: invalid email
@@ -391,7 +391,7 @@ paths:
               example:
                 success: false
                 errors:
-                - Unable to find user with email 'ed'.
+                - Unable to find user with email 'gene_leffler'.
         '401':
           description: missing email
           content:
