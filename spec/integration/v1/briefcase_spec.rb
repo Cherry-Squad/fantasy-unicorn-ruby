@@ -144,7 +144,7 @@ describe 'Briefcase API', swagger_doc: 'v1/swagger.yaml' do
 
           let(:id) { briefcase.id }
           let(:data) { { stock_id: stock.id, add: false } }
-          begin do
+          before do
             briefcase.stocks << stock
           end
 
