@@ -30,15 +30,7 @@ module Api
           briefcase = briefcase_by_id
           stock = safe_stock
           if briefcase && stock
-            if params[:add] == true
-              unless briefcase.stock_ids.include? stock.id
-                stocks = briefcase.stocks
-                stocks << stock
-              end
-            elsif briefcase.stock_ids.include? stock.id
-              stocks = briefcase.stocks
-              stocks.delete(stock)
-            end
+            add_or_delete_stock briefcase, stock
             render json: briefcase, status: 201
           elsif safe_stock.nil?
             render json: { status: 'Bad Request ( Stock not Found )' }, status: 400
@@ -47,6 +39,18 @@ module Api
           end
         rescue StandardError => e
           render json: { error: "An Error occurred #{e.message}" }, status: 400
+        end
+
+        def add_or_delete_stock(briefcase, stock)
+          if params[:add] == true
+            unless briefcase.stock_ids.include? stock.id
+              stocks = briefcase.stocks
+              stocks << stock
+            end
+          elsif briefcase.stock_ids.include? stock.id
+            stocks = briefcase.stocks
+            stocks.delete(stock)
+          end
         end
 
         def delete

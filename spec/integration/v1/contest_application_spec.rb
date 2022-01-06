@@ -73,7 +73,6 @@ describe 'ContestApplication API', swagger_doc: 'v1/swagger.yaml' do
             expect(body.as_json).to eq(ContestApplication.where(user: @user).as_json)
           end
         end
-
       end
     end
   end

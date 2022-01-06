@@ -59,8 +59,12 @@ describe 'ContestApplicationStock API', swagger_doc: 'v1/swagger.yaml' do
 
       response '200', 'get all contest application stocks if contest_id not set otherwise returns all
                        contest applications by contest_id' do
-        let!(:contest_application_stock1) { create :contest_application_stock, contest_application_id: contest_application.id, stock_id: stock.id }
-        let!(:contest_application_stock2) { create :contest_application_stock, contest_application_id: contest_application2.id, stock_id: stock2.id }
+        let!(:contest_application_stock1) do
+          create :contest_application_stock, contest_application_id: contest_application.id, stock_id: stock.id
+        end
+        let!(:contest_application_stock2) do
+          create :contest_application_stock, contest_application_id: contest_application2.id, stock_id: stock2.id
+        end
 
         context 'contest_id presence in query' do
           parameter name: :contest_id, in: :query, type: :integer, required: false
@@ -83,7 +87,6 @@ describe 'ContestApplicationStock API', swagger_doc: 'v1/swagger.yaml' do
             expect(body.as_json).to eq(ContestApplicationStock.all.as_json)
           end
         end
-
       end
     end
   end
