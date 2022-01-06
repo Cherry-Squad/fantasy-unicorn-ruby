@@ -3,13 +3,6 @@
 require 'swagger_helper'
 
 describe 'Stock API', swagger_doc: 'v1/swagger.yaml' do
-  let(:briefcase_obj) { build(:briefcase) }
-  let(:expiring_at) { Time.now.utc + 604_800 }
-  let(:briefcase) { { expiring_at: expiring_at } }
-  let(:stock_obj) { build(:stock) }
-  let(:name) { stock_obj.name }
-  let(:stock) { { name: name } }
-
   path '/api/v1/stocks/' do
     post 'Create a stock' do
       tags 'Stock'
@@ -23,14 +16,11 @@ describe 'Stock API', swagger_doc: 'v1/swagger.yaml' do
           },
           required: %w[name]
         }
-        before do
-          @stock = create :stock
-        end
+        let(:stock) { build :stock }
 
         run_test! do |response|
-          body = JSON(response.body)
-          expect(body.as_json).to eq(Stock.last.as_json)
-          expect { create :stock }.to change { Stock.count }.by(1)
+          data = JSON.parse(response.body)
+          expect(Stock.where(id: data['id'].to_i)).to exist
         end
       end
 
@@ -43,7 +33,8 @@ describe 'Stock API', swagger_doc: 'v1/swagger.yaml' do
           },
           required: %w[name]
         }
-        let(:stock) { create :stock }
+        let!(:stock1) { create :stock }
+        let(:stock) { { name: stock1.name } }
 
         run_test!
       end
@@ -51,9 +42,9 @@ describe 'Stock API', swagger_doc: 'v1/swagger.yaml' do
 
     get 'Get stocks' do
       tags 'Stock'
-      let(:stock) { create :stock }
-      let(:briefcase) { create :briefcase }
-      let(:user_obj) { briefcase.user }
+      let!(:stock) { create :stock }
+      let!(:briefcase) { create :briefcase }
+
       before do
         @user = briefcase.user
         briefcase.stocks << stock
@@ -71,9 +62,9 @@ describe 'Stock API', swagger_doc: 'v1/swagger.yaml' do
   end
 
   path '/api/v1/stocks/{id}/' do
-    let(:stock) { create :stock }
-    let(:briefcase) { create :briefcase }
-    let(:user_obj) { briefcase.user }
+    let!(:stock) { create :stock }
+    let!(:briefcase) { create :briefcase }
+
     before do
       @user = briefcase.user
       briefcase.stocks << stock
@@ -87,8 +78,9 @@ describe 'Stock API', swagger_doc: 'v1/swagger.yaml' do
         auth_user
 
         let(:id) { stock.id }
+
         run_test! do
-          expect { !Stock.find_by(id: id).exist? }
+          expect(Stock.where(id: id)).to_not exist
         end
       end
 
@@ -105,9 +97,10 @@ describe 'Stock API', swagger_doc: 'v1/swagger.yaml' do
       parameter name: :id, in: :path, type: :integer
 
       response '200', 'stock found' do
-        auth_user
+        include_context 'auth token'
 
         let(:id) { stock.id }
+
         run_test! do |response|
           body = JSON(response.body)
           expect(body.as_json).to eq(Stock.find_by(id: id).as_json)

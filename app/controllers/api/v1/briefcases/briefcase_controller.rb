@@ -35,11 +35,9 @@ module Api
                 stocks = briefcase.stocks
                 stocks << stock
               end
-            else
-              if briefcase.stock_ids.include? stock.id
-                stocks = briefcase.stocks
-                stocks.delete(stock)
-              end
+            elsif briefcase.stock_ids.include? stock.id
+              stocks = briefcase.stocks
+              stocks.delete(stock)
             end
             render json: briefcase, status: 201
           elsif safe_stock.nil?

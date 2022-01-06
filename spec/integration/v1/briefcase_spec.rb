@@ -3,19 +3,7 @@
 require 'swagger_helper'
 
 describe 'Briefcase API', swagger_doc: 'v1/swagger.yaml' do
-  let(:briefcase_obj) { build(:briefcase) }
-  let(:expiring_at) { Time.now.utc + 604_800 }
-  let(:briefcase) { { expiring_at: expiring_at } }
-  let(:stock_obj) { build(:stock) }
-  let(:name) { stock_obj.name }
-  let(:stock) { { name: name } }
-
   path '/api/v1/briefcases/' do
-    let(:user_obj) { briefcase.user }
-    before do
-      @briefcase_ = create :briefcase
-      @user = @briefcase_.user
-    end
     post 'Create a briefcase' do
       tags 'Briefcase'
 
@@ -23,9 +11,8 @@ describe 'Briefcase API', swagger_doc: 'v1/swagger.yaml' do
         include_context 'auth token'
 
         run_test! do |response|
-          body = JSON(response.body)
-          expect(body.as_json).to eq(Briefcase.last.as_json)
-          expect { create :briefcase }.to change { Briefcase.count }.by(1)
+          data = JSON.parse(response.body)
+          expect(Briefcase.where(id: data['id'].to_i)).to exist
         end
       end
     end
@@ -33,26 +20,31 @@ describe 'Briefcase API', swagger_doc: 'v1/swagger.yaml' do
     get 'Get all briefcases' do
       tags 'Briefcase'
 
+      let(:user_obj) { create :user }
       before do
-        @briefcases = create_list(:briefcase, 3)
+        @user = user_obj
       end
+
+      let!(:briefcase) { create :briefcase, user_id: user_obj.id }
 
       response '200', 'get all briefcases for current user' do
         auth_user
 
         run_test! do |response|
-          body = JSON(response.body)
-          expect(body.as_json).to eq(Briefcase.where(user: @user).as_json)
+          body = JSON.parse(response.body).map(&:as_json)
+          expect(body).to include(briefcase.as_json)
         end
       end
     end
   end
+
   path '/api/v1/briefcases/{id}/' do
     let(:briefcase) { create :briefcase }
-    let(:user_obj) { briefcase.user }
+
     before do
       @user = briefcase.user
     end
+
     delete 'delete a briefcase' do
       tags 'Briefcase'
       parameter name: :id, in: :path, type: :integer, required: true
@@ -61,16 +53,17 @@ describe 'Briefcase API', swagger_doc: 'v1/swagger.yaml' do
         auth_user
 
         let(:id) { briefcase.id }
-        run_test!
+
+        run_test! do
+          expect(Briefcase.where(id: id)).to_not exist
+        end
       end
 
       response '404', 'Not found 404' do
         auth_user
         let(:id) { 'invalid' }
 
-        run_test! do
-          expect { !Briefcase.find_by(id: id).exist? }
-        end
+        run_test!
       end
     end
 
@@ -81,16 +74,8 @@ describe 'Briefcase API', swagger_doc: 'v1/swagger.yaml' do
       response '200', 'briefcase connected with current user found' do
         auth_user
 
-        schema type: :object,
-               property: {
-                 id: { type: :integer },
-                 expiring_at: { type: :string },
-                 user_id: { type: :integer },
-                 created_at: { type: :string },
-                 updated_at: { type: :string }
-               }
-
         let(:id) { briefcase.id }
+
         run_test! do |response|
           body = JSON(response.body)
           expect(body.as_json).to eq(Briefcase.find_by(id: id).as_json)
@@ -106,13 +91,13 @@ describe 'Briefcase API', swagger_doc: 'v1/swagger.yaml' do
     end
 
     patch 'Update a briefcase' do
+      let!(:stock) { create :stock }
+
       tags 'Briefcase'
       parameter name: :id, in: :path, type: :integer, required: true
 
       response '404', 'briefcase not found' do
         auth_user
-        let(:stock) { create :stock }
-        let(:stock_id) { stock.id }
 
         parameter name: :data, in: :body, schema: {
           type: :object,
@@ -129,25 +114,22 @@ describe 'Briefcase API', swagger_doc: 'v1/swagger.yaml' do
 
       response '201', 'briefcase updated' do
         auth_user
-        let(:stock) { create :stock }
-        let(:stock_id) { stock.id }
 
         context 'add stock to briefcase' do
-          parameter name: :briefcase, in: :body, schema: {
+          parameter name: :data, in: :body, schema: {
             type: :object,
             properties: {
               stock_id: { type: :integer },
               add: { type: :boolean }
             }
           }
-          let(:briefcase) { create :briefcase }
+
           let(:data) { { stock_id: stock.id, add: true } }
           let(:id) { briefcase.id }
 
           run_test! do |response|
-            body = JSON(response.body)
-            expect(body.as_json).to eq(Briefcase.find_by(id: id).as_json)
-            expect(Briefcase.find_by(id: id).stocks.count).to eq(1)
+            data = JSON.parse(response.body)
+            expect(Briefcase.find_by(id: data['id']).stocks).to include(stock)
           end
         end
 
@@ -159,18 +141,15 @@ describe 'Briefcase API', swagger_doc: 'v1/swagger.yaml' do
               add: { type: :boolean }
             }
           }
-          let(:briefcase) { create :briefcase }
+
           let(:id) { briefcase.id }
           let(:data) { { stock_id: stock.id, add: false } }
 
           run_test! do |response|
-            body = JSON(response.body)
-            expect(body.as_json).to eq(Briefcase.find_by(id: id).as_json)
-            expect(Briefcase.find_by(id: id).stocks.count).to eq(0)
+            data = JSON.parse(response.body)
+            expect(Briefcase.find_by(id: data['id']).stocks).to_not include(stock)
           end
         end
-
-
       end
 
       response '400', 'stock not found' do

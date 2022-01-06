@@ -3,19 +3,9 @@
 require 'swagger_helper'
 
 describe 'ContestApplicationStock API', swagger_doc: 'v1/swagger.yaml' do
-  let(:contest_application) { { user_id: user.id, contest_id: contest.id } }
-  let(:contest_application_stock_obj) { build(:contest_application_stock) }
-  let(:multiplier) { contest_application_stock_obj.multiplier }
-  let(:contest_application_stock) do
-    { stock_id: stock.id, contest_application_id: contest_application.id, multiplier: multiplier }
-  end
-  let(:stock_obj) { build(:stock) }
-  let(:name) { stock_obj.name }
-  let(:stock) { { name: name } }
-
   path '/api/v1/contest_application_stocks/' do
-    let(:contest_application) { create :contest_application }
-    let(:stock) { create :stock }
+    let!(:contest_application) { create :contest_application }
+    let!(:stock) { create :stock }
 
     post 'Create a contest application stock' do
       tags 'ContestApplicationStock'
@@ -32,11 +22,12 @@ describe 'ContestApplicationStock API', swagger_doc: 'v1/swagger.yaml' do
           required: %w[multiplier stock_id contest_application_id]
         }
         let(:contest_application_stock) do
-          { stock_id: stock.id, contest_application_id: contest_application.id, multiplier: multiplier }
+          { stock_id: stock.id, contest_application_id: contest_application.id, multiplier: 10 }
         end
 
-        run_test! do
-          expect { create :contest_application_stock }.to change { ContestApplicationStock.count }.by(1)
+        run_test! do |response|
+          data = JSON.parse(response.body)
+          expect(ContestApplicationStock.where(id: data['id'].to_i)).to exist
         end
       end
 
@@ -52,7 +43,7 @@ describe 'ContestApplicationStock API', swagger_doc: 'v1/swagger.yaml' do
           required: %w[multiplier stock_id contest_application_id]
         }
         let(:contest_application_stock) do
-          { stock_id: nil, contest_application_id: contest_application.id, multiplier: multiplier }
+          { stock_id: nil, contest_application_id: contest_application.id, multiplier: 10 }
         end
 
         run_test!
@@ -61,32 +52,31 @@ describe 'ContestApplicationStock API', swagger_doc: 'v1/swagger.yaml' do
 
     get 'Get contest application stock stocks' do
       tags 'ContestApplicationStock'
-      let(:contest_application_stock) { create :contest_application_stock }
-      let(:contest_application) { contest_application_stock.contest_application }
-      let(:stock) { contest_application_stock.stock }
+      let!(:contest_application) { create :contest_application }
+      let!(:stock) { create :stock }
+      let!(:contest_application2) { create :contest_application }
+      let!(:stock2) { create :stock }
 
       response '200', 'get all contest application stocks if contest_id not set otherwise returns all
                        contest applications by contest_id' do
+        let!(:contest_application_stock1) { create :contest_application_stock, contest_application_id: contest_application.id, stock_id: stock.id }
+        let!(:contest_application_stock2) { create :contest_application_stock, contest_application_id: contest_application2.id, stock_id: stock2.id }
 
         context 'contest_id presence in query' do
           parameter name: :contest_id, in: :query, type: :integer, required: false
           include_context 'auth token'
 
-          let(:contest_id) { contest_application_stock.contest_application.contest.id }
-
-          before { create_list(:contest_application_stock, 2) }
+          let(:contest_id) { contest_application_stock1.contest_application.contest.id }
 
           run_test! do |response|
-            body = JSON(response.body)
-            expect(body.as_json).to eq(ContestApplicationStock.joins(:contest_application).
-              where(contest_applications: { contest_id: contest_id } ).as_json)
+            body = JSON.parse(response.body).map(&:as_json)
+            expect(body).to include(contest_application_stock1.as_json)
+            expect(body).to_not include(contest_application_stock2.as_json)
           end
         end
 
         context 'contest_id doesnt presence in query' do
           include_context 'auth token'
-
-          before { create_list(:contest_application_stock, 2) }
 
           run_test! do |response|
             body = JSON(response.body)
@@ -99,9 +89,9 @@ describe 'ContestApplicationStock API', swagger_doc: 'v1/swagger.yaml' do
   end
 
   path '/api/v1/contest_application_stocks/{id}/' do
-    let(:contest_application) { create :contest_application }
-    let(:stock) { create :stock }
-    let(:contest_application_stock_obj) { create :contest_application_stock }
+    let!(:contest_application) { create :contest_application }
+    let!(:stock) { create :stock }
+    let!(:contest_application_stock) { create :contest_application_stock }
 
     delete 'delete a contest application stock' do
       tags 'ContestApplicationStock'
@@ -110,10 +100,10 @@ describe 'ContestApplicationStock API', swagger_doc: 'v1/swagger.yaml' do
       response '204', 'contest application successfully deleted' do
         include_context 'auth token'
 
-        let(:id) { contest_application_stock_obj.id }
+        let(:id) { contest_application_stock.id }
 
         run_test! do
-          expect { !ContestApplicationStock.find_by(id: id).exist? }
+          expect(ContestApplicationStock.where(id: id)).to_not exist
         end
       end
 
@@ -132,7 +122,7 @@ describe 'ContestApplicationStock API', swagger_doc: 'v1/swagger.yaml' do
       response '200', 'contest application stock found' do
         include_context 'auth token'
 
-        let(:id) { contest_application_stock_obj.id }
+        let(:id) { contest_application_stock.id }
 
         run_test! do |response|
           body = JSON(response.body)

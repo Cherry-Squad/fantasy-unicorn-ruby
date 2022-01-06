@@ -3,11 +3,9 @@
 require 'swagger_helper'
 
 describe 'ContestApplication API', swagger_doc: 'v1/swagger.yaml' do
-  let(:contest_application) { { user_id: user.id, contest_id: contest.id } }
-
   path '/api/v1/contest_applications/' do
-    let(:user) { create :user }
-    let(:contest) { create :contest }
+    let!(:user) { create :user }
+    let!(:contest) { create :contest }
 
     post 'Create a contest application' do
       tags 'ContestApplication'
@@ -24,8 +22,9 @@ describe 'ContestApplication API', swagger_doc: 'v1/swagger.yaml' do
         }
         let(:contest_application) { { user_id: user.id, contest_id: contest.id } }
 
-        run_test! do
-          expect { create :contest_application }.to change { ContestApplication.count }.by(1)
+        run_test! do |response|
+          data = JSON.parse(response.body)
+          expect(ContestApplication.where(id: data['id'].to_i)).to exist
         end
       end
 
@@ -46,9 +45,8 @@ describe 'ContestApplication API', swagger_doc: 'v1/swagger.yaml' do
 
     get 'Get contest applications' do
       tags 'ContestApplication'
-      let(:contest_application) { create :contest_application }
-      let(:user) { create contest_application.user }
-      let(:contest) { create contest_application.contest }
+      let!(:contest_application) { create :contest_application }
+
       before do
         @user = contest_application.user
       end
@@ -81,11 +79,10 @@ describe 'ContestApplication API', swagger_doc: 'v1/swagger.yaml' do
   end
 
   path '/api/v1/contest_applications/{id}/' do
-    let(:user) { create :user }
-    let(:contest) { create :contest }
-    let(:contest_application_obj) { create :contest_application }
+    let!(:contest) { create :contest }
+    let!(:contest_application) { create :contest_application }
     before do
-      @user = contest_application_obj.user
+      @user = contest_application.user
     end
 
     delete 'delete a contest application' do
@@ -95,10 +92,10 @@ describe 'ContestApplication API', swagger_doc: 'v1/swagger.yaml' do
       response '204', 'contest application successfully deleted' do
         auth_user
 
-        let(:id) { contest_application_obj.id }
+        let(:id) { contest_application.id }
 
         run_test! do
-          expect { !ContestApplication.find_by(id: id).exist? }
+          expect(ContestApplication.where(id: id)).to_not exist
         end
       end
 
@@ -117,7 +114,8 @@ describe 'ContestApplication API', swagger_doc: 'v1/swagger.yaml' do
       response '200', 'contest application found' do
         auth_user
 
-        let(:id) { contest_application_obj.id }
+        let(:id) { contest_application.id }
+
         run_test! do |response|
           body = JSON(response.body)
           expect(body.as_json).to eq(ContestApplication.find_by(id: id).as_json)
