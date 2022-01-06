@@ -3,26 +3,13 @@
 require 'swagger_helper'
 
 describe 'Achievement API', swagger_doc: 'v1/swagger.yaml' do
-  let(:user_obj) { build(:user) }
-  let(:username) { user_obj.username }
-  let(:email) { user_obj.email }
-  let(:password) { user_obj.password }
-  let(:user) { { username: username, email: email, password: password } }
-  let(:achievement_obj) { build(:achievement) }
-  let(:achievement_identifier) { achievement_obj.achievement_identifier }
-  let(:achievement) { { achievement_identifier: achievement_identifier, user_id: user_obj.id } }
-
   path '/api/v1/achievements/' do
-    let(:achievement) { create :achievement }
-    let(:user_obj) { achievement.user }
-    before do
-      @user = achievement.user
-    end
-    post 'Create a achievement' do
+    post 'Create an achievement' do
       tags 'Achievement'
 
       response '201', 'achievement created' do
         include_context 'auth token'
+
         parameter name: :achievement, in: :body, schema: {
           type: :object,
           properties: {
@@ -31,8 +18,11 @@ describe 'Achievement API', swagger_doc: 'v1/swagger.yaml' do
           required: %w[achievement_identifier]
         }
 
-        run_test! do
-          expect { create :achievement }.to change { Achievement.count }.by(1)
+        let(:achievement) { { achievement_identifier: 42 } }
+
+        run_test! do |response|
+          data = JSON.parse(response.body)
+          expect(Achievement.where(id: data['id'].to_i)).to exist
         end
       end
     end
@@ -40,23 +30,33 @@ describe 'Achievement API', swagger_doc: 'v1/swagger.yaml' do
     get 'Get all achievements' do
       tags 'Achievement'
 
+      let(:user_obj) { create :user }
+      before do
+        @user = user_obj
+      end
+
+      let!(:achievement1) { create :achievement, user_id: user_obj.id }
+      let!(:achievement2) { create :achievement, user_id: user_obj.id }
+
       response '200', 'get all achievement' do
         auth_user
 
         run_test! do |response|
-          body = JSON(response.body)
-          expect(body.as_json).to eq(Achievement.where(user: @user).as_json)
+          body = JSON.parse(response.body).map(&:as_json)
+          expect(body).to include(achievement1.as_json)
+          expect(body).to include(achievement2.as_json)
         end
       end
     end
   end
   path '/api/v1/achievements/{id}/' do
     let(:achievement) { create :achievement }
-    let(:user_obj) { achievement.user }
+
     before do
       @user = achievement.user
     end
-    delete 'delete a achievement' do
+
+    delete 'delete an achievement' do
       tags 'Achievement'
       parameter name: :id, in: :path, type: :integer, required: true
 
@@ -66,7 +66,7 @@ describe 'Achievement API', swagger_doc: 'v1/swagger.yaml' do
         let(:id) { achievement.id }
 
         run_test! do
-          expect { !Achievement.find_by(id: id).exist? }
+          expect(Achievement.where(id: id)).to_not exist
         end
       end
 
@@ -78,7 +78,7 @@ describe 'Achievement API', swagger_doc: 'v1/swagger.yaml' do
       end
     end
 
-    get 'Retrieve a achievement' do
+    get 'Retrieve an achievement' do
       tags 'Achievement'
       parameter name: :id, in: :path, type: :integer
 
