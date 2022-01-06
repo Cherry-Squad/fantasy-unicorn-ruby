@@ -11,10 +11,10 @@ describe 'Briefcase API', swagger_doc: 'v1/swagger.yaml' do
   let(:stock) { { name: name } }
 
   path '/api/v1/briefcases/' do
-    let(:briefcase) { create :briefcase }
     let(:user_obj) { briefcase.user }
     before do
-      @user = briefcase.user
+      @briefcase_ = create :briefcase
+      @user = @briefcase_.user
     end
     post 'Create a briefcase' do
       tags 'Briefcase'
@@ -22,17 +22,27 @@ describe 'Briefcase API', swagger_doc: 'v1/swagger.yaml' do
       response '201', 'briefcase created' do
         include_context 'auth token'
 
-        run_test!
+        run_test! do |response|
+          body = JSON(response.body)
+          expect(body.as_json).to eq(Briefcase.last.as_json)
+        end
       end
     end
 
     get 'Get all briefcases' do
       tags 'Briefcase'
 
+      before do
+        @briefcases = create_list(:briefcase, 3)
+      end
+
       response '200', 'get all briefcases for current user' do
         auth_user
 
-        run_test!
+        run_test! do |response|
+          body = JSON(response.body)
+          expect(body.as_json).to eq(Briefcase.where(user: @user).as_json)
+        end
       end
     end
   end
@@ -78,7 +88,10 @@ describe 'Briefcase API', swagger_doc: 'v1/swagger.yaml' do
                }
 
         let(:id) { briefcase.id }
-        run_test!
+        run_test! do |response|
+          body = JSON(response.body)
+          expect(body.as_json).to eq(Briefcase.find_by(id: id).as_json)
+        end
       end
 
       response '404', 'briefcase not found' do
@@ -116,17 +129,21 @@ describe 'Briefcase API', swagger_doc: 'v1/swagger.yaml' do
         let(:stock) { create :stock }
         let(:stock_id) { stock.id }
 
-        parameter name: :data, in: :body, schema: {
+        parameter name: :briefcase, in: :body, schema: {
           type: :object,
           properties: {
             stock_id: { type: :integer },
             add: { type: :boolean }
           }
         }
+        let(:briefcase) { create :briefcase }
         let(:data) { { stock_id: stock.id, add: true } }
         let(:id) { briefcase.id }
 
-        run_test!
+        run_test! do |response|
+          body = JSON(response.body)
+          expect(body.as_json).to eq(Briefcase.find_by(id: id).as_json)
+        end
       end
 
       response '400', 'stock not found' do

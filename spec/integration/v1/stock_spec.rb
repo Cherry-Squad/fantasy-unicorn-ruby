@@ -23,8 +23,14 @@ describe 'Stock API', swagger_doc: 'v1/swagger.yaml' do
           },
           required: %w[name]
         }
+        before do
+          @stock = create :stock
+        end
 
-        run_test!
+        run_test! do |response|
+          body = JSON(response.body)
+          expect(body.as_json).to eq(Stock.last.as_json)
+        end
       end
     end
 
@@ -41,7 +47,10 @@ describe 'Stock API', swagger_doc: 'v1/swagger.yaml' do
       response '200', 'get all stocks' do
         auth_user
 
-        run_test!
+        run_test! do |response|
+          body = JSON(response.body)
+          expect(body.as_json).to eq(Stock.joins(:briefcases).where(briefcases: { user: @user }).distinct.as_json)
+        end
       end
     end
   end

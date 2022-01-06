@@ -51,35 +51,37 @@ describe 'Contest API', swagger_doc: 'v1/swagger.yaml' do
                        reg_ending_at status summarizing_at use_briefcase_only use_disabled_multipliers
                        use_inverted_stock_prices]
         }
+        before do
+          @contest = create :contest
+        end
 
-        run_test!
+        run_test! do |response|
+          body = JSON(response.body)
+          expect(body.as_json).to eq(Contest.last.as_json)
+        end
       end
     end
 
     get 'Get contests' do
       tags 'Contest'
 
+
+      before do
+        @contests = create_list(:contest, 3)
+      end
+
       response '200', 'all contests' do
-        parameter name: :fixed_direction_up, in: :query, type: :boolean, required: false
-        parameter name: :use_briefcase_only, in: :query, type: :boolean, required: false
-        parameter name: :use_disabled_multipliers, in: :query, type: :boolean, required: false
-        parameter name: :use_inverted_stock_prices, in: :query, type: :boolean, required: false
-        parameter name: :status, in: :query, type: :string, required: false
-        parameter name: :direction_strategy, in: :query, type: :string, required: false
-        parameter name: :coins_entry_fee_min_edge, in: :query, type: :integer, required: false
-        parameter name: :coins_entry_fee_max_edge, in: :query, type: :integer, required: false
-        parameter name: :max_fantasy_points_threshold, in: :query, type: :integer, required: false
         include_context 'auth token'
 
-        before { create_list(:contest, 10) }
-
-        run_test!
+        run_test! do |response|
+          body = JSON(response.body)
+          expect(body.as_json).to eq(Contest.last(3).as_json)
+        end
       end
     end
   end
 
   path '/api/v1/contests/{id}/' do
-    let(:contest) { create :contest }
 
     delete 'delete a contest' do
       tags 'Contest'
@@ -88,6 +90,7 @@ describe 'Contest API', swagger_doc: 'v1/swagger.yaml' do
       response '204', 'contest successfully deleted' do
         include_context 'auth token'
 
+        let(:contest) { create :contest }
         let(:id) { contest.id }
 
         run_test!
@@ -96,95 +99,8 @@ describe 'Contest API', swagger_doc: 'v1/swagger.yaml' do
       response '404', 'contest not found' do
         include_context 'auth token'
 
-        let(:id) { 'invalid' }
-        run_test!
-      end
-    end
-
-    patch 'Update a contest' do
-      tags 'Contest'
-      parameter name: :id, in: :path, type: :integer, required: true
-
-      response '404', 'contest not found' do
-        include_context 'auth token'
-
-        parameter name: :contest, in: :body, schema: {
-          type: :object,
-          properties: {
-            coins_entry_fee: { type: :integer },
-            direction_strategy: { type: :string },
-            fixed_direction_up: { type: :boolean },
-            max_fantasy_points_threshold: { type: :integer },
-            reg_ending_at: { type: :string },
-            status: { type: :string },
-            summarizing_at: { type: :string },
-            use_briefcase_only: { type: :boolean },
-            use_disabled_multipliers: { type: :boolean },
-            use_inverted_stock_prices: { type: :boolean }
-          }
-        }
-
-        let(:id) { 'invalid' }
         let(:contest) { create :contest }
-        run_test!
-      end
-
-      response '201', 'briefcase updated' do
-        include_context 'auth token'
-
-        parameter name: :contest, in: :body, schema: {
-          type: :object,
-          properties: {
-            coins_entry_fee: { type: :integer },
-            direction_strategy: { type: :string },
-            fixed_direction_up: { type: :boolean },
-            max_fantasy_points_threshold: { type: :integer },
-            reg_ending_at: { type: :string },
-            status: { type: :string },
-            summarizing_at: { type: :string },
-            use_briefcase_only: { type: :boolean },
-            use_disabled_multipliers: { type: :boolean },
-            use_inverted_stock_prices: { type: :boolean }
-          }
-        }
-        let(:contest) { create :contest }
-        let(:id) { contest.id }
-
-        run_test!
-      end
-
-      response '400', 'contest not found' do
-        include_context 'auth token'
-
-        parameter name: :contest, in: :body, schema: {
-          type: :object,
-          properties: {
-            coins_entry_fee: { type: :integer },
-            direction_strategy: { type: :string },
-            fixed_direction_up: { type: :boolean },
-            max_fantasy_points_threshold: { type: :integer },
-            reg_ending_at: { type: :string },
-            status: { type: :string },
-            summarizing_at: { type: :string },
-            use_briefcase_only: { type: :boolean },
-            use_disabled_multipliers: { type: :boolean },
-            use_inverted_stock_prices: { type: :boolean }
-          }
-        }
-        let(:contest) do
-          {  coins_entry_fee: false,
-             direction_strategy: direction_strategy,
-             fixed_direction_up: fixed_direction_up,
-             max_fantasy_points_threshold: max_fantasy_points_threshold,
-             status: status,
-             reg_ending_at: 6,
-             summarizing_at: summarizing_at,
-             use_briefcase_only: use_briefcase_only,
-             use_disabled_multipliers: use_disabled_multipliers,
-             use_inverted_stock_prices: use_inverted_stock_prices }
-        end
-        let(:contest_object) { create :contest }
-        let(:id) { contest_object.id }
+        let(:id) { 'invalid' }
         run_test!
       end
     end
@@ -196,6 +112,7 @@ describe 'Contest API', swagger_doc: 'v1/swagger.yaml' do
       response '200', 'contest found' do
         include_context 'auth token'
 
+        let(:contest) { create :contest }
         let(:id) { contest.id }
         run_test!
       end
