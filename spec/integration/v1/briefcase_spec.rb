@@ -144,6 +144,9 @@ describe 'Briefcase API', swagger_doc: 'v1/swagger.yaml' do
 
           let(:id) { briefcase.id }
           let(:data) { { stock_id: stock.id, add: false } }
+          begin do
+            briefcase.stocks << stock
+          end
 
           run_test! do |response|
             data = JSON.parse(response.body)
