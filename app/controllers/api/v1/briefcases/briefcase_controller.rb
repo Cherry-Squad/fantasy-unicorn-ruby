@@ -36,7 +36,7 @@ module Api
                 stocks << stock
               end
             else
-              unless briefcase.stock_ids.include? stock.id
+              if briefcase.stock_ids.include? stock.id
                 stocks = briefcase.stocks
                 stocks.delete(stock)
               end
