@@ -8,7 +8,13 @@ Delayed::Worker.queue_attributes = {
 }
 
 begin
-  ContestsServices::InspectContests.call unless Rails.env.test?
+  inspect_contests_handler = '--- !ruby/object:Delayed::PerformableMethod
+object: !ruby/class \'ContestsServices::InspectContests\'
+method_name: :call
+args: []
+'
+  Delayed::Job.where(handler: inspect_contests_handler).destroy_all
+  ContestsServices::InspectContests.delay(queue: 'contest_creating').call unless Rails.env.test?
 rescue ActiveRecord::StatementInvalid => e
   puts 'Can`t queue a job', e.inspect
 end

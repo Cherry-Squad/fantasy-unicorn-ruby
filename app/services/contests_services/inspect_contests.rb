@@ -13,9 +13,11 @@ module ContestsServices
       create_contests if need_to_create?
 
       calculate_cooldown
-      ContestsServices::InspectContests.delay(run_at: @creating_cooldown.minutes.from_now).call unless Rails.env.test?
+      return if Rails.env.test?
+
+      ContestsServices::InspectContests.delay(run_at: @creating_cooldown.minutes.from_now,
+                                              queue: 'contest_creating').call
     end
-    handle_asynchronously :call, queue: 'contest_creating'
 
     private
 
