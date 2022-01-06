@@ -65,7 +65,6 @@ describe 'Contest API', swagger_doc: 'v1/swagger.yaml' do
     get 'Get contests' do
       tags 'Contest'
 
-
       before do
         @contests = create_list(:contest, 3)
       end
@@ -82,7 +81,6 @@ describe 'Contest API', swagger_doc: 'v1/swagger.yaml' do
   end
 
   path '/api/v1/contests/{id}/' do
-
     delete 'delete a contest' do
       tags 'Contest'
       parameter name: :id, in: :path, type: :integer
