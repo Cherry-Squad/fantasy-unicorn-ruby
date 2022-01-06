@@ -44,6 +44,7 @@ describe 'ContestApplication API', swagger_doc: 'v1/swagger.yaml' do
     end
 
     get 'Get contest applications' do
+      parameter name: :contest_id, in: :query, type: :integer, required: false
       tags 'ContestApplication'
       let!(:contest_application) { create :contest_application }
 
@@ -54,7 +55,6 @@ describe 'ContestApplication API', swagger_doc: 'v1/swagger.yaml' do
       response '200', 'get all contest applications for current user if contest_id not set otherwise returns all
                        contest applications by contest_id' do
         context 'contest_id presence in query' do
-          parameter name: :contest_id, in: :query, type: :integer, required: false
           auth_user
 
           let(:contest_id) { contest_application.contest.id }
