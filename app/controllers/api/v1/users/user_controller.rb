@@ -14,14 +14,10 @@ module Api
 
         def update
           user = current_user
-          if user
-            if user.update(user_update_params)
-              render json: user, status: 201
-            else
-              render json: { error: "An Error occurred #{user.errors.full_messages}" }, status: 400
-            end
+          if user.update(user_update_params)
+            render json: user, status: 201
           else
-            render json: { error: "An error occurred #{user.errors.full_messages}" }, status: 404
+            render json: { error: "An Error occurred #{user.errors.full_messages}" }, status: 400
           end
         rescue StandardError => e
           render json: { error: "An Error occurred #{e.message}" }, status: 400
