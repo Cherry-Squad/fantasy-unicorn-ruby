@@ -25,6 +25,7 @@ describe 'Briefcase API', swagger_doc: 'v1/swagger.yaml' do
         run_test! do |response|
           body = JSON(response.body)
           expect(body.as_json).to eq(Briefcase.last.as_json)
+          expect { create :briefcase }.to change { Briefcase.count }.by(1)
         end
       end
     end
@@ -67,7 +68,9 @@ describe 'Briefcase API', swagger_doc: 'v1/swagger.yaml' do
         auth_user
         let(:id) { 'invalid' }
 
-        run_test!
+        run_test! do
+          expect { !Briefcase.find_by(id: id).exist? }
+        end
       end
     end
 
@@ -129,21 +132,45 @@ describe 'Briefcase API', swagger_doc: 'v1/swagger.yaml' do
         let(:stock) { create :stock }
         let(:stock_id) { stock.id }
 
-        parameter name: :briefcase, in: :body, schema: {
-          type: :object,
-          properties: {
-            stock_id: { type: :integer },
-            add: { type: :boolean }
+        context 'add stock to briefcase' do
+          parameter name: :briefcase, in: :body, schema: {
+            type: :object,
+            properties: {
+              stock_id: { type: :integer },
+              add: { type: :boolean }
+            }
           }
-        }
-        let(:briefcase) { create :briefcase }
-        let(:data) { { stock_id: stock.id, add: true } }
-        let(:id) { briefcase.id }
+          let(:briefcase) { create :briefcase }
+          let(:data) { { stock_id: stock.id, add: true } }
+          let(:id) { briefcase.id }
 
-        run_test! do |response|
-          body = JSON(response.body)
-          expect(body.as_json).to eq(Briefcase.find_by(id: id).as_json)
+          run_test! do |response|
+            body = JSON(response.body)
+            expect(body.as_json).to eq(Briefcase.find_by(id: id).as_json)
+            expect(Briefcase.find_by(id: id).stocks.count).to eq(1)
+          end
         end
+
+        context 'delete stock from briefcase' do
+          parameter name: :briefcase, in: :body, schema: {
+            type: :object,
+            properties: {
+              stock_id: { type: :integer },
+              add: { type: :boolean }
+            }
+          }
+          let(:briefcase) { create :briefcase }
+          let(:id) { briefcase.id }
+          let(:data) { { stock_id: stock.id, add: false } }
+
+          run_test! do |response|
+            body = JSON(response.body)
+            expect(body.as_json).to eq(Briefcase.find_by(id: id).as_json)
+            expect(Briefcase.find_by(id: id).stocks.count).to eq(0)
+          end
+        end
+
+
       end
 
       response '400', 'stock not found' do

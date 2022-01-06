@@ -24,7 +24,9 @@ describe 'ContestApplication API', swagger_doc: 'v1/swagger.yaml' do
         }
         let(:contest_application) { { user_id: user.id, contest_id: contest.id } }
 
-        run_test!
+        run_test! do
+          expect { create :contest_application }.to change { ContestApplication.count }.by(1)
+        end
       end
 
       response '400', 'contest application created' do
@@ -53,12 +55,27 @@ describe 'ContestApplication API', swagger_doc: 'v1/swagger.yaml' do
 
       response '200', 'get all contest applications for current user if contest_id not set otherwise returns all
                        contest applications by contest_id' do
-        parameter name: :contest_id, in: :query, type: :integer, required: false
-        auth_user
+        context 'contest_id presence in query' do
+          parameter name: :contest_id, in: :query, type: :integer, required: false
+          auth_user
 
-        let(:contest_id) { contest_application.contest.id }
+          let(:contest_id) { contest_application.contest.id }
 
-        run_test!
+          run_test! do |response|
+            body = JSON(response.body)
+            expect(body.as_json).to eq(ContestApplication.where(contest_id: contest_id).as_json)
+          end
+        end
+
+        context 'contest_id doesnt presence in query' do
+          auth_user
+
+          run_test! do |response|
+            body = JSON(response.body)
+            expect(body.as_json).to eq(ContestApplication.where(user: @user).as_json)
+          end
+        end
+
       end
     end
   end
@@ -80,7 +97,9 @@ describe 'ContestApplication API', swagger_doc: 'v1/swagger.yaml' do
 
         let(:id) { contest_application_obj.id }
 
-        run_test!
+        run_test! do
+          expect { !ContestApplication.find_by(id: id).exist? }
+        end
       end
 
       response '404', 'contest application not found' do
@@ -99,7 +118,10 @@ describe 'ContestApplication API', swagger_doc: 'v1/swagger.yaml' do
         auth_user
 
         let(:id) { contest_application_obj.id }
-        run_test!
+        run_test! do |response|
+          body = JSON(response.body)
+          expect(body.as_json).to eq(ContestApplication.find_by(id: id).as_json)
+        end
       end
 
       response '404', 'contest application not found' do

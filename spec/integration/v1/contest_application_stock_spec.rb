@@ -35,7 +35,9 @@ describe 'ContestApplicationStock API', swagger_doc: 'v1/swagger.yaml' do
           { stock_id: stock.id, contest_application_id: contest_application.id, multiplier: multiplier }
         end
 
-        run_test!
+        run_test! do
+          expect { create :contest_application_stock }.to change { ContestApplicationStock.count }.by(1)
+        end
       end
 
       response '400', 'contest application stock created' do
@@ -65,14 +67,33 @@ describe 'ContestApplicationStock API', swagger_doc: 'v1/swagger.yaml' do
 
       response '200', 'get all contest application stocks if contest_id not set otherwise returns all
                        contest applications by contest_id' do
-        parameter name: :contest_id, in: :query, type: :integer, required: false
-        include_context 'auth token'
 
-        let(:contest_id) { contest_application_stock.contest_application.contest.id }
+        context 'contest_id presence in query' do
+          parameter name: :contest_id, in: :query, type: :integer, required: false
+          include_context 'auth token'
 
-        before { create_list(:contest_application_stock, 2) }
+          let(:contest_id) { contest_application_stock.contest_application.contest.id }
 
-        run_test!
+          before { create_list(:contest_application_stock, 2) }
+
+          run_test! do |response|
+            body = JSON(response.body)
+            expect(body.as_json).to eq(ContestApplicationStock.joins(:contest_application).
+              where(contest_applications: { contest_id: contest_id } ).as_json)
+          end
+        end
+
+        context 'contest_id doesnt presence in query' do
+          include_context 'auth token'
+
+          before { create_list(:contest_application_stock, 2) }
+
+          run_test! do |response|
+            body = JSON(response.body)
+            expect(body.as_json).to eq(ContestApplicationStock.all.as_json)
+          end
+        end
+
       end
     end
   end
@@ -91,7 +112,9 @@ describe 'ContestApplicationStock API', swagger_doc: 'v1/swagger.yaml' do
 
         let(:id) { contest_application_stock_obj.id }
 
-        run_test!
+        run_test! do
+          expect { !ContestApplicationStock.find_by(id: id).exist? }
+        end
       end
 
       response '404', 'contest application not found' do
@@ -111,7 +134,10 @@ describe 'ContestApplicationStock API', swagger_doc: 'v1/swagger.yaml' do
 
         let(:id) { contest_application_stock_obj.id }
 
-        run_test!
+        run_test! do |response|
+          body = JSON(response.body)
+          expect(body.as_json).to eq(ContestApplicationStock.find_by(id: id).as_json)
+        end
       end
 
       response '404', 'contest application stock not found' do

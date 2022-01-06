@@ -30,7 +30,22 @@ describe 'Stock API', swagger_doc: 'v1/swagger.yaml' do
         run_test! do |response|
           body = JSON(response.body)
           expect(body.as_json).to eq(Stock.last.as_json)
+          expect { create :stock }.to change { Stock.count }.by(1)
         end
+      end
+
+      response '400', 'stock already exists / invalid stock' do
+        include_context 'auth token'
+        parameter name: :stock, in: :body, schema: {
+          type: :object,
+          properties: {
+            name: { type: :string }
+          },
+          required: %w[name]
+        }
+        let(:stock) { create :stock }
+
+        run_test!
       end
     end
 
@@ -72,7 +87,9 @@ describe 'Stock API', swagger_doc: 'v1/swagger.yaml' do
         auth_user
 
         let(:id) { stock.id }
-        run_test!
+        run_test! do
+          expect { !Stock.find_by(id: id).exist? }
+        end
       end
 
       response '404', 'Not found 404' do
@@ -91,7 +108,10 @@ describe 'Stock API', swagger_doc: 'v1/swagger.yaml' do
         auth_user
 
         let(:id) { stock.id }
-        run_test!
+        run_test! do |response|
+          body = JSON(response.body)
+          expect(body.as_json).to eq(Stock.find_by(id: id).as_json)
+        end
       end
 
       response '404', 'stock not found' do

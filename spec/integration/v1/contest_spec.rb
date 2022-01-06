@@ -58,6 +58,7 @@ describe 'Contest API', swagger_doc: 'v1/swagger.yaml' do
         run_test! do |response|
           body = JSON(response.body)
           expect(body.as_json).to eq(Contest.last.as_json)
+          expect { create :contest }.to change { Contest.count }.by(1)
         end
       end
     end
@@ -91,7 +92,9 @@ describe 'Contest API', swagger_doc: 'v1/swagger.yaml' do
         let(:contest) { create :contest }
         let(:id) { contest.id }
 
-        run_test!
+        run_test! do
+          expect { !Contest.find_by(id: id).exist? }
+        end
       end
 
       response '404', 'contest not found' do
@@ -112,7 +115,10 @@ describe 'Contest API', swagger_doc: 'v1/swagger.yaml' do
 
         let(:contest) { create :contest }
         let(:id) { contest.id }
-        run_test!
+        run_test! do |response|
+          body = JSON(response.body)
+          expect(body.as_json).to eq(Contest.find_by(id: id).as_json)
+        end
       end
 
       response '404', 'contest not found' do

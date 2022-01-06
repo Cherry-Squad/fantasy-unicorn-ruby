@@ -31,7 +31,9 @@ describe 'Achievement API', swagger_doc: 'v1/swagger.yaml' do
           required: %w[achievement_identifier]
         }
 
-        run_test!
+        run_test! do
+          expect { create :achievement }.to change { Achievement.count }.by(1)
+        end
       end
     end
 
@@ -41,7 +43,10 @@ describe 'Achievement API', swagger_doc: 'v1/swagger.yaml' do
       response '200', 'get all achievement' do
         auth_user
 
-        run_test!
+        run_test! do |response|
+          body = JSON(response.body)
+          expect(body.as_json).to eq(Achievement.where(user: @user).as_json)
+        end
       end
     end
   end
@@ -59,7 +64,10 @@ describe 'Achievement API', swagger_doc: 'v1/swagger.yaml' do
         auth_user
 
         let(:id) { achievement.id }
-        run_test!
+
+        run_test! do
+          expect { !Achievement.find_by(id: id).exist? }
+        end
       end
 
       response '404', 'Not found 404' do
@@ -78,7 +86,11 @@ describe 'Achievement API', swagger_doc: 'v1/swagger.yaml' do
         auth_user
 
         let(:id) { achievement.id }
-        run_test!
+
+        run_test! do |response|
+          body = JSON(response.body)
+          expect(body.as_json).to eq(Achievement.find_by(id: id).as_json)
+        end
       end
 
       response '404', 'achievement not found' do
