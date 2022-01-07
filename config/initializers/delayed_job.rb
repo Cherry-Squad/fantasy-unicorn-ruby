@@ -22,7 +22,7 @@ args: []
   Delayed::Job.where(handler: rolling_coins_handler).destroy_all
 
   unless Rails.env.test?
-    ContestsServices::InspectContests.delay(queue: 'contest_creating').call unless
+    ContestsServices::InspectContests.delay(queue: 'contest_creating').call
     RollingServices::GrantCoins.delay(queue: 'rolling_coins',
                                       run_at: Time.current.beginning_of_day + 1.day + 3.hour).call
   end
