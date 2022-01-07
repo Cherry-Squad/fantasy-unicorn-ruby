@@ -41,6 +41,7 @@ jobs:
       run: |
         bundle exec rake db:create
         bundle exec rake db:migrate:reset
+        bundle exec rake db:seed
 
     - name: Run RSpec
       env:
