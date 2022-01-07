@@ -47,9 +47,10 @@ module Api
         end
 
         def assign_stocks_prices(contest_app_stocks, contest_app_id)
+          time = Time.now.utc.to_i
           contest_app_stocks.each do |contest_app_stock|
             ContestsServices::AssignStockPrice.delay(queue: 'contest_processing')
-                                              .call contest_app_id, contest_app_stock.stock_id, Time.now.utc, 'req'
+                                              .call contest_app_id.to_i, contest_app_stock.stock_id.to_i, time, 'reg'
           end
         end
 
