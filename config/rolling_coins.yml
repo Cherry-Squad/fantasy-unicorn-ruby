@@ -1,0 +1,13 @@
+defaults: &defaults
+  cooldown_updating: 1
+  amount_of_coins: 20
+  treshold_coins: 10
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

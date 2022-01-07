@@ -13,8 +13,15 @@ object: !ruby/class \'ContestsServices::InspectContests\'
 method_name: :call
 args: []
 '
+  rolling_coins_handler = '--- !ruby/object:Delayed::PerformableMethod
+object: !ruby/class \'RollingServices::GrantCoins\'
+method_name: :call
+args: []
+'
   Delayed::Job.where(handler: inspect_contests_handler).destroy_all
+  Delayed::Job.where(handler: rolling_coins_handler).destroy_all
   ContestsServices::InspectContests.delay(queue: 'contest_creating').call unless Rails.env.test?
+  RollingServices::GrantCoins.delay(queue: 'rolling_coins').call unless Rails.env.test?
 rescue ActiveRecord::StatementInvalid => e
   puts 'Can`t queue a job', e.inspect
 end
