@@ -183,7 +183,10 @@ describe 'Briefcase API', swagger_doc: 'v1/swagger.yaml' do
 
       response '200', 'stocks in briefcase' do
         include_context 'auth token'
-        run_test!
+        run_test! do |response|
+          body = JSON(response.body)
+          expect(body.as_json).to eq(Briefcase.find(id).stocks.as_json)
+        end
       end
 
       response '404', 'not found' do
