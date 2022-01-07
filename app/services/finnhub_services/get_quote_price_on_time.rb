@@ -12,7 +12,7 @@ module FinnhubServices
 
     def call
       candle = request_candle
-      raise ApiError::UnknownSymbol, @symbol if candle.status == 'no_data'
+      raise ApiError::UnknownSymbol, @symbol if candle.s == 'no_data'
 
       request_price candle
     rescue FinnhubRuby::ApiError => e
@@ -24,7 +24,7 @@ module FinnhubServices
     private
 
     def request_candle
-      @finnhub_client.stock_candles(@symbol, '1', @timestamp - 40, @timestamp + 40)
+      @finnhub_client.stock_candles @symbol, '1', @time - 40, @time + 40
     end
 
     def request_price(candle)

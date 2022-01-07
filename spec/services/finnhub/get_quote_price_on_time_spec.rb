@@ -2,52 +2,51 @@
 
 require 'rails_helper'
 
-RSpec.describe FinnhubServices::GetQuotePrice do
+RSpec.describe FinnhubServices::GetQuotePriceOnTime do
   let(:symbol) { 'AAPL' }
+  let(:time) { 1_631_022_248 + 30 }
 
   context 'created with a stubbed api' do
     let(:finnhub_client) { double('finnhub_client') }
 
     context 'and predefined correct response' do
       before do
-        allow(finnhub_client).to receive(:quote) do
+        allow(finnhub_client).to receive(:stock_candles) do
           OpenStruct.new(
-            c: 156.81,
-            d: -5.13,
-            dp: -3.1678,
-            h: 160.448,
-            l: 156.36,
-            o: 159.565,
-            pc: 161.94,
-            t: 1_637_949_603
+            o: [155.45, 155.45],
+            h: [155.48, 155.5],
+            l: [155.37, 155.18],
+            c: [155.459, 155.23],
+            v: [354_959.0, 414_609.0],
+            t: [1_631_022_240, 1_631_022_300],
+            s: 'ok'
           )
         end
       end
-
       it '#call return correct price' do
-        quote_price_response = FinnhubServices::GetQuotePrice.call(symbol, finnhub_client)
-        expect(quote_price_response.result).to eq(finnhub_client.quote[:c])
+        quote_price_response = FinnhubServices::GetQuotePriceOnTime.call(symbol, time, finnhub_client)
+        expected_price = (finnhub_client.stock_candles[:h][0] + finnhub_client.stock_candles[:l][0]) / 2
+        expect(quote_price_response.result).to eq(expected_price)
       end
     end
 
     context "and predefined response as if ticker isn't exists" do
       before do
-        allow(finnhub_client).to receive(:quote) do
+        allow(finnhub_client).to receive(:stock_candles) do
           OpenStruct.new(
-            c: 0,
-            d: nil,
-            dp: nil,
-            h: 0,
-            l: 0,
-            o: 0,
-            pc: 0,
-            t: 0
+            o: [],
+            h: [],
+            l: [],
+            c: [],
+            v: [],
+            t: [],
+            s: 'no_data'
           )
         end
       end
 
       it '#call raises ApiError::UnknownSymbol' do
-        expect { FinnhubServices::GetQuotePrice.call(symbol, finnhub_client) }
+        expect { FinnhubServices::GetQuotePriceOnTime.call symbol, time, finnhub_client }
           .to raise_error(FinnhubServices::ApiError::UnknownSymbol)
       end
     end
@@ -56,14 +55,14 @@ RSpec.describe FinnhubServices::GetQuotePrice do
       let(:error_code) { nil }
 
       before do
-        allow(finnhub_client).to receive(:quote).and_raise(FinnhubRuby::ApiError.new(code: error_code))
+        allow(finnhub_client).to receive(:stock_candles).and_raise(FinnhubRuby::ApiError.new(code: error_code))
       end
 
       context 'with code 429' do
         let(:error_code) { 429 }
 
         it '#call raises ApiError::TooManyRequests' do
-          expect { FinnhubServices::GetQuotePrice.call(symbol, finnhub_client) }
+          expect { FinnhubServices::GetQuotePriceOnTime.call symbol, time, finnhub_client }
             .to raise_error(FinnhubServices::ApiError::TooManyRequests)
         end
       end
@@ -72,14 +71,14 @@ RSpec.describe FinnhubServices::GetQuotePrice do
         let(:error_code) { 500 }
 
         it '#call raises ApiError' do
-          expect { FinnhubServices::GetQuotePrice.call(symbol, finnhub_client) }
+          expect { FinnhubServices::GetQuotePriceOnTime.call symbol, time, finnhub_client }
             .to raise_error(FinnhubServices::ApiError)
         end
       end
 
       context 'with pseudo timeout error' do
         it '#call raises ApiError' do
-          expect { FinnhubServices::GetQuotePrice.call(symbol, finnhub_client) }
+          expect { FinnhubServices::GetQuotePriceOnTime.call symbol, time, finnhub_client }
             .to raise_error(FinnhubServices::ApiError)
         end
       end
@@ -92,15 +91,15 @@ RSpec.describe FinnhubServices::GetQuotePrice do
     end
 
     it '#call return correct price' do
-      quote_price_response = FinnhubServices::GetQuotePrice.call(symbol)
+      quote_price_response = FinnhubServices::GetQuotePriceOnTime.call symbol, time
       expect(quote_price_response.result).to be_a(Float).and be > 0
     end
 
     context 'and with non-existent symbol' do
-      let(:symbol) { 'AAPLERPQJER' }
+      let(:symbol) { 'BIBIZYANA' }
 
       it '#call raises ApiError::UnknownSymbol' do
-        expect { FinnhubServices::GetQuotePrice.call(symbol) }
+        expect { FinnhubServices::GetQuotePriceOnTime.call symbol, time }
           .to raise_error(FinnhubServices::ApiError::UnknownSymbol)
       end
     end
