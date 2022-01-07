@@ -7,9 +7,9 @@ module FinnhubServices
   # quote_price_response = FinnhubServices::GetQuotePrice.call()
   # puts quote_price_response.result
   class GetQuotePrice < Patterns::Service
-    def initialize(stock_id, finnhub_client = FinnhubRuby::DefaultApi.new)
+    def initialize(stock_name, finnhub_client = FinnhubRuby::DefaultApi.new)
       super()
-      @symbol = stock_id
+      @symbol = stock_name
       @finnhub_client = finnhub_client
     end
 
