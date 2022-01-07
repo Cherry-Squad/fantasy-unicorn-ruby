@@ -29,9 +29,9 @@ module ContestsServices
     end
 
     def assign_price
-      price = FinnhubServices::GetQuotePriceOnTime stock_name(@stock_id), @timestamp
+      price = FinnhubServices::GetQuotePriceOnTime.call(stock_name(@stock_id), @timestamp).result
       contest_application_stocks = ContestApplicationStock.where(contest_application_id: @contest_application_id,
-                                                                 stock_id: @stock_id)
+                                                                 stock_id: @stock_id).first
 
       contest_application_stocks.reg_price = price if @assignation == 'reg'
       contest_application_stocks.final_price = price if @assignation == 'summarize'
