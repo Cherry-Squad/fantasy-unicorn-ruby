@@ -21,7 +21,10 @@ args: []
   Delayed::Job.where(handler: inspect_contests_handler).destroy_all
   Delayed::Job.where(handler: rolling_coins_handler).destroy_all
   ContestsServices::InspectContests.delay(queue: 'contest_creating').call unless Rails.env.test?
-  RollingServices::GrantCoins.delay(queue: 'rolling_coins').call unless Rails.env.test?
+  unless Rails.env.test?
+    RollingServices::GrantCoins.delay(queue: 'rolling_coins',
+                                      run_at: Time.current.beginning_of_day + 1.day + 3.hour).call
+  end
 rescue ActiveRecord::StatementInvalid => e
   puts 'Can`t queue a job', e.inspect
 end

@@ -11,16 +11,16 @@ module RollingServices
     end
 
     def call
-      grant_coins
-
+      update_coins
       return if Rails.env.test?
 
-      RollingServices::GrantCoins.delay(run_at: @cooldown_updating.days.from_now, queue: 'rolling_coins').call
+      RollingServices::GrantCoins.delay(run_at: @cooldown_updating.days.from_now.beginning_of_day + 3.hours,
+                                        queue: 'rolling_coins').call
     end
 
     private
 
-    def grant_coins
+    def update_coins
       users = User.where('coins < ?', @treshold_coins)
       users.each do |user|
         user.coins += @amount_of_coins
