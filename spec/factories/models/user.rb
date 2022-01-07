@@ -11,5 +11,13 @@ FactoryBot.define do
       coins { Faker::Number.within(range: 1..10 ** 10) }
       fantasy_points { Faker::Number.within(range: 1..10 ** 10) }
     end
+
+    trait :with_few_coins do
+      coins { Faker::Number.within(range: 1..5) }
+    end
+
+    trait :with_many_coins do
+      coins { Faker::Number.within(range: 1000..2000) }
+    end
   end
 end
