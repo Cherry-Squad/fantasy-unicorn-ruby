@@ -915,8 +915,8 @@ paths:
                 coins_entry_fee: 1078954628
                 max_fantasy_points_threshold: 4564046903
                 use_briefcase_only: true
-                direction_strategy: single_per_user
-                fixed_direction_up: 
+                direction_strategy: fixed
+                fixed_direction_up: true
                 use_disabled_multipliers: false
                 use_inverted_stock_prices: false
                 created_at: '2022-01-07T10:15:26.372Z'
