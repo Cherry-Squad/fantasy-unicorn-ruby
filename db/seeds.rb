@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
-User.create(username: 'admin', email: 'info@a6raywa1cher.com', password: '123456')
+User.find_or_create_by(username: 'admin') do |user|
+  user.email = 'info@a6raywa1cher.com'
+  user.password = '123456'
+end
+
+puts 'seeded admin'
 
 tickers = %w[TSLA AAPL NVDA AMD INTC AMZN MSFT
              F FB GOOGL PFE BAC JPM GM NFLX
@@ -9,5 +14,6 @@ tickers = %w[TSLA AAPL NVDA AMD INTC AMZN MSFT
              SNAP TWTR]
 
 tickers.each do |ticker|
-  Stock.create(name: ticker)
+  Stock.find_or_create_by(name: ticker)
+  puts "seeded stock #{ticker}"
 end
