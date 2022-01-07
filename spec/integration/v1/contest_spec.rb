@@ -93,7 +93,7 @@ describe 'Contest API', swagger_doc: 'v1/swagger.yaml' do
             expect(body.as_json).to eq(Contest.where(coins_entry_fee: (20..40)).as_json)
           end
         end
-        context 'set contest with max_fantasy_points_threshold = 30' do
+        context 'get contests by max_fantasy_points_threshold' do
           context 'get contests with max_fantasy_points_threshold = 20' do
             include_context 'auth token'
 
