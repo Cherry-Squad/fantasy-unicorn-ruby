@@ -14,18 +14,27 @@ module ContestsServices
     end
 
     def call
-      reg_ending_at = Time.now + @reg_duration
-      summarizing_at = reg_ending_at + @summarizing_duration
+      calculate_times
 
-      Contest.create(
+      contest = Contest.create(
         coins_entry_fee: @coins_entry_fee,
         max_fantasy_points_threshold: @max_fantasy_points_threshold,
-        reg_ending_at: reg_ending_at,
-        summarizing_at: summarizing_at
+        reg_ending_at: @reg_ending_at,
+        summarizing_at: @summarizing_at
       )
+      return contest if Rails.env.test?
+
+      ContestsServices::CloseRegistration.delay(run_at: reg_ending_at, queue: 'contest_processing').call contest.id
+
+      contest
     end
 
     private
+
+    def calculate_times
+      @reg_ending_at = Time.now + @reg_duration
+      @summarizing_at = @reg_ending_at + @summarizing_duration
+    end
 
     def set_division_params
       division_params = Rails.configuration.divisions[@division_name]
