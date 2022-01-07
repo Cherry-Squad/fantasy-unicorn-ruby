@@ -28,5 +28,6 @@ course at TverSU, Russia.
     $ bundle install
     $ rake db:setup
     $ rake db:migrate
+    $ rake db:seed
     ```
-   Then run `rails server` to start a server on 127.0.0.1:3000.
+   Then run `rails server` and `rake jobs:work` to start a server on 127.0.0.1:3000.
