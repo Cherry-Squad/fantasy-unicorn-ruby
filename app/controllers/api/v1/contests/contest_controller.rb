@@ -75,9 +75,29 @@ module Api
         end
 
         def all_contests
-          Contest.all
+          filter_params = params.permit(:status, :direction_strategy, :fixed_direction_up, :use_briefcase_only,
+                                        :use_disabled_multipliers, :use_inverted_stock_prices)
+                                .delete_if { |_key, value| value.blank? }.transform_values! { |v| v.split(',') }
+          int_filter_params = params.permit(:coins_entry_fee_min_edge, :coins_entry_fee_max_edge,
+                                            :max_fantasy_points_threshold).delete_if { |_key, value| value.blank? }
+          max_coins_entry_fee_edge = if int_filter_params[:coins_entry_fee_max_edge].presence
+                                       int_filter_params[:coins_entry_fee_max_edge].to_i
+                                     else
+                                       Float::INFINITY
+                                     end
+          fantasy_points_threshold_edge = if int_filter_params[:max_fantasy_points_threshold].presence
+                                            int_filter_params[:max_fantasy_points_threshold].to_i
+                                          else
+                                            Float::INFINITY
+                                          end
+          filter_by_int = {
+            coins_entry_fee: (int_filter_params[:coins_entry_fee_min_edge].to_i..max_coins_entry_fee_edge),
+            max_fantasy_points_threshold: (0..fantasy_points_threshold_edge)
+          }
+          Contest.where(filter_by_int.merge(filter_params))
         end
       end
     end
   end
 end
+
