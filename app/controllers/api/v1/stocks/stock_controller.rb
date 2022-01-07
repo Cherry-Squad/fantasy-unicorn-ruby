@@ -8,6 +8,7 @@ module Api
         before_action :authenticate_api_v1_user!
 
         def create
+          FinnhubServices::GetQuotePrice.call(stock_create_params[:name])
           stock = Stock.new(
             name: stock_create_params[:name]
           )
@@ -44,6 +45,20 @@ module Api
           end
         end
 
+        def list
+          samples = Stock.all.select('id, name').sample(Briefcase::BRIEFCASE_STOCKS_MAX_COUNT)
+          render json: samples, status: 200
+        end
+
+        def show_by_name
+          stock = name_stock
+          if stock
+            render json: stock, status: 200
+          else
+            render json: { status: 'Not Found 404' }, status: 404
+          end
+        end
+
         private
 
         def stock_create_params
@@ -59,6 +74,10 @@ module Api
 
         def safe_stock
           @stock = Stock.find_by(id: params[:id])
+        end
+
+        def name_stock
+          @stock = Stock.find_by(name: params[:name])
         end
 
         def stocks_for_current_user
