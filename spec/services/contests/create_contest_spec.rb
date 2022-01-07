@@ -4,6 +4,7 @@ require 'rails_helper'
 
 RSpec.describe ContestsServices::CreateContest do
   Delayed::Worker.delay_jobs = false
+
   context 'correct division name' do
     context 'presented as symbol' do
       let(:division_name) { Rails.configuration.divisions.keys[0].to_sym }

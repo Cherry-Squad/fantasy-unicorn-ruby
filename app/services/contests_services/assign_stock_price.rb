@@ -2,7 +2,7 @@
 
 module ContestsServices
   # Template service description
-  # @assignation can be in ['reg', 'summarize']
+  # @assignation must be in ['reg', 'summarize']
   class AssignStockPrice < Patterns::Service
     def initialize(contest_app_id, stock_id, timestamp, assignation)
       super()
@@ -29,17 +29,19 @@ module ContestsServices
     end
 
     def assign_price
-      price = FinnhubServices::GetQuotePriceOnTime stock_name(@stock_id), @timestamp
+      price = FinnhubServices::GetQuotePriceOnTime.call(stock_name(@stock_id), @timestamp).result
       contest_application_stocks = ContestApplicationStock.where(contest_application_id: @contest_application_id,
-                                                                 stock_id: @stock_id)
+                                                                 stock_id: @stock_id).last
 
       contest_application_stocks.reg_price = price if @assignation == 'reg'
       contest_application_stocks.final_price = price if @assignation == 'summarize'
 
-      contest_application_stocks.save
+      contest_application_stocks.save!
     end
 
     def reschedule_job
+      return if Rails.env.test?
+
       ContestsServices::AssignStockPrice.delay(queue: 'contest_processing',
                                                run_at: 1.minutes.from_now)
                                         .call @contest_application_id, @stock_id, @timestamp, @assignation

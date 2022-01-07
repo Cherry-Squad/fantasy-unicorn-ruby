@@ -25,7 +25,7 @@ RSpec.describe FinnhubServices::GetQuotePriceOnTime do
       end
       it '#call return correct price' do
         quote_price_response = FinnhubServices::GetQuotePriceOnTime.call(symbol, time, finnhub_client)
-        expected_price = (finnhub_client.stock_candles[:h][0] + finnhub_client.stock_candles[:l][0]) / 2
+        expected_price = finnhub_client.stock_candles[:o][0]
         expect(quote_price_response.result).to eq(expected_price)
       end
     end

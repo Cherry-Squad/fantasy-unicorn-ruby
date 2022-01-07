@@ -91,11 +91,6 @@ RSpec.describe ContestApplicationStock, type: :model do
       subject.final_price = 0
       is_expected.not_to be_valid
     end
-
-    it "isn't valid if contest status != finished" do
-      contest.status = Contest.statuses[:reg_ended]
-      is_expected.not_to be_valid
-    end
   end
 
   context 'with variable multiplier' do
