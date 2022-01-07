@@ -172,4 +172,26 @@ describe 'Briefcase API', swagger_doc: 'v1/swagger.yaml' do
       end
     end
   end
+
+  path '/api/v1/briefcases/{id}/stocks/' do
+    let(:briefcase_obj) { create(:briefcase, :with_stocks) }
+    let(:id) { briefcase_obj.id }
+
+    get 'Get stocks by briefcase id' do
+      tags 'Briefcase'
+      parameter name: :id, in: :path, type: :integer
+
+      response '200', 'stocks in briefcase' do
+        include_context 'auth token'
+        run_test!
+      end
+
+      response '404', 'not found' do
+        include_context 'auth token'
+        let(:id) { 'invalid' }
+
+        run_test!
+      end
+    end
+  end
 end

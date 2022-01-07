@@ -7,5 +7,10 @@ FactoryBot.define do
     trait :with_random_name do
       name { Faker::Lorem.characters(number: rand(3..8)) }
     end
+
+    trait :exist_in_Finnhub do
+      tickers = %w[TSLA AAPL NVDA AMD INTC AMZN MSFT F FB GOOGL]
+      name { tickers.sample }
+    end
   end
 end
