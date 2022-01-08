@@ -8,6 +8,7 @@ RSpec.describe ContestsServices::AssignStockPrice do
   let(:symbol) { 'AAPL' }
   let(:reg_time) { 1_631_022_278 }
   let(:summarizing_time) { 1_631_022_578 }
+  let(:time_shift) { Rails.configuration.time_shift }
 
   context 'not existing stock_id' do
     let(:stock_id) { 25_565 }
@@ -24,15 +25,9 @@ RSpec.describe ContestsServices::AssignStockPrice do
   end
 
   context 'existing stock_id' do
-    let!(:stock) do
-      create :stock, name: symbol
-    end
-    let!(:contest) do
-      create :contest
-    end
-    let!(:user) do
-      create :user
-    end
+    let!(:stock) { create :stock, name: symbol }
+    let!(:contest) { create :contest, status: :reg_ended }
+    let!(:user) { create :user }
     let!(:contest_application) do
       create :contest_application, user_id: user.id, contest_id: contest.id
     end
@@ -74,14 +69,17 @@ RSpec.describe ContestsServices::AssignStockPrice do
                final_price: nil
       end
 
-      it 'correctly changed' do
+      xit 'correctly changed' do
         last = Stock.last.name
         expect(last).to eq(symbol)
 
+        expect(ContestApplication.exists?(contest_application_stock.contest_application_id)).to eq(true)
+
         last = ContestApplicationStock.last.final_price
         expect(last).to eq(nil)
+        puts 'time_shift:', time_shift
 
-        actual_final_price = FinnhubServices::GetQuotePriceOnTime.call(symbol, summarizing_time).result
+        actual_final_price = FinnhubServices::GetQuotePriceOnTime.call(symbol, summarizing_time + time_shift).result
 
         ContestsServices::AssignStockPrice.call contest_application_stock.contest_application_id,
                                                 contest_application_stock.stock_id,
@@ -91,6 +89,38 @@ RSpec.describe ContestsServices::AssignStockPrice do
         ca = ContestApplicationStock.find(contest_application_stock.id)
 
         expect(ca.final_price).to eq(actual_final_price)
+      end
+
+      context 'final stock prices was assigned' do
+        xit 'and contest status has been changed' do
+          expect(Contest.find(contest.id).status).to eq('reg_ended')
+
+          ContestsServices::AssignStockPrice.call contest_application_stock.contest_application_id,
+                                                  contest_application_stock.stock_id,
+                                                  summarizing_time,
+                                                  'summarize'
+
+          # ContestsServices::CreditPoints call
+          expect(Contest.find(contest.id).status).to eq('finished')
+        end
+      end
+
+      context 'not all final stock prices was assigned' do
+        let!(:contest_application1) { create :contest_application, contest_id: contest.id }
+        let!(:contest_application_stock1) do
+          create :contest_application_stock,
+                 contest_application_id: contest_application1.id
+        end
+        it 'and contest status has not been changed' do
+          expect(Contest.find(contest.id).status).to eq('reg_ended')
+
+          ContestsServices::AssignStockPrice.call contest_application_stock.contest_application_id,
+                                                  contest_application_stock.stock_id,
+                                                  summarizing_time,
+                                                  'summarize'
+
+          expect(Contest.find(contest.id).status).to eq('reg_ended')
+        end
       end
     end
   end

@@ -11,7 +11,8 @@ module Api
           contest_application_stock = ContestApplicationStock.new(
             multiplier: contest_application_stock_create_params[:multiplier],
             contest_application_id: contest_application_stock_create_params[:contest_application_id],
-            stock_id: contest_application_stock_create_params[:stock_id]
+            stock_id: contest_application_stock_create_params[:stock_id],
+            direction_up: contest_application_stock_create_params[:direction_up]
           )
           if contest_application_stock.save
             render json: contest_application_stock, status: 201
@@ -57,6 +58,7 @@ module Api
                                                               multiplier
                                                               contest_application_id
                                                               stock_id
+                                                              direction_up
                                                             ])
         end
 

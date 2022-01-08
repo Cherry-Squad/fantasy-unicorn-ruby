@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 module ContestsServices
-  # Template service description
+  # Calculates the quote for Stock with @stock_id at @timestamp and assigns
+  # it to field of ContestApplicationStocks, corresponding to
+  # @contest_app_id and '@stock_id, depending on the specified @assignation.
+  #
   # @assignation must be in ['reg', 'summarize']
   class AssignStockPrice < Patterns::Service
     def initialize(contest_app_id, stock_id, timestamp, assignation)
@@ -16,6 +19,7 @@ module ContestsServices
       assign_price
 
       # Place to validate the end of all operations on this ContestApplication, if we need it
+      check_completeness if @assignation == 'summarize'
     rescue FinnhubRuby::ApiError => e
       raise ApiError, e.message unless e.code == 429
 
@@ -45,6 +49,29 @@ module ContestsServices
       ContestsServices::AssignStockPrice.delay(queue: 'contest_processing',
                                                run_at: 1.minutes.from_now)
                                         .call @contest_application_id, @stock_id, @timestamp, @assignation
+    end
+
+    def check_completeness
+      contest_id = ContestApplication.find(@contest_application_id).contest_id
+      find_contest_application_ids contest_id
+
+      finalize_contest contest_id if summarizing_completed?
+    end
+
+    def find_contest_application_ids(contest_id)
+      @contest_application_ids = []
+
+      ContestApplication.where(contest_id: contest_id).find_each do |contest_application|
+        @contest_application_ids.append(contest_application.id)
+      end
+    end
+
+    def summarizing_completed?
+      !ContestApplicationStock.where(contest_application_id: @contest_application_ids, final_price: nil).exists?
+    end
+
+    def finalize_contest(contest_id)
+      ContestsServices::CreditPoints.delay(queue: 'contest_processing').call(contest_id)
     end
   end
 end

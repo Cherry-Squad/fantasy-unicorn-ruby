@@ -6,6 +6,7 @@ FactoryBot.define do
     stock
 
     multiplier { 1.0 }
+    direction_up { Faker::Boolean.boolean }
 
     trait :with_variable_multiplier do
       multiplier { Faker::Number.decimal(l_digits: 1, r_digits: 2) + 0.01 }

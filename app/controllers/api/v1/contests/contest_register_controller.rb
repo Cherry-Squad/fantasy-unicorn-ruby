@@ -38,7 +38,8 @@ module Api
             contest_application_stock = ContestApplicationStock.create(
               multiplier: param[:multiplier],
               contest_application_id: contest_application.id,
-              stock_id: param[:stock_id]
+              stock_id: param[:stock_id],
+              direction_up: param[:direction_up]
             )
             contest_application_stock.save
             array.append contest_application_stock
@@ -55,7 +56,7 @@ module Api
         end
 
         def create_params
-          params.require(:contest_register).permit({ items: %i[stock_id multiplier] })
+          params.require(:contest_register).permit({ items: %i[stock_id multiplier direction_up] })
         end
 
         def contest_by_id

@@ -5,6 +5,7 @@ require 'rails_helper'
 RSpec.describe FinnhubServices::GetQuotePriceOnTime do
   let(:symbol) { 'AAPL' }
   let(:time) { 1_631_022_248 + 30 }
+  let(:time_shift) { Rails.configuration.time_shift }
 
   context 'created with a stubbed api' do
     let(:finnhub_client) { double('finnhub_client') }
@@ -25,7 +26,7 @@ RSpec.describe FinnhubServices::GetQuotePriceOnTime do
       end
       it '#call return correct price' do
         quote_price_response = FinnhubServices::GetQuotePriceOnTime.call(symbol, time, finnhub_client)
-        expected_price = finnhub_client.stock_candles[:o][0]
+        expected_price = finnhub_client.stock_candles[:o].last
         expect(quote_price_response.result).to eq(expected_price)
       end
     end
@@ -91,7 +92,7 @@ RSpec.describe FinnhubServices::GetQuotePriceOnTime do
     end
 
     it '#call return correct price' do
-      quote_price_response = FinnhubServices::GetQuotePriceOnTime.call symbol, time
+      quote_price_response = FinnhubServices::GetQuotePriceOnTime.call(symbol, Time.now.to_i + time_shift)
       expect(quote_price_response.result).to be_a(Float).and be > 0
     end
 

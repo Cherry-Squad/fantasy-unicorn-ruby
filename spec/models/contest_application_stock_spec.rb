@@ -5,6 +5,7 @@
 # Table name: contest_application_stocks
 #
 #  id                     :bigint           not null, primary key
+#  direction_up           :boolean          not null
 #  final_price            :decimal(8, 4)
 #  multiplier             :decimal(4, 2)    not null
 #  reg_price              :decimal(8, 4)
@@ -30,6 +31,7 @@ RSpec.describe ContestApplicationStock, type: :model do
   let(:multiplier) { subject.multiplier }
   let(:reg_price) { subject.reg_price }
   let(:final_price) { subject.final_price }
+  let(:direction_up) { subject.direction_up }
 
   it 'is valid' do
     is_expected.to be_valid
@@ -62,6 +64,11 @@ RSpec.describe ContestApplicationStock, type: :model do
 
   it "isn't valid if reg price == 0" do
     subject.reg_price = 0
+    is_expected.not_to be_valid
+  end
+
+  it "isn't valid without direction_up" do
+    subject.direction_up = nil
     is_expected.not_to be_valid
   end
 
@@ -102,8 +109,11 @@ RSpec.describe ContestApplicationStock, type: :model do
   end
 
   it "can't share the same stock on one contest application" do
-    expect { create :contest_application_stock, stock: stock, contest_application: contest_application }
-      .to raise_error(ActiveRecord::RecordNotUnique)
+    expect do
+      create :contest_application_stock, stock: stock,
+                                         contest_application: contest_application,
+                                         direction_up: direction_up
+    end.to raise_error(ActiveRecord::RecordNotUnique)
   end
 
   it 'can share the same stock on separate contest applications' do
