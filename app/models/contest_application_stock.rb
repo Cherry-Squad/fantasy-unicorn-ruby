@@ -14,6 +14,7 @@ class ContestApplicationStock < ApplicationRecord
   validates :reg_price, numericality: { greater_than: 0 }, allow_nil: true
   validates :reg_price, presence: true, unless: -> { final_price.nil? }
   validates :final_price, numericality: { greater_than: 0 }, presence: true, if: :contest_status_is_finished
+  validates :direction_up, inclusion: [true, false]
 
   private
 
