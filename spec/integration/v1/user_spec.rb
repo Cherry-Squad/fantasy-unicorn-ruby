@@ -112,7 +112,7 @@ describe 'User API', swagger_doc: 'v1/swagger.yaml' do
 
         run_test! do |response|
           data = JSON.parse(response.body)
-          expect(data).to eq(User.order('fantasy_points DESC').as_json)
+          expect(data).to eq(User.where('fantasy_points > 0').order('fantasy_points DESC').as_json)
         end
       end
     end
