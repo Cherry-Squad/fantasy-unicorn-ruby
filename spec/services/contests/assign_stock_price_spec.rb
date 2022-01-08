@@ -78,6 +78,8 @@ RSpec.describe ContestsServices::AssignStockPrice do
         last = Stock.last.name
         expect(last).to eq(symbol)
 
+        expect(ContestApplication.exists?(contest_application_stock.contest_application_id)).to eq(true)
+
         last = ContestApplicationStock.last.final_price
         expect(last).to eq(nil)
 
