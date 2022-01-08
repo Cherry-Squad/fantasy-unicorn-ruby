@@ -25,6 +25,7 @@ RSpec.describe ContestsServices::InspectContests do
       ContestsServices::CreateContest.call(:div2)
       ContestsServices::CreateContest.call(:div3)
     end
+
     it 'and contests was created' do
       expect(init_active_contests).to eq(3)
       ContestsServices::InspectContests.call

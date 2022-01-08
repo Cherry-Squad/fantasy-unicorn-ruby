@@ -65,10 +65,6 @@ RSpec.describe ContestApplication, type: :model do
       is_expected.to be_valid
     end
 
-    it "isn't valid if contest status != finished" do
-      expect { contest.status = Contest.statuses[:created] }.to change(subject, :valid?).from(true).to(false)
-    end
-
     it "can't share position within the same contest" do
       expect do
         create :contest_application, :with_results,

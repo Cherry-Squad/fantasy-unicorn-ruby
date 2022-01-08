@@ -12,5 +12,6 @@ if finnhub_config['enable']
     config.api_key['api_key'] = finnhub_config['api_key']
   end
 end
+
 Rails.configuration.time_shift = 0
 Rails.configuration.time_shift = -4.days.to_i + 4.hours.to_i if Rails.env.test?

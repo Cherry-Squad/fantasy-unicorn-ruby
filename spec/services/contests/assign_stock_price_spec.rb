@@ -69,7 +69,7 @@ RSpec.describe ContestsServices::AssignStockPrice do
                final_price: nil
       end
 
-      xit 'correctly changed' do
+      it 'correctly changed' do
         last = Stock.last.name
         expect(last).to eq(symbol)
 
@@ -77,13 +77,12 @@ RSpec.describe ContestsServices::AssignStockPrice do
 
         last = ContestApplicationStock.last.final_price
         expect(last).to eq(nil)
-        puts 'time_shift:', time_shift
 
         actual_final_price = FinnhubServices::GetQuotePriceOnTime.call(symbol, summarizing_time + time_shift).result
 
         ContestsServices::AssignStockPrice.call contest_application_stock.contest_application_id,
                                                 contest_application_stock.stock_id,
-                                                summarizing_time,
+                                                summarizing_time + time_shift,
                                                 'summarize'
 
         ca = ContestApplicationStock.find(contest_application_stock.id)
@@ -92,7 +91,7 @@ RSpec.describe ContestsServices::AssignStockPrice do
       end
 
       context 'final stock prices was assigned' do
-        xit 'and contest status has been changed' do
+        it 'and contest status has been changed' do
           expect(Contest.find(contest.id).status).to eq('reg_ended')
 
           ContestsServices::AssignStockPrice.call contest_application_stock.contest_application_id,
@@ -100,7 +99,6 @@ RSpec.describe ContestsServices::AssignStockPrice do
                                                   summarizing_time,
                                                   'summarize'
 
-          # ContestsServices::CreditPoints call
           expect(Contest.find(contest.id).status).to eq('finished')
         end
       end
