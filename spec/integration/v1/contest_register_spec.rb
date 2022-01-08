@@ -15,27 +15,27 @@ describe 'Contest API', swagger_doc: 'v1/swagger.yaml' do
     end
 
     post 'Register user in contest' do
+      parameter name: :id, in: :path, type: :integer
+      parameter name: :items, in: :body, schema: {
+        type: :object,
+        properties: {
+          items: {
+            type: :array,
+            items: {
+              properties: {
+                stock_id: { type: :integer },
+                multiplier: { type: :integer }
+              },
+              required: %w[multiplier stock_id contest_application_id]
+            }
+          }
+        }
+      }
       tags 'Contest'
 
       response '201', 'contest application created. contest application stocks created.
         assign contest application stocks' do
         auth_user
-        parameter name: :id, in: :path, type: :integer
-        parameter name: :items, in: :body, schema: {
-          type: :object,
-          properties: {
-            items: {
-              type: :array,
-              items: {
-                properties: {
-                  stock_id: { type: :integer },
-                  multiplier: { type: :integer }
-                },
-                required: %w[multiplier stock_id contest_application_id]
-              }
-            }
-          }
-        }
         let(:items) do
           {
             "items": [
@@ -53,23 +53,19 @@ describe 'Contest API', swagger_doc: 'v1/swagger.yaml' do
         end
       end
 
-      # response '400', 'contest application stock created' do
-      #   include_context 'auth token'
-      #   parameter name: :contest_application_stock, in: :body, schema: {
-      #     type: :object,
-      #     properties: {
-      #       stock_id: { type: :integer },
-      #       contest_application_id: { type: :integer },
-      #       multiplier: { type: :integer }
-      #     },
-      #     required: %w[multiplier stock_id contest_application_id]
-      #   }
-      #   let(:contest_application_stock) do
-      #     { stock_id: nil, contest_application_id: contest_application.id, multiplier: 10 }
-      #   end
-      #
-      #   run_test!
-      # end
+      response '404', 'contest not found' do
+        auth_user
+        let(:items) do
+          {
+            "items": [
+              { stock_id: stock.id, multiplier: 1.2 }
+            ]
+          }
+        end
+        let(:id) { 9999999 }
+
+        run_test!
+      end
     end
   end
 end
