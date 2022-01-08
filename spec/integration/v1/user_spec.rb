@@ -99,4 +99,22 @@ describe 'User API', swagger_doc: 'v1/swagger.yaml' do
       end
     end
   end
+
+  path '/api/v1/users/scoreboard/' do
+    let(:count_of_users) { Faker::Number.within(range: 5..10) }
+    let!(:users) { create_list(:user_with_points, count_of_users) }
+
+    get 'Get users ordered by fantasy_points' do
+      tags 'User'
+
+      response '200', 'get users' do
+        include_context 'auth token'
+
+        run_test! do |response|
+          data = JSON.parse(response.body)
+          expect(data).to eq(User.where('fantasy_points > 0').order('fantasy_points DESC').as_json)
+        end
+      end
+    end
+  end
 end

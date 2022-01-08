@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
       namespace :users do
         get '/', to: 'user#index'
+        get '/scoreboard/', to: 'user#scoreboard'
         get '/:id(.:format)/', to: 'user#show'
         delete '/', to: 'user#delete'
         patch '/', to: 'user#update'

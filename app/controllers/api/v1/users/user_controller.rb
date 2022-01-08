@@ -32,6 +32,11 @@ module Api
           end
         end
 
+        def scoreboard
+          users = User.where('fantasy_points > 0').order('fantasy_points DESC')
+          render json: users, status: 200
+        end
+
         private
 
         def user_update_params
