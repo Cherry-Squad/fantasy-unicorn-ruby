@@ -53,29 +53,25 @@ module ContestsServices
 
     def check_completeness
       contest_id = ContestApplication.find(@contest_application_id).contest_id
-      contest_app_ids = find_contest_applications contest_id
+      find_contest_application_ids contest_id
 
-      finalize_contest contest_id if summarizing_completed? contest_app_ids
+      finalize_contest contest_id if summarizing_completed?
     end
 
-    def find_contest_applications(contest_id)
-      contest_application_ids = []
+    def find_contest_application_ids(contest_id)
+      @contest_application_ids = []
 
       ContestApplication.where(contest_id: contest_id).find_each do |contest_application|
-        contest_application_ids.append(contest_application.id)
+        @contest_application_ids.append(contest_application.id)
       end
-
-      contest_application_ids
     end
 
-    def summarizing_completed?(contest_app_ids)
-      ContestApplicationStock.where(contest_application_id: contest_app_ids, final_price: nil).exists?
+    def summarizing_completed?
+      !ContestApplicationStock.where(contest_application_id: @contest_application_ids, final_price: nil).exists?
     end
 
     def finalize_contest(contest_id)
-      contest = Contest.find(contest_id)
-      contest.status = Contest.statuses[:finished]
-      contest.save!
+      ContestsServices::CreditPoints.delay(queue: 'contest_processing').call(contest_id)
     end
   end
 end
