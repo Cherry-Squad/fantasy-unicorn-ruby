@@ -67,6 +67,11 @@ RSpec.describe ContestApplicationStock, type: :model do
     is_expected.not_to be_valid
   end
 
+  it "isn't valid without direction_up" do
+    subject.direction_up = nil
+    is_expected.not_to be_valid
+  end
+
   it "isn't valid if contest status == finished and without final price" do
     contest.status = Contest.statuses[:finished]
     is_expected.not_to be_valid
@@ -104,10 +109,11 @@ RSpec.describe ContestApplicationStock, type: :model do
   end
 
   it "can't share the same stock on one contest application" do
-    expect { create :contest_application_stock, stock: stock,
-                                                contest_application: contest_application,
-                                                direction_up: direction_up }
-      .to raise_error(ActiveRecord::RecordNotUnique)
+    expect do
+      create :contest_application_stock, stock: stock,
+                                         contest_application: contest_application,
+                                         direction_up: direction_up
+    end.to raise_error(ActiveRecord::RecordNotUnique)
   end
 
   it 'can share the same stock on separate contest applications' do
