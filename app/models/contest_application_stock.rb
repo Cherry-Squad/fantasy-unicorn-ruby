@@ -32,6 +32,7 @@ end
 #  final_price            :decimal(8, 4)
 #  multiplier             :decimal(4, 2)    not null
 #  reg_price              :decimal(8, 4)
+#  direction_up           :boolean          not null
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  contest_application_id :bigint           not null
