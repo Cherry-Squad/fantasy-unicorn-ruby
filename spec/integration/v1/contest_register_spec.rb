@@ -29,7 +29,8 @@ describe 'Contest API', swagger_doc: 'v1/swagger.yaml' do
               items: {
                 properties: {
                   stock_id: { type: :integer },
-                  multiplier: { type: :integer }
+                  multiplier: { type: :integer },
+                  direction_up: { type: :boolean }
                 },
                 required: %w[multiplier stock_id contest_application_id]
               }
@@ -39,7 +40,7 @@ describe 'Contest API', swagger_doc: 'v1/swagger.yaml' do
         let(:items) do
           {
             "items": [
-              { stock_id: stock.id, multiplier: 1.2 }
+              { stock_id: stock.id, multiplier: 1.2, direction_up: true }
             ]
           }
         end

@@ -56,7 +56,7 @@ module Api
         end
 
         def create_params
-          params.require(:contest_register).permit({ items: %i[stock_id multiplier] })
+          params.require(:contest_register).permit({ items: %i[stock_id multiplier direction_up] })
         end
 
         def contest_by_id
