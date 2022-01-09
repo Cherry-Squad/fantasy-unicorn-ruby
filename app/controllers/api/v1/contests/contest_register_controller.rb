@@ -13,6 +13,7 @@ module Api
             ActiveRecord::Base.transaction do
               contest_application = create_contest_application contest
               contest_app_stocks = array_of_contest_app_stocks contest_application
+              write_off_money_from_user contest
               assign_stocks_prices contest_app_stocks, contest_application.id
               render json: { contest_app_stocks: contest_app_stocks }, status: 201
             end
@@ -22,7 +23,7 @@ module Api
         rescue ActiveRecord::RecordInvalid => e
           render json: { error: e.message.to_s }, status: 404
         rescue StandardError => e
-          render json: { error: "an error occurred #{e.message}" }, status: 400
+          render json: { error: "an error occurred: #{e.message}" }, status: 400
         end
 
         private
@@ -34,6 +35,14 @@ module Api
           )
           contest_application.save
           contest_application
+        end
+
+        def write_off_money_from_user(contest)
+          user = current_api_v1_user
+          raise StandardError, 'User has no coins' unless user.coins.to_i > contest.coins_entry_fee.to_i
+
+          user.coins = user.coins.to_i - contest.coins_entry_fee.to_i
+          user.save
         end
 
         def array_of_contest_app_stocks(contest_application)

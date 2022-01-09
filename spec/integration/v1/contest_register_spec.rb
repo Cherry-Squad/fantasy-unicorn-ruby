@@ -7,10 +7,12 @@ describe 'Contest API', swagger_doc: 'v1/swagger.yaml' do
   path '/api/v1/contests/{id}/register' do
     let!(:stock) { create :stock, name: 'AAPL' }
     let!(:briefcase) { create :briefcase }
-    let!(:contest) { create :contest }
+    let!(:contest) { create :contest, coins_entry_fee: 199 }
+    let!(:contest2) { create :contest, coins_entry_fee: 201 }
 
     before do
       @user = briefcase.user
+      @user.coins = 200
       briefcase.stocks << stock
     end
 
@@ -51,6 +53,9 @@ describe 'Contest API', swagger_doc: 'v1/swagger.yaml' do
           expect(ContestApplicationStock.find_by(
             id: data.as_json['contest_app_stocks'][0]['id'].to_i
           ).reg_price).not_to eq(nil)
+          expect(ContestApplicationStock.find_by(
+            id: data.as_json['contest_app_stocks'][0]['id'].to_i
+          ).contest_application.user.coins.to_i).to eq(1)
         end
       end
 
@@ -64,6 +69,20 @@ describe 'Contest API', swagger_doc: 'v1/swagger.yaml' do
           }
         end
         let(:id) { 9_999_999 }
+
+        run_test!
+      end
+
+      response '400', 'user has no coins to take competition' do
+        auth_user
+        let(:items) do
+          {
+            "items": [
+              { stock_id: stock.id, multiplier: 1.2, direction_up: true }
+            ]
+          }
+        end
+        let(:id) { contest2.id }
 
         run_test!
       end
