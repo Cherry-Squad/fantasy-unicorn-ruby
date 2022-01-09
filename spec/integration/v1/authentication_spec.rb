@@ -364,14 +364,6 @@ describe 'Auth API', swagger_doc: 'v1/swagger.yaml' do
         end
       end
 
-      response '404', 'invalid email' do
-        let(:email) { Faker::Internet.username }
-
-        run_test! do
-          expect(response.body).to include('Unable to find user')
-        end
-      end
-
       response '401', 'missing email' do
         let(:user) {}
 
