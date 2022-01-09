@@ -8,6 +8,5 @@ Rails.application.configure do
     FinnhubRuby.configure.api_key['api_key'] = config.finnhub_config[:api_key]
   end
 
-  config.time_shift = 0
-  config.time_shift = -4.days.to_i if Rails.env.test?
+  config.time_shift = config.finnhub_config[:time_shift]
 end
