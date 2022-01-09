@@ -61,7 +61,7 @@ describe 'ContestApplication API', swagger_doc: 'v1/swagger.yaml' do
 
           run_test! do |response|
             body = JSON(response.body)
-            expect(body.as_json).to eq(ContestApplication.where(contest_id: contest_id).as_json)
+            expect(body.as_json).to eq(ContestApplication.where(contest_id: contest_id).as_json(include: :user))
           end
         end
 
@@ -70,7 +70,7 @@ describe 'ContestApplication API', swagger_doc: 'v1/swagger.yaml' do
 
           run_test! do |response|
             body = JSON(response.body)
-            expect(body.as_json).to eq(ContestApplication.where(user: @user).as_json)
+            expect(body.as_json).to eq(ContestApplication.where(user: @user).as_json(include: :user))
           end
         end
       end

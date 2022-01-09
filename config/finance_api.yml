@@ -2,6 +2,7 @@ defaults: &defaults
   finnhub:
     enable: true
     api_key: <%= Rails.application.credentials.finnhub_api_key %>
+    time_shift: <%= ENV.fetch("TIME_SHIFT", -4.days.to_i) %>
 
 development:
   <<: *defaults
