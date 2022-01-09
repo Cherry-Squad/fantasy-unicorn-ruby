@@ -1,7 +1,7 @@
 defaults: &defaults
   cooldown_updating: 1
-  amount_of_coins: 20
-  treshold_coins: 10
+  amount_of_coins: 90
+  treshold_coins: 20
 
 development:
   <<: *defaults
