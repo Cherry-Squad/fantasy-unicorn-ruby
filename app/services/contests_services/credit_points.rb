@@ -54,11 +54,15 @@ module ContestsServices
     end
 
     def calculate_coins_delta_for(place)
-      @base_division_coins_delta * (1.5 - Float(place) / @contest_points.size)
+      n = @contest_points.size.to_f
+      point = Float(place) * n / (n + 1)
+      @base_division_coins_delta * (1 - point / n)
     end
 
     def calculate_fp_delta_for(place)
-      @base_division_fp_delta * (1.5 - Float(place) / @contest_points.size)
+      n = @contest_points.size.to_f
+      point = Float(place) * n / (n + 1)
+      2 * @base_division_fp_delta * (0.5 - point / n)
     end
 
     def credit_deltas_for(contest_application)

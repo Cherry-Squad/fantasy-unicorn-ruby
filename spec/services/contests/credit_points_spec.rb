@@ -75,23 +75,24 @@ RSpec.describe ContestsServices::CreditPoints do
     it 'correctly calculate deltas' do
       ContestsServices::CreditPoints.call contest.id
 
-      participants_amount = ContestApplication.where(contest_id: contest.id).size.to_i
+      n = ContestApplication.where(contest_id: contest.id).size.to_f
+      user1_place = Float(ContestApplication.find(contest_application.id).final_position - 1)
+      user2_place = Float(ContestApplication.find(contest_application2.id).final_position - 1)
+
+      user1_point = Float(user1_place) * n / (n + 1)
+      user2_point = Float(user2_place) * n / (n + 1)
 
       expect(ContestApplication.find(contest_application.id).coins_delta)
-        .to eq((base_coins_delta * (1.5 -
-          Float(ContestApplication.find(contest_application.id).final_position - 1) / participants_amount)).to_i)
+        .to eq((base_coins_delta * (1 - user1_point / n)).to_i)
 
       expect(ContestApplication.find(contest_application.id).fantasy_points_delta)
-        .to eq((base_fp_delta * (1.5 -
-          Float(ContestApplication.find(contest_application.id).final_position - 1) / participants_amount)).to_i)
+        .to eq((2 * base_fp_delta * (0.5 - user1_point / n)).to_i)
 
       expect(ContestApplication.find(contest_application2.id).coins_delta)
-        .to eq((base_coins_delta * (1.5 -
-          Float(ContestApplication.find(contest_application2.id).final_position - 1) / participants_amount)).to_i)
+        .to eq((base_coins_delta * (1 - user2_point / n)).to_i)
 
       expect(ContestApplication.find(contest_application2.id).fantasy_points_delta)
-        .to eq((base_fp_delta * (1.5 -
-          Float(ContestApplication.find(contest_application2.id).final_position - 1) / participants_amount)).to_i)
+        .to eq((2 * base_fp_delta * (0.5 - user2_point / n)).to_i)
     end
 
     it 'coins and fp correcly changed' do
@@ -102,19 +103,17 @@ RSpec.describe ContestsServices::CreditPoints do
 
       ContestsServices::CreditPoints.call contest.id
 
-      participants_amount = ContestApplication.where(contest_id: contest.id).size.to_i
+      n = ContestApplication.where(contest_id: contest.id).size.to_f
+      user1_place = Float(ContestApplication.find(contest_application.id).final_position - 1)
+      user2_place = Float(ContestApplication.find(contest_application2.id).final_position - 1)
 
-      expect(User.find(user.id).coins).to eq(user1_coins + (base_coins_delta * (1.5 -
-        Float(ContestApplication.find(contest_application.id).final_position - 1) / participants_amount)).to_i)
+      user1_point = Float(user1_place) * n / (n + 1)
+      user2_point = Float(user2_place) * n / (n + 1)
 
-      expect(User.find(user.id).fantasy_points).to eq(user1_fp + (base_fp_delta * (1.5 -
-        Float(ContestApplication.find(contest_application.id).final_position - 1) / participants_amount)).to_i)
-
-      expect(User.find(user2.id).coins).to eq(user2_coins + (base_coins_delta * (1.5 -
-        Float(ContestApplication.find(contest_application2.id).final_position - 1) / participants_amount)).to_i)
-
-      expect(User.find(user2.id).fantasy_points).to eq(user2_fp + (base_fp_delta * (1.5 -
-        Float(ContestApplication.find(contest_application2.id).final_position - 1) / participants_amount)).to_i)
+      expect(User.find(user.id).coins).to eq(user1_coins + (base_coins_delta * (1 - user1_point / n)).to_i)
+      expect(User.find(user.id).fantasy_points).to eq(user1_fp + (2 * base_fp_delta * (0.5 - user1_point / n)).to_i)
+      expect(User.find(user2.id).coins).to eq(user2_coins + (base_coins_delta * (1 - user2_point / n)).to_i)
+      expect(User.find(user2.id).fantasy_points).to eq(user2_fp + (2 * base_fp_delta * (0.5 - user2_point / n)).to_i)
     end
 
     context 'with third participant' do
