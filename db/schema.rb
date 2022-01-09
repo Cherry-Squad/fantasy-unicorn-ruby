@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 2022_01_08_142923) do
     t.decimal "final_price", precision: 8, scale: 4
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.boolean "direction_up", null: false
+    t.boolean "direction_up"
     t.index ["contest_application_id", "stock_id"], name: "cas_ca_id_stock_id", unique: true
     t.index ["contest_application_id"], name: "index_contest_application_stocks_on_contest_application_id"
     t.index ["stock_id"], name: "index_contest_application_stocks_on_stock_id"
