@@ -6,12 +6,14 @@ RSpec.describe ContestsServices::SummarizeContest do
   Delayed::Worker.delay_jobs = false
 
   let!(:contest) do
-    create :contest, status: :reg_ended,
-                     max_fantasy_points_threshold: 600
+    create :contest, status: Contest.statuses[:reg_ended],
+                     max_fantasy_points_threshold: 600,
+                     reg_ending_at: 1.day.ago,
+                     summarizing_at: 3.hours.ago
   end
   let!(:user) { create :user }
   let!(:contest_application) { create :contest_application, user_id: user.id, contest_id: contest.id }
-  let!(:stock1) { create :stock, name: 'AAPL' }
+  let!(:stock1) { create :stock, name: 'IBM' }
   let!(:stock2) { create :stock, name: 'MSFT' }
   let!(:contest_application_stock1) do
     create :contest_application_stock,

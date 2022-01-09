@@ -25,7 +25,7 @@ module FinnhubServices
     private
 
     def request_candle
-      @finnhub_client.stock_candles @symbol, '5', @time - 24.hours.to_i, @time + 1.hour.to_i
+      @finnhub_client.stock_candles @symbol, '1', @time - 1.days.to_i, @time + 1.hour.to_i
     end
 
     def request_price(candle)

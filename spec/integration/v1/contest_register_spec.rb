@@ -62,7 +62,7 @@ describe 'Contest API', swagger_doc: 'v1/swagger.yaml' do
             ]
           }
         end
-        let(:id) { 9999999 }
+        let(:id) { 9_999_999 }
 
         run_test!
       end
