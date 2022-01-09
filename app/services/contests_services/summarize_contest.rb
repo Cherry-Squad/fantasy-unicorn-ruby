@@ -8,7 +8,7 @@ module ContestsServices
     def initialize(contest_id)
       super()
       @contest_id = contest_id
-      @summarizing_time = Contest.find(contest_id).summarizing_at
+      @summarizing_time = Contest.find(contest_id).summarizing_at.to_i
     end
 
     def call

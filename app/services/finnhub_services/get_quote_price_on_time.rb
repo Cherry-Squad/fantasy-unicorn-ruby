@@ -5,8 +5,9 @@ module FinnhubServices
   class GetQuotePriceOnTime < Patterns::Service
     def initialize(stock_name, timestamp, finnhub_client = FinnhubRuby::DefaultApi.new)
       super()
+      time_shift = Rails.configuration.time_shift
       @symbol = stock_name
-      @time = timestamp
+      @time = timestamp + time_shift
       @finnhub_client = finnhub_client
     end
 
@@ -24,7 +25,7 @@ module FinnhubServices
     private
 
     def request_candle
-      @finnhub_client.stock_candles @symbol, '1', @time - 1.days.to_i, @time + 300
+      @finnhub_client.stock_candles @symbol, '5', @time - 24.hours.to_i, @time + 1.hour.to_i
     end
 
     def request_price(candle)

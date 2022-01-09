@@ -8,7 +8,6 @@ RSpec.describe ContestsServices::AssignStockPrice do
   let(:symbol) { 'AAPL' }
   let(:reg_time) { 1_631_022_278 }
   let(:summarizing_time) { 1_631_022_578 }
-  let(:time_shift) { Rails.configuration.time_shift }
 
   context 'not existing stock_id' do
     let(:stock_id) { 25_565 }
@@ -78,11 +77,11 @@ RSpec.describe ContestsServices::AssignStockPrice do
         last = ContestApplicationStock.last.final_price
         expect(last).to eq(nil)
 
-        actual_final_price = FinnhubServices::GetQuotePriceOnTime.call(symbol, summarizing_time + time_shift).result
+        actual_final_price = FinnhubServices::GetQuotePriceOnTime.call(symbol, summarizing_time).result
 
         ContestsServices::AssignStockPrice.call contest_application_stock.contest_application_id,
                                                 contest_application_stock.stock_id,
-                                                summarizing_time + time_shift,
+                                                summarizing_time,
                                                 'summarize'
 
         ca = ContestApplicationStock.find(contest_application_stock.id)

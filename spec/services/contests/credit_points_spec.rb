@@ -4,6 +4,7 @@ require 'rails_helper'
 
 RSpec.describe ContestsServices::CreditPoints do
   Delayed::Worker.delay_jobs = false
+
   let!(:contest) { create :contest, status: :reg_ended, max_fantasy_points_threshold: 600 }
   let!(:user) { create :user }
   let!(:contest_application) { create :contest_application, user_id: user.id, contest_id: contest.id }

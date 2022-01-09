@@ -14,4 +14,4 @@ if finnhub_config['enable']
 end
 
 Rails.configuration.time_shift = 0
-Rails.configuration.time_shift = -5.days.to_i + 4.hours.to_i if Rails.env.test?
+Rails.configuration.time_shift = -6.days.to_i if Rails.env.test?
