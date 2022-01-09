@@ -8,12 +8,9 @@ RSpec.describe ContestsServices::CloseRegistration do
   let!(:contest) { create :contest }
 
   context 'There were users who registered for the contest' do
-    let!(:user1) { create :user }
-    let!(:user2) { create :user }
-    let!(:user3) { create :user }
-    let!(:contest_application1) { create :contest_application, user_id: user1.id, contest_id: contest.id }
-    let!(:contest_application2) { create :contest_application, user_id: user2.id, contest_id: contest.id }
-    let!(:contest_application3) { create :contest_application, user_id: user3.id, contest_id: contest.id }
+    let!(:contest_application1) { create :contest_application, contest_id: contest.id }
+    let!(:contest_application2) { create :contest_application, contest_id: contest.id }
+    let!(:contest_application3) { create :contest_application, contest_id: contest.id }
 
     it 'and the contest has changed its status to \'reg_ended\'' do
       users_amount = User.all.size
