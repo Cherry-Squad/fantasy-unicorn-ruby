@@ -1,6 +1,5 @@
 defaults: &defaults
   cooldown_bounds: 1..2
-  maximum_contests: 6
 
 development:
   <<: *defaults
