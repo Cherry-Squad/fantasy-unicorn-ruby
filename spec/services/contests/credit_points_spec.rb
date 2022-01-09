@@ -76,8 +76,8 @@ RSpec.describe ContestsServices::CreditPoints do
       ContestsServices::CreditPoints.call contest.id
 
       n = ContestApplication.where(contest_id: contest.id).size.to_f
-      user1_place = Float(ContestApplication.find(contest_application.id).final_position - 1)
-      user2_place = Float(ContestApplication.find(contest_application2.id).final_position - 1)
+      user1_place = Float(ContestApplication.find(contest_application.id).final_position)
+      user2_place = Float(ContestApplication.find(contest_application2.id).final_position)
 
       user1_point = Float(user1_place) * n / (n + 1)
       user2_point = Float(user2_place) * n / (n + 1)
@@ -104,16 +104,20 @@ RSpec.describe ContestsServices::CreditPoints do
       ContestsServices::CreditPoints.call contest.id
 
       n = ContestApplication.where(contest_id: contest.id).size.to_f
-      user1_place = Float(ContestApplication.find(contest_application.id).final_position - 1)
-      user2_place = Float(ContestApplication.find(contest_application2.id).final_position - 1)
+      user1_place = Float(ContestApplication.find(contest_application.id).final_position)
+      user2_place = Float(ContestApplication.find(contest_application2.id).final_position)
 
       user1_point = Float(user1_place) * n / (n + 1)
       user2_point = Float(user2_place) * n / (n + 1)
 
-      expect(User.find(user.id).coins).to eq(user1_coins + (base_coins_delta * (1 - user1_point / n)).to_i)
-      expect(User.find(user.id).fantasy_points).to eq(user1_fp + (2 * base_fp_delta * (0.5 - user1_point / n)).to_i)
-      expect(User.find(user2.id).coins).to eq(user2_coins + (base_coins_delta * (1 - user2_point / n)).to_i)
-      expect(User.find(user2.id).fantasy_points).to eq(user2_fp + (2 * base_fp_delta * (0.5 - user2_point / n)).to_i)
+      expect(User.find(user.id).coins)
+        .to eq(user1_coins + (base_coins_delta * (1 - user1_point / n)).to_i)
+      expect(User.find(user.id).fantasy_points)
+        .to eq([user1_fp + (2 * base_fp_delta * (0.5 - user1_point / n)).to_i, 1].max)
+      expect(User.find(user2.id).coins)
+        .to eq(user2_coins + (base_coins_delta * (1 - user2_point / n)).to_i)
+      expect(User.find(user2.id).fantasy_points)
+        .to eq([user2_fp + (2 * base_fp_delta * (0.5 - user2_point / n)).to_i, 1].max)
     end
 
     context 'with third participant' do

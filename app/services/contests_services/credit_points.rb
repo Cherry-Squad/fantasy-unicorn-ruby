@@ -45,8 +45,8 @@ module ContestsServices
         contest_application = ContestApplication.find(@contest_points[k][0])
 
         contest_application.final_position = k + 1
-        contest_application.coins_delta = calculate_coins_delta_for k
-        contest_application.fantasy_points_delta = calculate_fp_delta_for k
+        contest_application.coins_delta = calculate_coins_delta_for k + 1
+        contest_application.fantasy_points_delta = calculate_fp_delta_for k + 1
         contest_application.save!
 
         credit_deltas_for contest_application
