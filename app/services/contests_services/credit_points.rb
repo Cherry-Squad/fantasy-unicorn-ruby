@@ -7,7 +7,6 @@ module ContestsServices
     def initialize(contest_id)
       super()
       @contest_id = contest_id
-      @base_points_for_stock = 20 # Взять в конфиге
       @divisions = Rails.configuration.divisions
       @division_names = @divisions.keys
     end
@@ -21,7 +20,7 @@ module ContestsServices
 
     def process_all_users
       @contest_points = {}
-      @base_division_points_for_stock = base_division_points_for Contest.find(@contest_id)
+      calculate_base_deltas_for Contest.find(@contest_id)
 
       find_contest_application_ids
       @contest_application_ids.each do |contest_app_id|
@@ -41,9 +40,6 @@ module ContestsServices
     end
 
     def calculate_deltas
-      @base_division_coins_delta = 1 # Из конфига
-      @base_division_fp_delta = 2 # Из конфига
-
       (0..(@contest_points.size - 1)).each do |k|
         contest_application = ContestApplication.find(@contest_points.keys[k])
 
@@ -57,11 +53,11 @@ module ContestsServices
     end
 
     def calculate_coins_delta_for(place)
-      @base_division_coins_delta * (0.5 - place / @contest_points.size)
+      @base_division_coins_delta * (1.5 - place / @contest_points.size)
     end
 
     def calculate_fp_delta_for(place)
-      @base_division_fp_delta * (0.5 - place / @contest_points.size)
+      @base_division_fp_delta * (1.5 - place / @contest_points.size)
     end
 
     def credit_deltas_for(contest_application)
@@ -71,11 +67,13 @@ module ContestsServices
       user.save!
     end
 
-    def base_division_points_for(contest)
+    def calculate_base_deltas_for(contest)
       contest_division = division_by contest.max_fantasy_points_threshold
       contest_division = @division_names.size - 1 if contest_division >= @division_names.size
 
-      @divisions[@division_names[contest_division]][:base_points]
+      @base_division_points_for_stock = @divisions[@division_names[contest_division]][:base_points]
+      @base_division_coins_delta = @divisions[@division_names[contest_division]][:base_coins_delta]
+      @base_division_fp_delta = @divisions[@division_names[contest_division]][:base_fp_delta]
     end
 
     def process_user(contest_app_id)
