@@ -19,8 +19,8 @@ paths:
                 id: 1
                 user_id: 1
                 achievement_identifier: 42
-                created_at: '2022-01-09T16:04:22.262Z'
-                updated_at: '2022-01-09T16:04:22.262Z'
+                created_at: '2022-01-09T19:39:47.418Z'
+                updated_at: '2022-01-09T19:39:47.418Z'
       requestBody:
         content:
           application/json:
@@ -43,14 +43,14 @@ paths:
               example:
               - id: 2
                 user_id: 2
-                achievement_identifier: 45
-                created_at: '2022-01-09T16:04:22.552Z'
-                updated_at: '2022-01-09T16:04:22.552Z'
+                achievement_identifier: 643
+                created_at: '2022-01-09T19:39:47.651Z'
+                updated_at: '2022-01-09T19:39:47.651Z'
               - id: 3
                 user_id: 2
-                achievement_identifier: 759
-                created_at: '2022-01-09T16:04:22.555Z'
-                updated_at: '2022-01-09T16:04:22.555Z'
+                achievement_identifier: 978
+                created_at: '2022-01-09T19:39:47.654Z'
+                updated_at: '2022-01-09T19:39:47.654Z'
   "/api/v1/achievements/{id}/":
     delete:
       summary: delete an achievement
@@ -89,9 +89,9 @@ paths:
               example:
                 id: 6
                 user_id: 5
-                achievement_identifier: 284
-                created_at: '2022-01-09T16:04:23.461Z'
-                updated_at: '2022-01-09T16:04:23.461Z'
+                achievement_identifier: 289
+                created_at: '2022-01-09T19:39:48.382Z'
+                updated_at: '2022-01-09T19:39:48.382Z'
         '404':
           description: achievement not found
           content:
@@ -114,17 +114,17 @@ paths:
                 status: success
                 data:
                   id: 7
-                  username: tonita#7
-                  email: cleo@kiehn.org
+                  username: lenard#7
+                  email: tuan_mcclure@swaniawski.co
                   email_validated: false
                   preferred_lang: ru_RU
                   avatar_id: 
                   coins: 200
                   fantasy_points: 0
-                  created_at: '2022-01-09T16:04:24.324Z'
-                  updated_at: '2022-01-09T16:04:24.324Z'
+                  created_at: '2022-01-09T19:39:49.091Z'
+                  updated_at: '2022-01-09T19:39:49.091Z'
                   provider: email
-                  uid: cleo@kiehn.org
+                  uid: tuan_mcclure@swaniawski.co
                   allow_password_change: false
         '422':
           description: incorrect email or username; email and/or username has already
@@ -135,8 +135,8 @@ paths:
                 status: error
                 data:
                   id: 
-                  username: madonna.koepp#12
-                  email: kenton.hane
+                  username: rubie.macgyver#12
+                  email: daria_dach
                   email_validated: false
                   preferred_lang: ru_RU
                   avatar_id: 
@@ -181,8 +181,7 @@ paths:
             application/json:
               example:
                 status: success
-                message: Account with UID 'india.gutkowski@veum-corwin.name' has been
-                  destroyed.
+                message: Account with UID 'kerrie@sauer-muller.info' has been destroyed.
         '404':
           description: credentials are invalid
           content:
@@ -219,13 +218,13 @@ paths:
             application/json:
               example:
                 data:
-                  email: ruthann.fisher@mitchell.net
+                  email: brittanie@rogahn-hand.net
                   email_validated: false
                   id: 12
                   fantasy_points: 0
                   coins: 200
-                  uid: ruthann.fisher@mitchell.net
-                  username: lavern.wolf#15
+                  uid: brittanie@rogahn-hand.net
+                  username: jenelle#15
                   preferred_lang: ru_RU
                   avatar_id: 
                   provider: email
@@ -285,15 +284,15 @@ paths:
                 success: true
                 data:
                   id: 20
-                  username: don.collins#23
-                  email: vivien_schimmel@jakubowski.info
+                  username: millard#23
+                  email: erlene.leannon@hahn.co
                   email_validated: false
                   preferred_lang: ru_RU
                   avatar_id: 
                   coins: 200
                   fantasy_points: 0
                   provider: email
-                  uid: vivien_schimmel@jakubowski.info
+                  uid: erlene.leannon@hahn.co
                   allow_password_change: false
         '401':
           description: credentials are invalid
@@ -317,7 +316,7 @@ paths:
             application/json:
               example:
                 success: true
-                message: An email has been sent to 'jeane@waters-abshire.biz' containing
+                message: An email has been sent to 'teri@gutkowski.name' containing
                   instructions for confirming your account.
         '404':
           description: email is invalid
@@ -326,7 +325,7 @@ paths:
               example:
                 success: false
                 errors:
-                - Unable to find user with email 'kennith@kovacek.org'.
+                - Unable to find user with email 'jordan@ryan.co'.
       requestBody:
         content:
           application/json:
@@ -352,17 +351,17 @@ paths:
               example:
                 success: true
                 data:
-                  email: sandy@moore.info
+                  email: codi.schamberger@mcglynn-gislason.biz
                   email_validated: false
                   id: 24
                   fantasy_points: 0
                   coins: 200
-                  uid: sandy@moore.info
-                  username: tammi#27
+                  uid: codi.schamberger@mcglynn-gislason.biz
+                  username: trinh#27
                   preferred_lang: ru_RU
                   avatar_id: 
-                  created_at: '2022-01-09T16:04:32.271Z'
-                  updated_at: '2022-01-09T16:04:32.563Z'
+                  created_at: '2022-01-09T19:39:55.388Z'
+                  updated_at: '2022-01-09T19:39:55.624Z'
                   provider: email
                   allow_password_change: false
                 message: Your password has been successfully updated.
@@ -414,17 +413,17 @@ paths:
               example:
                 success: true
                 data:
-                  email: celestina@altenwerth-marks.biz
+                  email: jerold.farrell@vandervort-denesik.biz
                   email_validated: false
                   id: 28
                   fantasy_points: 0
                   coins: 200
-                  uid: celestina@altenwerth-marks.biz
-                  username: georgeann#31
+                  uid: jerold.farrell@vandervort-denesik.biz
+                  username: pearl#31
                   preferred_lang: ru_RU
                   avatar_id: 
-                  created_at: '2022-01-09T16:04:34.063Z'
-                  updated_at: '2022-01-09T16:04:34.487Z'
+                  created_at: '2022-01-09T19:39:56.793Z'
+                  updated_at: '2022-01-09T19:39:57.124Z'
                   provider: email
                   allow_password_change: false
                 message: Your password has been successfully updated.
@@ -476,8 +475,8 @@ paths:
             application/json:
               example:
                 success: true
-                message: An email has been sent to 'akilah_mitchell@kris.io' containing
-                  instructions for resetting your password.
+                message: An email has been sent to 'dortha@feil.net' containing instructions
+                  for resetting your password.
         '401':
           description: missing email
           content:
@@ -508,10 +507,10 @@ paths:
             application/json:
               example:
                 id: 1
-                expiring_at: '2022-01-16T16:04:36.636Z'
+                expiring_at: '2022-01-16T19:39:58.784Z'
                 user_id: 34
-                created_at: '2022-01-09T16:04:36.652Z'
-                updated_at: '2022-01-09T16:04:36.652Z'
+                created_at: '2022-01-09T19:39:58.796Z'
+                updated_at: '2022-01-09T19:39:58.796Z'
     get:
       summary: Get all briefcases
       tags:
@@ -523,10 +522,10 @@ paths:
             application/json:
               example:
               - id: 2
-                expiring_at: '2022-11-21T00:00:00.000Z'
+                expiring_at: '2022-12-01T00:00:00.000Z'
                 user_id: 35
-                created_at: '2022-01-09T16:04:36.956Z'
-                updated_at: '2022-01-09T16:04:36.956Z'
+                created_at: '2022-01-09T19:39:59.029Z'
+                updated_at: '2022-01-09T19:39:59.029Z'
   "/api/v1/briefcases/{id}/":
     delete:
       summary: delete a briefcase
@@ -564,10 +563,10 @@ paths:
             application/json:
               example:
                 id: 5
-                expiring_at: '2022-04-07T00:00:00.000Z'
+                expiring_at: '2022-06-09T00:00:00.000Z'
                 user_id: 38
-                created_at: '2022-01-09T16:04:37.879Z'
-                updated_at: '2022-01-09T16:04:37.879Z'
+                created_at: '2022-01-09T19:39:59.760Z'
+                updated_at: '2022-01-09T19:39:59.760Z'
         '404':
           description: briefcase not found
           content:
@@ -597,10 +596,10 @@ paths:
             application/json:
               example:
                 id: 9
-                expiring_at: '2022-12-15T00:00:00.000Z'
+                expiring_at: '2022-03-22T00:00:00.000Z'
                 user_id: 42
-                created_at: '2022-01-09T16:04:39.137Z'
-                updated_at: '2022-01-09T16:04:39.137Z'
+                created_at: '2022-01-09T19:40:00.760Z'
+                updated_at: '2022-01-09T19:40:00.760Z'
         '400':
           description: stock not found
           content:
@@ -635,13 +634,25 @@ paths:
             application/json:
               example:
               - id: 5
-                name: qofy0u
-                created_at: '2022-01-09T16:04:39.784Z'
-                updated_at: '2022-01-09T16:04:39.784Z'
+                name: glyblld
+                created_at: '2022-01-09T19:40:01.265Z'
+                updated_at: '2022-01-09T19:40:01.265Z'
               - id: 6
-                name: xbpiki
-                created_at: '2022-01-09T16:04:39.787Z'
-                updated_at: '2022-01-09T16:04:39.787Z'
+                name: t6xf
+                created_at: '2022-01-09T19:40:01.268Z'
+                updated_at: '2022-01-09T19:40:01.268Z'
+              - id: 7
+                name: 39ee
+                created_at: '2022-01-09T19:40:01.270Z'
+                updated_at: '2022-01-09T19:40:01.270Z'
+              - id: 8
+                name: 5mpr
+                created_at: '2022-01-09T19:40:01.273Z'
+                updated_at: '2022-01-09T19:40:01.273Z'
+              - id: 9
+                name: qco8h
+                created_at: '2022-01-09T19:40:01.275Z'
+                updated_at: '2022-01-09T19:40:01.275Z'
         '404':
           description: not found
           content:
@@ -666,8 +677,8 @@ paths:
                 final_position: 
                 coins_delta: 
                 fantasy_points_delta: 
-                created_at: '2022-01-09T16:04:41.022Z'
-                updated_at: '2022-01-09T16:04:41.022Z'
+                created_at: '2022-01-09T19:40:02.269Z'
+                updated_at: '2022-01-09T19:40:02.269Z'
         '400':
           description: contest application created
           content:
@@ -711,8 +722,22 @@ paths:
                 final_position: 
                 coins_delta: 
                 fantasy_points_delta: 
-                created_at: '2022-01-09T16:04:42.821Z'
-                updated_at: '2022-01-09T16:04:42.821Z'
+                created_at: '2022-01-09T19:40:03.860Z'
+                updated_at: '2022-01-09T19:40:03.860Z'
+                user:
+                  id: 54
+                  username: kevin.dicki#57
+                  email: leopoldo@hamill-hoppe.name
+                  email_validated: false
+                  preferred_lang: ru_RU
+                  avatar_id: 
+                  coins: 200
+                  fantasy_points: 0
+                  created_at: '2022-01-09T19:40:03.857Z'
+                  updated_at: '2022-01-09T19:40:03.866Z'
+                  provider: email
+                  uid: leopoldo@hamill-hoppe.name
+                  allow_password_change: false
   "/api/v1/contest_applications/{id}/":
     delete:
       summary: delete a contest application
@@ -755,8 +780,8 @@ paths:
                 final_position: 
                 coins_delta: 
                 fantasy_points_delta: 
-                created_at: '2022-01-09T16:04:43.782Z'
-                updated_at: '2022-01-09T16:04:43.782Z'
+                created_at: '2022-01-09T19:40:04.724Z'
+                updated_at: '2022-01-09T19:40:04.724Z'
         '404':
           description: contest application not found
           content:
@@ -777,12 +802,12 @@ paths:
               example:
                 id: 1
                 contest_application_id: 8
-                stock_id: 7
+                stock_id: 10
                 multiplier: '10.0'
                 reg_price: 
                 final_price: 
-                created_at: '2022-01-09T16:04:45.030Z'
-                updated_at: '2022-01-09T16:04:45.030Z'
+                created_at: '2022-01-09T19:40:05.826Z'
+                updated_at: '2022-01-09T19:40:05.826Z'
                 direction_up: true
         '400':
           description: contest application stock created
@@ -828,32 +853,32 @@ paths:
               example:
               - id: 4
                 contest_application_id: 12
-                stock_id: 11
+                stock_id: 14
                 multiplier: '1.0'
-                reg_price: '1260.6231'
+                reg_price: '670.1166'
                 final_price: 
-                created_at: '2022-01-09T16:04:47.215Z'
-                updated_at: '2022-01-09T16:04:47.215Z'
-                direction_up: true
-                stock:
-                  id: 11
-                  name: TM
-                  created_at: '2022-01-09T16:04:46.919Z'
-                  updated_at: '2022-01-09T16:04:46.919Z'
-              - id: 5
-                contest_application_id: 13
-                stock_id: 12
-                multiplier: '1.0'
-                reg_price: '4758.4954'
-                final_price: 
-                created_at: '2022-01-09T16:04:47.221Z'
-                updated_at: '2022-01-09T16:04:47.221Z'
+                created_at: '2022-01-09T19:40:07.704Z'
+                updated_at: '2022-01-09T19:40:07.704Z'
                 direction_up: false
                 stock:
-                  id: 12
-                  name: V
-                  created_at: '2022-01-09T16:04:47.208Z'
-                  updated_at: '2022-01-09T16:04:47.208Z'
+                  id: 14
+                  name: AAPL
+                  created_at: '2022-01-09T19:40:07.438Z'
+                  updated_at: '2022-01-09T19:40:07.438Z'
+              - id: 5
+                contest_application_id: 13
+                stock_id: 15
+                multiplier: '1.0'
+                reg_price: '572.2413'
+                final_price: 
+                created_at: '2022-01-09T19:40:07.709Z'
+                updated_at: '2022-01-09T19:40:07.709Z'
+                direction_up: false
+                stock:
+                  id: 15
+                  name: HSBC
+                  created_at: '2022-01-09T19:40:07.698Z'
+                  updated_at: '2022-01-09T19:40:07.698Z'
   "/api/v1/contest_application_stocks/{id}/":
     delete:
       summary: delete a contest application stock
@@ -892,13 +917,13 @@ paths:
               example:
                 id: 8
                 contest_application_id: 19
-                stock_id: 18
+                stock_id: 21
                 multiplier: '1.0'
-                reg_price: '3905.7676'
+                reg_price: '973.1326'
                 final_price: 
-                created_at: '2022-01-09T16:04:49.925Z'
-                updated_at: '2022-01-09T16:04:49.925Z'
-                direction_up: true
+                created_at: '2022-01-09T19:40:10.104Z'
+                updated_at: '2022-01-09T19:40:10.104Z'
+                direction_up: false
         '404':
           description: contest application stock not found
           content:
@@ -927,12 +952,12 @@ paths:
                 contest_app_stocks:
                 - id: 10
                   contest_application_id: 22
-                  stock_id: 21
+                  stock_id: 24
                   multiplier: '1.2'
                   reg_price: 
                   final_price: 
-                  created_at: '2022-01-09T16:04:51.470Z'
-                  updated_at: '2022-01-09T16:04:51.470Z'
+                  created_at: '2022-01-09T19:40:11.422Z'
+                  updated_at: '2022-01-09T19:40:11.422Z'
                   direction_up: true
         '404':
           description: contest not found
@@ -975,17 +1000,17 @@ paths:
               example:
                 id: 31
                 reg_ending_at: '2022-01-10T00:00:00.000Z'
-                summarizing_at: '2022-01-16T00:00:00.000Z'
+                summarizing_at: '2022-01-14T00:00:00.000Z'
                 status: created
-                coins_entry_fee: 2608500169
-                max_fantasy_points_threshold: 1815390329
+                coins_entry_fee: 9731517153
+                max_fantasy_points_threshold: 8723546717
                 use_briefcase_only: true
-                direction_strategy: single_per_user
-                fixed_direction_up: 
+                direction_strategy: fixed
+                fixed_direction_up: false
                 use_disabled_multipliers: false
                 use_inverted_stock_prices: false
-                created_at: '2022-01-09T16:04:52.310Z'
-                updated_at: '2022-01-09T16:04:52.310Z'
+                created_at: '2022-01-09T19:40:12.334Z'
+                updated_at: '2022-01-09T19:40:12.334Z'
       requestBody:
         content:
           application/json:
@@ -1088,19 +1113,45 @@ paths:
           content:
             application/json:
               example:
-              - id: 94
+              - id: 90
                 reg_ending_at: '2022-01-12T00:00:00.000Z'
+                summarizing_at: '2022-01-15T00:00:00.000Z'
+                status: finished
+                coins_entry_fee: 1823803566
+                max_fantasy_points_threshold: 7339296393
+                use_briefcase_only: true
+                direction_strategy: fixed
+                fixed_direction_up: true
+                use_disabled_multipliers: false
+                use_inverted_stock_prices: false
+                created_at: '2022-01-09T19:40:14.236Z'
+                updated_at: '2022-01-09T19:40:14.236Z'
+              - id: 91
+                reg_ending_at: '2022-01-11T00:00:00.000Z'
                 summarizing_at: '2022-01-16T00:00:00.000Z'
                 status: created
-                coins_entry_fee: 6543232450
-                max_fantasy_points_threshold: 3157584468
+                coins_entry_fee: 35
+                max_fantasy_points_threshold: 9654251537
                 use_briefcase_only: true
                 direction_strategy: fixed
                 fixed_direction_up: false
                 use_disabled_multipliers: false
                 use_inverted_stock_prices: false
-                created_at: '2022-01-09T16:04:54.713Z'
-                updated_at: '2022-01-09T16:04:54.713Z'
+                created_at: '2022-01-09T19:40:14.239Z'
+                updated_at: '2022-01-09T19:40:14.239Z'
+              - id: 94
+                reg_ending_at: '2022-01-12T00:00:00.000Z'
+                summarizing_at: '2022-01-14T00:00:00.000Z'
+                status: created
+                coins_entry_fee: 3441328544
+                max_fantasy_points_threshold: 9546006364
+                use_briefcase_only: true
+                direction_strategy: fixed
+                fixed_direction_up: true
+                use_disabled_multipliers: false
+                use_inverted_stock_prices: false
+                created_at: '2022-01-09T19:40:14.248Z'
+                updated_at: '2022-01-09T19:40:14.248Z'
   "/api/v1/contests/{id}/":
     delete:
       summary: delete a contest
@@ -1139,17 +1190,17 @@ paths:
               example:
                 id: 98
                 reg_ending_at: '2022-01-11T00:00:00.000Z'
-                summarizing_at: '2022-01-13T00:00:00.000Z'
+                summarizing_at: '2022-01-14T00:00:00.000Z'
                 status: created
-                coins_entry_fee: 5413240846
-                max_fantasy_points_threshold: 9461151139
+                coins_entry_fee: 3946531313
+                max_fantasy_points_threshold: 9019511892
                 use_briefcase_only: true
                 direction_strategy: fixed
                 fixed_direction_up: false
                 use_disabled_multipliers: false
                 use_inverted_stock_prices: false
-                created_at: '2022-01-09T16:04:55.679Z'
-                updated_at: '2022-01-09T16:04:55.679Z'
+                created_at: '2022-01-09T19:40:14.985Z'
+                updated_at: '2022-01-09T19:40:14.985Z'
         '404':
           description: contest not found
           content:
@@ -1168,16 +1219,16 @@ paths:
           content:
             application/json:
               example:
-                id: 23
-                name: NVDA
-                created_at: '2022-01-09T16:04:56.664Z'
-                updated_at: '2022-01-09T16:04:56.664Z'
+                id: 26
+                name: AAPL
+                created_at: '2022-01-09T19:40:15.787Z'
+                updated_at: '2022-01-09T19:40:15.787Z'
         '400':
           description: stock not created
           content:
             application/json:
               example:
-                error: An Error occurred Finnhub couldn't find symbol 71ce
+                error: An Error occurred Finnhub couldn't find symbol tr8f776
       requestBody:
         content:
           application/json:
@@ -1198,10 +1249,10 @@ paths:
           content:
             application/json:
               example:
-              - id: 26
-                name: BKNG
-                created_at: '2022-01-09T16:05:01.396Z'
-                updated_at: '2022-01-09T16:05:01.396Z'
+              - id: 29
+                name: MRK
+                created_at: '2022-01-09T19:40:20.451Z'
+                updated_at: '2022-01-09T19:40:20.451Z'
   "/api/v1/stocks/{id}/":
     delete:
       summary: delete a stock
@@ -1238,10 +1289,10 @@ paths:
           content:
             application/json:
               example:
-                id: 29
-                name: TM
-                created_at: '2022-01-09T16:05:02.352Z'
-                updated_at: '2022-01-09T16:05:02.352Z'
+                id: 32
+                name: AMZN
+                created_at: '2022-01-09T19:40:21.294Z'
+                updated_at: '2022-01-09T19:40:21.294Z'
         '404':
           description: stock not found
           content:
@@ -1259,16 +1310,16 @@ paths:
           content:
             application/json:
               example:
-              - id: 60
-                name: 879ig
-              - id: 42
-                name: gxopd
-              - id: 56
-                name: as4apw18
-              - id: 32
-                name: t0ca0
-              - id: 39
-                name: 6rut3mm
+              - id: 48
+                name: 3ir
+              - id: 37
+                name: 9mvpj3hx
+              - id: 43
+                name: 07fa
+              - id: 35
+                name: jukq2y
+              - id: 40
+                name: a6ww7t
   "/api/v1/stocks/name/{name}/":
     get:
       summary: Retrieve a stock by name
@@ -1286,10 +1337,10 @@ paths:
           content:
             application/json:
               example:
-                id: 61
-                name: NFLX
-                created_at: '2022-01-09T16:05:03.626Z'
-                updated_at: '2022-01-09T16:05:03.626Z'
+                id: 64
+                name: TM
+                created_at: '2022-01-09T19:40:22.319Z'
+                updated_at: '2022-01-09T19:40:22.319Z'
         '404':
           description: stock not found
           content:
@@ -1308,17 +1359,17 @@ paths:
             application/json:
               example:
               - id: 109
-                username: sheryl_volkman#112
-                email: elizebeth@kihn-langosh.co
+                username: cornelius_skiles#112
+                email: randy.moen@monahan.co
                 email_validated: false
                 preferred_lang: ru_RU
                 avatar_id: 
                 coins: 200
                 fantasy_points: 0
-                created_at: '2022-01-09T16:05:04.529Z'
-                updated_at: '2022-01-09T16:05:04.536Z'
+                created_at: '2022-01-09T19:40:23.024Z'
+                updated_at: '2022-01-09T19:40:23.030Z'
                 provider: email
-                uid: elizebeth@kihn-langosh.co
+                uid: randy.moen@monahan.co
                 allow_password_change: false
     patch:
       summary: update a user
@@ -1333,15 +1384,15 @@ paths:
               example:
                 username: test
                 coins: 3
-                email: christoper@bahringer-little.biz
+                email: heide@hessel-pfannerstill.org
                 email_validated: false
                 id: 110
                 fantasy_points: 0
-                uid: christoper@bahringer-little.biz
+                uid: heide@hessel-pfannerstill.org
                 preferred_lang: ru_RU
                 avatar_id: 
-                created_at: '2022-01-09T16:05:04.848Z'
-                updated_at: '2022-01-09T16:05:04.869Z'
+                created_at: '2022-01-09T19:40:23.269Z'
+                updated_at: '2022-01-09T19:40:23.287Z'
                 provider: email
                 allow_password_change: false
       requestBody:
@@ -1378,17 +1429,17 @@ paths:
             application/json:
               example:
                 id: 111
-                username: dorian.ferry#114
-                email: kyle@dare.info
+                username: milan#114
+                email: leeann@strosin.com
                 email_validated: false
                 preferred_lang: ru_RU
                 avatar_id: 
                 coins: 200
                 fantasy_points: 0
-                created_at: '2022-01-09T16:05:05.164Z'
-                updated_at: '2022-01-09T16:05:05.164Z'
+                created_at: '2022-01-09T19:40:23.516Z'
+                updated_at: '2022-01-09T19:40:23.516Z'
                 provider: email
-                uid: kyle@dare.info
+                uid: leeann@strosin.com
                 allow_password_change: false
         '404':
           description: stock not found
@@ -1415,8 +1466,8 @@ paths:
                 final_position: 
                 coins_delta: 
                 fantasy_points_delta: 
-                created_at: '2022-01-09T16:05:06.367Z'
-                updated_at: '2022-01-09T16:05:06.367Z'
+                created_at: '2022-01-09T19:40:24.451Z'
+                updated_at: '2022-01-09T19:40:24.451Z'
   "/api/v1/users/scoreboard/":
     get:
       summary: Get users ordered by fantasy_points
@@ -1428,83 +1479,109 @@ paths:
           content:
             application/json:
               example:
-              - id: 116
-                username: suzette.strosin#119
-                email: ma.vandervort@larson.io
-                email_validated: true
-                preferred_lang: ru_RU
-                avatar_id: 
-                coins: 2967833772
-                fantasy_points: 9980057018
-                created_at: '2022-01-09T16:05:06.668Z'
-                updated_at: '2022-01-09T16:05:06.668Z'
-                provider: email
-                uid: ma.vandervort@larson.io
-                allow_password_change: false
               - id: 121
-                username: bud_schneider#124
-                email: mollie.brekke@ritchie.net
+                username: norris.jenkins#124
+                email: elmer_jaskolski@ryan.info
                 email_validated: true
                 preferred_lang: ru_RU
                 avatar_id: 
-                coins: 7034026724
-                fantasy_points: 7159454482
-                created_at: '2022-01-09T16:05:08.081Z'
-                updated_at: '2022-01-09T16:05:08.081Z'
+                coins: 4258166292
+                fantasy_points: 9973725460
+                created_at: '2022-01-09T19:40:25.809Z'
+                updated_at: '2022-01-09T19:40:25.809Z'
                 provider: email
-                uid: mollie.brekke@ritchie.net
+                uid: elmer_jaskolski@ryan.info
                 allow_password_change: false
               - id: 119
-                username: august#122
-                email: ericka@kassulke.org
+                username: sidsid#122
+                email: brock_considine@halvorson.io
                 email_validated: true
                 preferred_lang: ru_RU
                 avatar_id: 
-                coins: 4535324806
-                fantasy_points: 4974143844
-                created_at: '2022-01-09T16:05:07.521Z'
-                updated_at: '2022-01-09T16:05:07.521Z'
+                coins: 8533701087
+                fantasy_points: 9661252196
+                created_at: '2022-01-09T19:40:25.363Z'
+                updated_at: '2022-01-09T19:40:25.363Z'
                 provider: email
-                uid: ericka@kassulke.org
+                uid: brock_considine@halvorson.io
                 allow_password_change: false
-              - id: 118
-                username: britteny_mueller#121
-                email: jerry.konopelski@trantow-marvin.org
+              - id: 122
+                username: jackson.howe#125
+                email: jeff_morar@emard.org
                 email_validated: true
                 preferred_lang: ru_RU
                 avatar_id: 
-                coins: 2183375258
-                fantasy_points: 4920422317
-                created_at: '2022-01-09T16:05:07.238Z'
-                updated_at: '2022-01-09T16:05:07.238Z'
+                coins: 9923882137
+                fantasy_points: 8523458885
+                created_at: '2022-01-09T19:40:26.032Z'
+                updated_at: '2022-01-09T19:40:26.032Z'
                 provider: email
-                uid: jerry.konopelski@trantow-marvin.org
-                allow_password_change: false
-              - id: 117
-                username: faustina.kohler#120
-                email: alma@ryan.org
-                email_validated: true
-                preferred_lang: ru_RU
-                avatar_id: 
-                coins: 4424343521
-                fantasy_points: 1734284337
-                created_at: '2022-01-09T16:05:06.953Z'
-                updated_at: '2022-01-09T16:05:06.953Z'
-                provider: email
-                uid: alma@ryan.org
+                uid: jeff_morar@emard.org
                 allow_password_change: false
               - id: 120
-                username: georgine_rowe#123
-                email: katherin.stokes@nicolas.io
+                username: vaughn.zulauf#123
+                email: fritz.stracke@deckow.name
                 email_validated: true
                 preferred_lang: ru_RU
                 avatar_id: 
-                coins: 9416631163
-                fantasy_points: 896829374
-                created_at: '2022-01-09T16:05:07.803Z'
-                updated_at: '2022-01-09T16:05:07.803Z'
+                coins: 572631153
+                fantasy_points: 8179267093
+                created_at: '2022-01-09T19:40:25.586Z'
+                updated_at: '2022-01-09T19:40:25.586Z'
                 provider: email
-                uid: katherin.stokes@nicolas.io
+                uid: fritz.stracke@deckow.name
+                allow_password_change: false
+              - id: 116
+                username: mozell#119
+                email: ricardo.nikolaus@leffler.io
+                email_validated: true
+                preferred_lang: ru_RU
+                avatar_id: 
+                coins: 8778735866
+                fantasy_points: 7564620310
+                created_at: '2022-01-09T19:40:24.694Z'
+                updated_at: '2022-01-09T19:40:24.694Z'
+                provider: email
+                uid: ricardo.nikolaus@leffler.io
+                allow_password_change: false
+              - id: 118
+                username: carita_gleichner#121
+                email: colton@orn.net
+                email_validated: true
+                preferred_lang: ru_RU
+                avatar_id: 
+                coins: 52758744
+                fantasy_points: 5538606878
+                created_at: '2022-01-09T19:40:25.140Z'
+                updated_at: '2022-01-09T19:40:25.140Z'
+                provider: email
+                uid: colton@orn.net
+                allow_password_change: false
+              - id: 123
+                username: leslie_harvey#126
+                email: jake@jenkins.net
+                email_validated: true
+                preferred_lang: ru_RU
+                avatar_id: 
+                coins: 7952461721
+                fantasy_points: 1168361756
+                created_at: '2022-01-09T19:40:26.255Z'
+                updated_at: '2022-01-09T19:40:26.255Z'
+                provider: email
+                uid: jake@jenkins.net
+                allow_password_change: false
+              - id: 117
+                username: millard#120
+                email: many@hegmann.org
+                email_validated: true
+                preferred_lang: ru_RU
+                avatar_id: 
+                coins: 6443243763
+                fantasy_points: 67785635
+                created_at: '2022-01-09T19:40:24.918Z'
+                updated_at: '2022-01-09T19:40:24.918Z'
+                provider: email
+                uid: many@hegmann.org
                 allow_password_change: false
 consumes:
 - application/json
