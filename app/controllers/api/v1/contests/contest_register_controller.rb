@@ -10,13 +10,17 @@ module Api
         def create
           contest = contest_by_id
           if contest
-            contest_application = create_contest_application contest
-            contest_app_stocks = array_of_contest_app_stocks contest_application
-            assign_stocks_prices contest_app_stocks, contest_application.id
-            render json: { contest_app_stocks: contest_app_stocks }, status: 201
+            ActiveRecord::Base.transaction do
+              contest_application = create_contest_application contest
+              contest_app_stocks = array_of_contest_app_stocks contest_application
+              assign_stocks_prices contest_app_stocks, contest_application.id
+              render json: { contest_app_stocks: contest_app_stocks }, status: 201
+            end
           else
             render json: { status: 'Not Found 404' }, status: 404
           end
+        rescue ActiveRecord::RecordInvalid => e
+          render json: { error: e.message.to_s }, status: 404
         rescue StandardError => e
           render json: { error: "an error occurred #{e.message}" }, status: 400
         end
@@ -41,10 +45,10 @@ module Api
               stock_id: param[:stock_id],
               direction_up: param[:direction_up]
             )
-            contest_application_stock.save
+            contest_application_stock.save!
             array.append contest_application_stock
           end
-          array.delete_if { |el| el[:id].nil? }
+          array
         end
 
         def assign_stocks_prices(contest_app_stocks, contest_app_id)
