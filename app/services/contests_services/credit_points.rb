@@ -70,7 +70,6 @@ module ContestsServices
 
     def calculate_base_deltas_for(contest)
       contest_division = division_by contest.max_fantasy_points_threshold
-      contest_division = @division_names.size - 1 if contest_division >= @division_names.size
 
       @base_division_points_for_stock = @divisions[@division_names[contest_division]][:base_points]
       @base_division_coins_delta = @divisions[@division_names[contest_division]][:base_coins_delta]
@@ -109,7 +108,7 @@ module ContestsServices
         return k if fantasy_points <= @divisions[@division_names[k]][:fantasy_points_threshold]
       end
 
-      @division_names.size
+      @division_names.size - 1
     end
 
     def end_contest
