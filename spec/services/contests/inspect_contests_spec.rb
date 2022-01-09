@@ -4,6 +4,7 @@ require 'rails_helper'
 
 RSpec.describe ContestsServices::InspectContests do
   Delayed::Worker.delay_jobs = false
+
   let(:maximum_contests) { Rails.configuration.contests_generating[:maximum_contests].to_i }
 
   context 'Contests table was empty' do
@@ -24,6 +25,7 @@ RSpec.describe ContestsServices::InspectContests do
       ContestsServices::CreateContest.call(:div2)
       ContestsServices::CreateContest.call(:div3)
     end
+
     it 'and contests was created' do
       expect(init_active_contests).to eq(3)
       ContestsServices::InspectContests.call

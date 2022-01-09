@@ -14,7 +14,7 @@ class ContestApplicationStock < ApplicationRecord
   validates :reg_price, numericality: { greater_than: 0 }, allow_nil: true
   validates :reg_price, presence: true, unless: -> { final_price.nil? }
   validates :final_price, numericality: { greater_than: 0 }, presence: true, if: :contest_status_is_finished
-  validates :final_price, absence: true, if: :contest_status_is_not_finished
+  validates :direction_up, inclusion: [true, false]
 
   private
 
@@ -22,12 +22,6 @@ class ContestApplicationStock < ApplicationRecord
     return false if contest_application.nil? || contest_application.contest.nil?
 
     contest_application.contest.status == Contest.statuses[:finished]
-  end
-
-  def contest_status_is_not_finished
-    return false if contest_application.nil? || contest_application.contest.nil?
-
-    contest_application.contest.status != Contest.statuses[:finished]
   end
 end
 
@@ -39,6 +33,7 @@ end
 #  final_price            :decimal(8, 4)
 #  multiplier             :decimal(4, 2)    not null
 #  reg_price              :decimal(8, 4)
+#  direction_up           :boolean          not null
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
 #  contest_application_id :bigint           not null

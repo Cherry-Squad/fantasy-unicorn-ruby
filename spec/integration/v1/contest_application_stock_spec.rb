@@ -17,12 +17,13 @@ describe 'ContestApplicationStock API', swagger_doc: 'v1/swagger.yaml' do
           properties: {
             stock_id: { type: :integer },
             contest_application_id: { type: :integer },
-            multiplier: { type: :integer }
+            multiplier: { type: :integer },
+            direction_up: { type: :boolean }
           },
           required: %w[multiplier stock_id contest_application_id]
         }
         let(:contest_application_stock) do
-          { stock_id: stock.id, contest_application_id: contest_application.id, multiplier: 10 }
+          { stock_id: stock.id, contest_application_id: contest_application.id, multiplier: 10, direction_up: true }
         end
 
         run_test! do |response|
@@ -38,12 +39,13 @@ describe 'ContestApplicationStock API', swagger_doc: 'v1/swagger.yaml' do
           properties: {
             stock_id: { type: :integer },
             contest_application_id: { type: :integer },
-            multiplier: { type: :integer }
+            multiplier: { type: :integer },
+            direction_up: { type: :boolean }
           },
           required: %w[multiplier stock_id contest_application_id]
         }
         let(:contest_application_stock) do
-          { stock_id: nil, contest_application_id: contest_application.id, multiplier: 10 }
+          { stock_id: nil, contest_application_id: contest_application.id, multiplier: 10, direction_up: true }
         end
 
         run_test!

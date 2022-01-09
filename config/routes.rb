@@ -44,6 +44,7 @@ Rails.application.routes.draw do
         post '/', to: 'contest#create'
         delete '/:id(.:format)/', to: 'contest#delete'
         patch '/:id(.:format)/', to: 'contest#update'
+        post '/:id(.:format)/register/', to: 'contest_register#create'
       end
 
       namespace :stocks do

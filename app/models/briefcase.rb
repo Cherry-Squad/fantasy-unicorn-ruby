@@ -10,7 +10,7 @@ class Briefcase < ApplicationRecord
   has_and_belongs_to_many :stocks
   before_destroy { stocks.clear }
 
-  BRIEFCASE_STOCKS_MAX_COUNT = 10
+  BRIEFCASE_STOCKS_MAX_COUNT = 5
 
   validates :user, presence: true
   validates :expiring_at, presence: true
