@@ -8,11 +8,13 @@ Rails.application.routes.draw do
       mount_devise_token_auth_for 'User', at: 'auth', controllers: {
         registrations: 'api/v1/auth/registration',
         sessions: 'api/v1/auth/sessions',
-        confirmations: 'api/v1/auth/confirmations'
+        confirmations: 'api/v1/auth/confirmations',
+        passwords: 'api/v1/auth/passwords'
       }
 
       namespace :users do
         get '/', to: 'user#index'
+        get '/scoreboard/', to: 'user#scoreboard'
         get '/:id(.:format)/', to: 'user#show'
         delete '/', to: 'user#delete'
         patch '/', to: 'user#update'
@@ -22,6 +24,7 @@ Rails.application.routes.draw do
       namespace :briefcases do
         get '/', to: 'briefcase#index'
         get '/:id(.:format)/', to: 'briefcase#show'
+        get '/:id(.:format)/stocks/', to: 'briefcase#show_stocks'
         post '/', to: 'briefcase#create'
         delete '/:id(.:format)/', to: 'briefcase#delete'
         patch '/:id(.:format)/', to: 'briefcase#update'
@@ -46,7 +49,9 @@ Rails.application.routes.draw do
 
       namespace :stocks do
         get '/', to: 'stock#index'
+        get '/suggestions/', to: 'stock#list'
         get '/:id(.:format)/', to: 'stock#show'
+        get 'name/:name(.:format)/', to: 'stock#show_by_name'
         post '/', to: 'stock#create'
         delete '/:id(.:format)/', to: 'stock#delete'
         patch '/:id(.:format)/', to: 'stock#update'

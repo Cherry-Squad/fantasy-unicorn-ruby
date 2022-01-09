@@ -58,6 +58,6 @@ DeviseTokenAuth.setup do |config|
   # send email, set it to true. (This is a setting for compatibility)
   config.send_confirmation_email = true
   config.require_client_password_reset_token = true
-  config.default_confirm_success_url = 'http://localhost:9000/email-redirect'
-  config.default_password_reset_url = 'http://localhost:9000/change-password'
+  config.default_confirm_success_url = 'https://fantasy-unicorn-react-prod.herokuapp.com/email-redirect'
+  config.default_password_reset_url = 'https://fantasy-unicorn-react-prod.herokuapp.com/change-password'
 end

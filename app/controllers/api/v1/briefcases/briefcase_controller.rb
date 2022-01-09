@@ -72,6 +72,15 @@ module Api
           end
         end
 
+        def show_stocks
+          briefcase = Briefcase.find_by(id: params[:id])
+          if briefcase
+            render json: briefcase.stocks, status: 200
+          else
+            render json: { status: 'Not Found 404' }, status: 404
+          end
+        end
+
         private
 
         def safe_stock
