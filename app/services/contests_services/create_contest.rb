@@ -24,7 +24,7 @@ module ContestsServices
       )
       return contest if Rails.env.test?
 
-      ContestsServices::CloseRegistration.delay(run_at: reg_ending_at, queue: 'contest_processing').call contest.id
+      ContestsServices::CloseRegistration.delay(run_at: @reg_ending_at, queue: 'contest_processing').call contest.id
 
       contest
     end

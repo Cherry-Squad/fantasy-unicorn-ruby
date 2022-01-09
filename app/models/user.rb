@@ -23,7 +23,7 @@ class User < ApplicationRecord
   def set_defaults
     self.email_validated ||= false
     self.preferred_lang ||= 'ru_RU'
-    self.coins ||= 0
+    self.coins ||= 200
     self.fantasy_points ||= 0
   end
 
