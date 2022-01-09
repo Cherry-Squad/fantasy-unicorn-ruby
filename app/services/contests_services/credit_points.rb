@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 module ContestsServices
-  # Closes the registration for the contest with the specified id
-  # or deletes the competition record if it has no participants
+  # Calculates the positions of the players in the contest
+  # results table. Gives all participants of the competition
+  # coins and fantasy points, depending on their position in the table of results
   class CreditPoints < Patterns::Service
     def initialize(contest_id)
       super()
@@ -26,7 +27,7 @@ module ContestsServices
       @contest_application_ids.each do |contest_app_id|
         @contest_points[contest_app_id] = process_user contest_app_id
       end
-      @contest_points.sort_by(&:last)
+      @contest_points = @contest_points.sort_by(&:last).reverse
 
       calculate_deltas
     end
@@ -41,7 +42,7 @@ module ContestsServices
 
     def calculate_deltas
       (0..(@contest_points.size - 1)).each do |k|
-        contest_application = ContestApplication.find(@contest_points.keys[k])
+        contest_application = ContestApplication.find(@contest_points[k][0])
 
         contest_application.final_position = k + 1
         contest_application.coins_delta = calculate_coins_delta_for k
@@ -53,11 +54,11 @@ module ContestsServices
     end
 
     def calculate_coins_delta_for(place)
-      @base_division_coins_delta * (1.5 - place / @contest_points.size)
+      @base_division_coins_delta * (1.5 - Float(place) / @contest_points.size)
     end
 
     def calculate_fp_delta_for(place)
-      @base_division_fp_delta * (1.5 - place / @contest_points.size)
+      @base_division_fp_delta * (1.5 - Float(place) / @contest_points.size)
     end
 
     def credit_deltas_for(contest_application)
