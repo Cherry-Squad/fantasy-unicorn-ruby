@@ -7,10 +7,11 @@ module ContestsServices
       super
       @maximum_contests = Rails.configuration.contests_generating[:maximum_contests].to_i
       @cooldown_bounds_string = Rails.configuration.contests_generating[:cooldown_bounds]
+      @divisions = Rails.configuration.divisions
     end
 
     def call
-      create_contests if need_to_create?
+      create_contests
 
       calculate_cooldown
       return if Rails.env.test?
@@ -22,15 +23,21 @@ module ContestsServices
     private
 
     def create_contests
-      while @active_contests_amount < @maximum_contests
-        @active_contests_amount += 1
-        CreateContest.call(:div1)
+      @divisions.each_key do |division|
+        next unless need_to_create? division
+
+        while @active_contests_amount < @divisions[division][:contests_amount]
+          @active_contests_amount += 1
+          CreateContest.call(division)
+        end
       end
     end
 
-    def need_to_create?
-      @active_contests_amount = Contest.where.not(status: 'finished').size
-      @maximum_contests > @active_contests_amount
+    def need_to_create?(division)
+      @active_contests_amount = Contest
+                                .where(max_fantasy_points_threshold: @divisions[division][:fantasy_points_threshold])
+                                .where.not(status: 'finished').size
+      @divisions[division][:contests_amount] > @active_contests_amount
     end
 
     def calculate_cooldown

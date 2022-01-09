@@ -74,7 +74,6 @@ class Contest < ApplicationRecord
   def set_defaults
     self.status ||= Contest.statuses[:created]
     self.coins_entry_fee ||= 0
-    self.use_briefcase_only ||= true
     self.direction_strategy ||= Contest.direction_strategies[:free]
     self.use_disabled_multipliers ||= false
     self.use_inverted_stock_prices ||= false

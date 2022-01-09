@@ -5,13 +5,17 @@ require 'rails_helper'
 RSpec.describe ContestsServices::InspectContests do
   Delayed::Worker.delay_jobs = false
 
-  let(:maximum_contests) { Rails.configuration.contests_generating[:maximum_contests].to_i }
-
   context 'Contests table was empty' do
     let(:init_active_contests) { Contest.where.not(status: 'finished').size }
 
     it 'and contests was created' do
       expect(init_active_contests).to eq(0)
+
+      maximum_contests = 0
+      Rails.configuration.divisions.each_key do |division|
+        maximum_contests += Rails.configuration.divisions[division][:contests_amount]
+      end
+
       ContestsServices::InspectContests.call
       active_contests = Contest.where.not(status: 'finished').size
       expect(active_contests).to eq(maximum_contests)
@@ -28,6 +32,12 @@ RSpec.describe ContestsServices::InspectContests do
 
     it 'and contests was created' do
       expect(init_active_contests).to eq(3)
+
+      maximum_contests = 0
+      Rails.configuration.divisions.each_key do |division|
+        maximum_contests += Rails.configuration.divisions[division][:contests_amount]
+      end
+
       ContestsServices::InspectContests.call
 
       active_contests = Contest.where.not(status: 'finished').size

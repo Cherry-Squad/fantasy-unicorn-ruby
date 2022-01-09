@@ -16,7 +16,7 @@ module ContestsServices
       if registered_users_amount.zero?
         @contest.destroy
       elsif !Rails.env.test?
-        ContestsServices::SummarizeContest.delay(run_at: contest.summarizing_at,
+        ContestsServices::SummarizeContest.delay(run_at: @contest.summarizing_at,
                                                  queue: 'contest_processing').call @contest_id
       end
     end
