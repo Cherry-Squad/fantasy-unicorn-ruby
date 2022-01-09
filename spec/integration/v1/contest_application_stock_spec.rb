@@ -74,8 +74,8 @@ describe 'ContestApplicationStock API', swagger_doc: 'v1/swagger.yaml' do
 
           run_test! do |response|
             body = JSON.parse(response.body).map(&:as_json)
-            expect(body).to include(contest_application_stock1.as_json)
-            expect(body).to_not include(contest_application_stock2.as_json)
+            expect(body).to include(contest_application_stock1.as_json(include: :stock))
+            expect(body).to_not include(contest_application_stock2.as_json(include: :stock))
           end
         end
 
@@ -84,7 +84,7 @@ describe 'ContestApplicationStock API', swagger_doc: 'v1/swagger.yaml' do
 
           run_test! do |response|
             body = JSON(response.body)
-            expect(body.as_json).to eq(ContestApplicationStock.all.as_json)
+            expect(body.as_json).to eq(ContestApplicationStock.all.as_json(include: :stock))
           end
         end
       end
