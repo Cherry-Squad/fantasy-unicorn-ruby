@@ -27,7 +27,7 @@ module Api
                                  else
                                    contest_application_for_current_user
                                  end
-          render json: contest_applications, status: 200
+          render json: contest_applications.as_json(include: :user), status: 200
         end
 
         def delete
